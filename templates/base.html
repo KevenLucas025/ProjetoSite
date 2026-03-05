@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Keven | Portfólio{% endblock %}</title>
+
+  <style>
+
+  body{
+    font-family: system-ui, Arial;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 30px;
+    line-height: 1.5;
+    background-color: #0f0f0f;
+    color: #e5e5e5;
+  }
+
+  nav{
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  nav a{
+    color: white;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+
+  nav a:hover{
+    background-color: #e5e5e5;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+    gap: 16px;
+  }
+
+  .card{
+    background-color: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .tag{
+    display: inline-block;
+    padding: 2px 8px;
+    border: 3px solid #ccc;
+    border-radius: 999px;
+    font-size: 12px;
+    margin-right: 6px;
+  }
+
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <a href="/">Home</a>
+  <a href="/sobre/">Sobre</a>
+  <a href="/projetos/">Projetos</a>
+  <a href="/contato/">Contato</a>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer>© {% now "Y" %} Keven</footer>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Projetos | Keven{% endblock %}
+{% block content %}
+<h1>Projetos</h1>
+<div class="grid">
+  {% for p in projetos %}
+    <div class="card">
+      <h3>{{ p.titulo }}</h3>
+      <p>{{ p.descricao|truncatechars:180 }}</p>
+      <p>
+        {% if p.link_github %}<a href="{{ p.link_github }}" target="_blank">GitHub</a>{% endif %}
+        {% if p.link_demo %} • <a href="{{ p.link_demo }}" target="_blank">Demo</a>{% endif %}
+      </p>
+      {% if p.tecnologias %}
+        <small>{{ p.tecnologias }}</small>
+      {% endif %}
+    </div>
+  {% empty %}
+    <p>Nenhum projeto cadastrado ainda.</p>
+  {% endfor %}
+</div>
+{% endblock %}
