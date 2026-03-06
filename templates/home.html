@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Home | Keven{% endblock %}
 {% block content %}
-<h1>Keven</h1>
-<p>Analista de T.I • Python • Automação • Sistemas</p>
+<div class="hero">
+  <h1>Keven Lucas da Silva Jesus</h1>
+  <p>Desenvolvedor Python Junior</p>
+</div>
 
 <h2>Destaques</h2>
 <div class="grid">
+
   {% for p in destaques %}
   <div class="card">
     <h3>{{ p.titulo }}</h3>
