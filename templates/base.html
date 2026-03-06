@@ -134,7 +134,59 @@
     font-weight: bold;
     background-color: #1f1f1f;
   }
+  .destaque-card{
+    overflow: hidden;
+    width: 700px;
+    height: 380px;
+    margin: 0 auto;
+  }
+  .destaque-card .imagem-container{
+    height: 380px;
+  }
+  h2{
+    text-align: center;
+  }
+  footer{
+    text-align: center;
+    margin-top: 40px;
+    color: #9ca3af;
+    font-size: 14px;
+  }
+  .contato-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+  .contato-card{
+    display: block;
+    background-color: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 20px;
+    text-decoration: none;
+    color: #e5e5e5;
+    transition: 0.25s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  }
 
+  .contato-card:hover{
+    transform: translateY(-4px);
+    border-color: #3b82f6;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  }
+
+  .contato-card h3{
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    color: white;
+  }
+
+  .contato-card p{
+    margin: 0;
+    color: #9ca3af;
+    word-break: break-word;
+  }
 
   </style>
 </head>
@@ -150,7 +202,7 @@
 
 {% block content %}{% endblock %}
 
-<footer>© {% now "Y" %} Keven</footer>
+<footer>© {% now "Y" %} Keven Lucas</footer>
 
 </body>
 </html>

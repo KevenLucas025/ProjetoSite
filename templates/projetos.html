@@ -18,12 +18,18 @@
           <h3 class="overlay-titulo">{{ p.titulo }}</h3>
 
           <div class="overlay-botoes">
-            {% if p.link_github %}
-              <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">GitHub</a>
-            {% endif %}
+            {% if p.tem_download %}
+              {% if p.link_demo %}
+                <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">Download Teste</a>
+              {% endif %}
+            {% else %}
+              {% if p.link_github %}
+                <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">GitHub</a>
+              {% endif %}
 
-            {% if p.link_demo %}
-              <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">Demo</a>
+              {% if p.link_demo %}
+                <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">Demo</a>
+              {% endif %}
             {% endif %}
           </div>
         </div>

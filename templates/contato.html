@@ -1,14 +1,32 @@
 {% extends "base.html" %}
 {% block title %}Contato | Keven{% endblock %}
 {% block content %}
-<h1>Contato</h1>
 
+<div class="hero">
+  <h1>Contato</h1>
+  <p>Entre em contato comigo pelos canais abaixo.</p>
+</div>
 
-<ul>
-  <li>Email: keven.lucas00@hotmail.com</li>
-  <li>GitHub: https://github.com/seuusuario</li>
-  <li>LinkedIn: https://linkedin.com/in/seuusuario</li>
-  <li>WhatsApp: (19) 98201-8869</li>
-</ul>
+<div class="contato-grid">
+  <a href="mailto:keven.lucas00@hotmail.com" class="contato-card">
+    <h3>Email</h3>
+    <p>keven.lucas00@hotmail.com</p>
+  </a>
+
+  <a href="https://github.com/KevenLucas025" target="_blank" class="contato-card">
+    <h3>GitHub</h3>
+    <p>github.com/KevenLucas025</p>
+  </a>
+
+  <a href="https://linkedin.com/in/seuusuario" target="_blank" class="contato-card">
+    <h3>LinkedIn</h3>
+    <p>linkedin.com/in/seuusuario</p>
+  </a>
+
+  <a href="https://wa.me/5519982018869" target="_blank" class="contato-card">
+    <h3>WhatsApp</h3>
+    <p>(19) 98201-8869</p>
+  </a>
+</div>
 
 {% endblock %}

@@ -11,6 +11,7 @@ class Projeto(models.Model):
     criado_em = models.DateField(blank=True, null=True)
     ordem = models.PositiveIntegerField(default=0)
     ativo = models.BooleanField(default=True)
+    tem_download = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["ordem", "-destaque", "-id"]

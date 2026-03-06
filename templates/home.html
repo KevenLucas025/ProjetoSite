@@ -1,34 +1,61 @@
 {% extends "base.html" %}
 {% block title %}Home | Keven{% endblock %}
 {% block content %}
+
 <div class="hero">
   <h1>Keven Lucas da Silva Jesus</h1>
   <p>Desenvolvedor Python Junior</p>
 </div>
 
 <h2>Destaques</h2>
+
 <div class="grid">
 
-  {% for p in destaques %}
-  <div class="card">
-    <h3>{{ p.titulo }}</h3>
-    <p>{{ p.descricao|truncatechars:140 }}</p>
+{% for p in destaques %}
+<div class="card destaque-card">
 
-    <p>
-      {% if p.link_github %}<a href="{{ p.link_github }}" target="_blank">GitHub</a>{% endif %}
-      {% if p.link_demo %} • <a href="{{ p.link_demo }}" target="_blank">Demo</a>{% endif %}
-    </p>
-
-    {% if p.tags %}
-      <div>
-        {% for t in p.tags %}
-          <span class="tag">{{ t }}</span>
-        {% endfor %}
-      </div>
+  <div class="imagem-container">
+    {% if p.imagem %}
+      <img src="{{ p.imagem.url }}" alt="{{ p.titulo }}" class="projeto-img">
+    {% else %}
+      <div class="sem-imagem">Sem imagem</div>
     {% endif %}
+
+    <div class="overlay">
+      <h3 class="overlay-titulo">{{ p.titulo }}</h3>
+
+      <div class="overlay-botoes">
+
+      {% if p.tem_download %}
+
+        {% if p.link_demo %}
+        <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
+          Download Teste
+        </a>
+        {% endif %}
+
+      {% else %}
+
+        {% if p.link_github %}
+        <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
+          GitHub
+        </a>
+        {% endif %}
+
+      {% endif %}
+
+      </div>
+    </div>
+
   </div>
-{% empty %}
-  <p>Nenhum projeto em destaque ainda. Adicione pelo /admin.</p>
-{% endfor %}
+
 </div>
+
+{% empty %}
+<p>Nenhum projeto em destaque ainda. Adicione pelo /admin.</p>
+
+{% endfor %}
+
+</div>
+
 {% endblock %}
