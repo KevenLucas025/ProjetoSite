@@ -6,7 +6,7 @@ class Projeto(models.Model):
     tecnologias = models.CharField(max_length=200, blank=True)  # ex: "Python, Django, SQLite"
     link_github = models.URLField(blank=True)
     link_demo = models.URLField(blank=True)
-    imagem = models.ImageField(upload_to="projetos/", blank=True, null=True)
+    imagem = models.CharField("Imagem",max_length=255,blank=True)
     destaque = models.BooleanField(default=False)
     criado_em = models.DateField(blank=True, null=True)
     ordem = models.PositiveIntegerField(default=0)
