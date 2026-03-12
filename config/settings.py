@@ -1,31 +1,17 @@
 from pathlib import Path
 import os
-<<<<<<< HEAD
 from typing import cast
 import dj_database_url
-=======
-from urllib.parse import urlparse
->>>>>>> f80a4f3f5ab11d296f0f2186350649d6f701cb0f
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-dev-key")
-<<<<<<< HEAD
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [host.strip() for host in os.environ.get(
     "ALLOWED_HOSTS",
     "127.0.0.1,localhost"
 ).split(",")]
-=======
-
-DEBUG = os.environ.get("DEBUG", "True") == "True"
-
-ALLOWED_HOSTS = os.environ.get(
-    "ALLOWED_HOSTS",
-    "127.0.0.1,localhost"
-).split(",")
->>>>>>> f80a4f3f5ab11d296f0f2186350649d6f701cb0f
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -67,19 +53,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-<<<<<<< HEAD
 DATABASES: dict[str, dict[str, object]] = {
-=======
-# Banco local padrão: SQLite
-DATABASES = {
->>>>>>> f80a4f3f5ab11d296f0f2186350649d6f701cb0f
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-<<<<<<< HEAD
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL:
     DATABASES['default'] = cast(
@@ -90,21 +70,6 @@ if DATABASE_URL:
             ssl_require=True
         )
     )
-=======
-# Se existir DATABASE_URL, usa PostgreSQL (Render)
-DATABASE_URL = os.environ.get("DATABASE_URL")
-
-if DATABASE_URL:
-    parsed = urlparse(DATABASE_URL)
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': parsed.path[1:],
-        'USER': parsed.username,
-        'PASSWORD': parsed.password,
-        'HOST': parsed.hostname,
-        'PORT': parsed.port or 5432,
-    }
->>>>>>> f80a4f3f5ab11d296f0f2186350649d6f701cb0f
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -130,15 +95,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-<<<<<<< HEAD
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-=======
->>>>>>> f80a4f3f5ab11d296f0f2186350649d6f701cb0f
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-<<<<<<< HEAD
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 if not DEBUG:
@@ -148,6 +109,3 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
-=======
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
->>>>>>> f80a4f3f5ab11d296f0f2186350649d6f701cb0f
