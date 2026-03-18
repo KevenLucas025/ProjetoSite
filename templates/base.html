@@ -266,7 +266,46 @@
     transform: translateY(-2px);
   }
 
-  
+  .habilidades-section {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .habilidades-section h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .habilidades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .habilidade-card {
+    background: #1e1e1e;
+    border-radius: 12px;
+    padding: 20px;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  .habilidade-card img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+
+  .habilidade-card span {
+    display: block;
+    font-weight: bold;
+  }
+
+  .habilidade-card:hover {
+    transform: translateY(-5px);
+    background: #2a2a2a;
+  }
 
   </style>
 </head>
