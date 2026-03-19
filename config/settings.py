@@ -6,7 +6,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-dev-key")
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "True") == "True" #Para subir pro GitHub e fica correto no render, mudar o primeiro True para False
 
 ALLOWED_HOSTS = [host.strip() for host in os.environ.get(
     "ALLOWED_HOSTS",
