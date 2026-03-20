@@ -349,11 +349,110 @@
   .habilidade-card.sqlite {
     background-image: url('/static/imagens_habilidades/SQLite-Logo.png');
   }
+
   .habilidade-card.github {
     background-image: url('/static/imagens_habilidades/github_logo.png');
   }
+
   .habilidade-card.windows{
     background-image: url('/static/imagens_habilidades/windows_logo.png');
+  }
+  .overlay-botoes{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .btn-detalhes{
+    border: none;
+    cursor: pointer;
+  }
+
+  .modal{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+
+  .modal.ativo{
+    display: flex;
+  }
+
+  .modal-conteudo{
+    background: #161616;
+    color: #e5e5e5;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+    text-align: left;
+  }
+
+  .modal-conteudo h2{
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 18px;
+    color: white;
+  }
+
+  .modal-conteudo p{
+    color: #cbd5e1;
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  .modal-fechar{
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .modal-botoes{
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  #modalDescricao,
+  #modalTecnologias{
+    white-space: pre-line;
+  }
+  .modal-video-conteudo {
+    max-width: 900px;
+  }
+  .video-wrapper {
+    width: 100%;
+    margin-top: 20px;
+  }
+  #videoProjeto{
+    width: 100%;
+    max-height: 70vh;
+    border-radius: 12px;
+    background: black;
+    display: block;
+  }
+  .contato-item{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .contato-item img{
+    width: 28px;
+    height: 28px;
   }
 
   </style>
