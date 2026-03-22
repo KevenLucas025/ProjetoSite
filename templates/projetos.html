@@ -25,7 +25,7 @@
               data-descricao="{{ p.descricao|default:'Sem descrição disponível'|escape }}"
               data-tecnologias="{{ p.tecnologias|default:'Tecnologias não informadas'|escape }}"
               data-github="{{ p.link_github|default:''|escape }}"
-              data-video="{% if p.video_demo %}{% static p.video_demo %}{% endif %}"
+              data-video="{{ p.video_demo|default:''|escape }}"
               onclick="abrirModal(this)"
             >
               Mais detalhes
@@ -94,10 +94,18 @@
     <h2 id="modalVideoTitulo">Demonstração</h2>
 
     <div class="video-wrapper">
-      <video id="videoProjeto" controls>
-        <source id="videoSource" src="" type="video/mp4">
-        Seu navegador não suporta vídeo.
-      </video>
+      <iframe
+        id="videoProjeto"
+        width="100%"
+        height="450"
+        src=""
+        title="Demonstração do projeto"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+        style="display: none; border-radius: 12px;"
+      ></iframe>
     </div>
 
     <p id="mensagemSemVideo" style="display: none;">
@@ -109,6 +117,35 @@
 <script>
   let videoAtual = "";
   let tituloAtual = "";
+
+  function converterParaEmbed(url) {
+    if (!url) return "";
+
+    url = url.trim();
+
+    const origem = encodeURIComponent(window.location.origin);
+
+    if (url.includes("youtube.com/embed/")) {
+      return url + (url.includes("?") ? "&" : "?") + "origin=" + origem;
+    }
+
+    if (url.includes("youtu.be/")) {
+      const videoId = url.split("youtu.be/")[1].split("?")[0];
+      return "https://www.youtube.com/embed/" + videoId + "?origin=" + origem;
+    }
+
+    if (url.includes("youtube.com/watch?v=")) {
+      const videoId = url.split("watch?v=")[1].split("&")[0];
+      return "https://www.youtube.com/embed/" + videoId + "?origin=" + origem;
+    }
+
+    if (url.includes("youtube.com/shorts/")) {
+      const videoId = url.split("shorts/")[1].split("?")[0];
+      return "https://www.youtube.com/embed/" + videoId + "?origin=" + origem;
+    }
+
+    return "";
+  }
 
   function abrirModal(botao) {
     const titulo = botao.dataset.titulo;
@@ -128,7 +165,7 @@
     const demoBtn = document.getElementById("modalBtnDemonstracao");
 
     githubBtn.style.display = github ? "inline-block" : "none";
-    demoBtn.style.display = video ? "inline-block" : "none";
+    demoBtn.style.display = "inline-block";
 
     if (github) {
       githubBtn.href = github;
@@ -144,18 +181,18 @@
   function abrirModalVideoPelaPrimeiraModal() {
     const modal = document.getElementById("modalVideo");
     const videoProjeto = document.getElementById("videoProjeto");
-    const videoSource = document.getElementById("videoSource");
     const mensagemSemVideo = document.getElementById("mensagemSemVideo");
 
     document.getElementById("modalVideoTitulo").textContent = "Demonstração - " + tituloAtual;
 
-    if (videoAtual) {
-      videoSource.src = videoAtual;
+    const embedUrl = converterParaEmbed(videoAtual);
+
+    if (embedUrl) {
+      videoProjeto.src = embedUrl;
       videoProjeto.style.display = "block";
       mensagemSemVideo.style.display = "none";
-      videoProjeto.load();
     } else {
-      videoSource.src = "";
+      videoProjeto.src = "";
       videoProjeto.style.display = "none";
       mensagemSemVideo.style.display = "block";
     }
@@ -168,8 +205,7 @@
     const videoProjeto = document.getElementById("videoProjeto");
 
     modal.classList.remove("ativo");
-    videoProjeto.pause();
-    videoProjeto.currentTime = 0;
+    videoProjeto.src = "";
   }
 
   window.addEventListener("click", function(event) {
@@ -185,5 +221,4 @@
     }
   });
 </script>
-
 {% endblock %}
