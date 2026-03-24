@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Projetos | Keven{% endblock %}
+{% block content %}
+
+<h1>Meus projetos</h1>
+<div class="grid">
+  {% for p in projetos %}
+    <div class="card projeto-card">
+      <div class="imagem-container">
+        {% if p.imagem %}
+          <img src="{% static p.imagem %}" alt="{{ p.titulo }}" class="projeto-img">
+        {% else %}
+          <div class="sem-imagem">Sem imagem</div>
+        {% endif %}
+
+        <div class="overlay">
+          <h3 class="overlay-titulo">{{ p.titulo }}</h3>
+
+          <div class="overlay-botoes">
+            <button
+              type="button"
+              class="btn-overlay btn-detalhes"
+              data-titulo="{{ p.titulo|escape }}"
+              data-descricao="{{ p.descricao|default:'Sem descrição disponível'|escape }}"
+              data-tecnologias="{{ p.tecnologias|default:'Tecnologias não informadas'|escape }}"
+              data-github="{{ p.link_github|default:''|escape }}"
+              data-video="{{ p.video_demo|default:''|escape }}"
+              onclick="abrirModal(this)"
+            >
+              Mais detalhes
+            </button>
+
+            {% if p.tem_download %}
+              {% if p.link_demo %}
+                <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
+                  Download Teste
+                </a>
+              {% endif %}
+            {% else %}
+              {% if p.link_github %}
+                <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
+                  GitHub
+                </a>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>Nenhum projeto cadastrado ainda.</p>
+  {% endfor %}
+</div>
+
+<!-- Modal de detalhes -->
+<div id="modalProjeto" class="modal">
+  <div class="modal-conteudo">
+    <button type="button" class="modal-fechar" onclick="fecharModal()">×</button>
+
+    <h2 id="modalTitulo">Título do Projeto</h2>
+
+    <p>
+      <strong>Descrição:</strong><br>
+      <span id="modalDescricao"></span>
+    </p>
+
+    <p>
+      <strong>Tecnologias:</strong><br>
+      <span id="modalTecnologias"></span>
+    </p>
+
+    <div class="modal-botoes">
+      <a id="modalGithub" href="#" target="_blank" class="btn-overlay" style="display: none;">GitHub</a>
+
+      <button
+        type="button"
+        id="modalBtnDemonstracao"
+        class="btn-overlay"
+        style="display: none;"
+        onclick="abrirModalVideoPelaPrimeiraModal()"
+      >
+        Demonstração
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de vídeo -->
+<div id="modalVideo" class="modal">
+  <div class="modal-conteudo modal-video-conteudo">
+    <button type="button" class="modal-fechar" onclick="fecharModalVideo()">×</button>
+
+    <h2 id="modalVideoTitulo">Demonstração</h2>
+
+    <div class="video-wrapper">
+      <video id="videoProjeto" controls style="display: none;">
+        <source id="videoSource" src="" type="video/mp4">
+        Seu navegador não suporta vídeo.
+      </video>
+    </div>
+
+    <p id="mensagemSemVideo" style="display: none;">
+      Este projeto ainda não possui vídeo de demonstração.
+    </p>
+  </div>
+</div>
+
+<script>
+  let videoAtual = "";
+  let tituloAtual = "";
+
+  function abrirModal(botao) {
+    const titulo = botao.dataset.titulo;
+    const descricao = botao.dataset.descricao;
+    const tecnologias = botao.dataset.tecnologias;
+    const github = botao.dataset.github;
+    const video = botao.dataset.video;
+
+    tituloAtual = titulo;
+    videoAtual = video;
+
+    document.getElementById("modalTitulo").textContent = titulo;
+    document.getElementById("modalDescricao").textContent = descricao;
+    document.getElementById("modalTecnologias").textContent = tecnologias;
+
+    const githubBtn = document.getElementById("modalGithub");
+    const demoBtn = document.getElementById("modalBtnDemonstracao");
+
+    githubBtn.style.display = github ? "inline-block" : "none";
+    demoBtn.style.display = "inline-block";
+
+    if (github) {
+      githubBtn.href = github;
+    }
+
+    document.getElementById("modalProjeto").classList.add("ativo");
+  }
+
+  function fecharModal() {
+    document.getElementById("modalProjeto").classList.remove("ativo");
+  }
+
+  function abrirModalVideoPelaPrimeiraModal() {
+    const modal = document.getElementById("modalVideo");
+    const videoProjeto = document.getElementById("videoProjeto");
+    const videoSource = document.getElementById("videoSource");
+    const mensagemSemVideo = document.getElementById("mensagemSemVideo");
+
+    document.getElementById("modalVideoTitulo").textContent = "Demonstração - " + tituloAtual;
+
+    if (videoAtual) {
+      videoSource.src = videoAtual;
+      videoProjeto.load();
+      videoProjeto.style.display = "block";
+      mensagemSemVideo.style.display = "none";
+    } else {
+      videoSource.src = "";
+      videoProjeto.style.display = "none";
+      mensagemSemVideo.style.display = "block";
+    }
+
+    modal.classList.add("ativo");
+  }
+
+  function fecharModalVideo() {
+    const modal = document.getElementById("modalVideo");
+    const videoProjeto = document.getElementById("videoProjeto");
+    const videoSource = document.getElementById("videoSource");
+
+    modal.classList.remove("ativo");
+    videoProjeto.pause();
+    videoProjeto.currentTime = 0;
+    videoSource.src = "";
+    videoProjeto.load();
+  }
+
+  window.addEventListener("click", function(event) {
+    const modalProjeto = document.getElementById("modalProjeto");
+    const modalVideo = document.getElementById("modalVideo");
+
+    if (event.target === modalProjeto) {
+      fecharModal();
+    }
+
+    if (event.target === modalVideo) {
+      fecharModalVideo();
+    }
+  });
+</script>
+{% endblock %}
