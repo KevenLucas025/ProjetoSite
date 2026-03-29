@@ -12,7 +12,7 @@ class Projeto(models.Model):
     ordem = models.PositiveIntegerField(default=0)
     ativo = models.BooleanField(default=True)
     tem_download = models.BooleanField(default=False)
-    video_demo = models.CharField(max_length=255,blank=True,null=True)
+    video_demo = models.URLField(blank=True,null=True)
 
     class Meta:
         ordering = ["ordem", "-destaque", "-id"]
