@@ -293,9 +293,10 @@
 
   .habilidades-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(4,190px);
+    justify-content: center;
     gap: 20px;
-    margin-top: 20px;
+    margin-top: 30px;
   }
 
   .habilidade-card {
@@ -352,10 +353,6 @@
     background-image: url('/static/imagens_habilidades/css_logo.png');
   }
 
-  .habilidade-card.javascript {
-    background-image: url('/static/imagens_habilidades/JavaScript-logo.png');
-  }
-
   .habilidade-card.django {
     background-image: url('/static/imagens_habilidades/django_logo.png');
   }
@@ -371,6 +368,10 @@
   .habilidade-card.windows{
     background-image: url('/static/imagens_habilidades/windows_logo.png');
   }
+  .habilidade-card.filmora9{
+    background-image: url('/static/imagens_habilidades/filmora.png');
+  }
+  /*Botões dentro dos cards*/
   .overlay-botoes{
     display: flex;
     flex-direction: column;
@@ -383,6 +384,7 @@
     cursor: pointer;
   }
 
+  /*Janela dentro dos cards*/
   .modal{
     position: fixed;
     inset: 0;
