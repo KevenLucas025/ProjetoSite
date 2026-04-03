@@ -295,11 +295,7 @@
   }
 
   .hero-title{
-    font-size: 80px;
-    font-weight: 900;
-    line-height: 1.05;
-    margin: 0 0 20px 0;
-    color: white;
+    font-size: clamp(36px, 8vw, 80px);
   }
 
   .hero-subtitle{
@@ -633,36 +629,94 @@
   }
 
   /* RESPONSIVO */
+  /* ========================= */
   @media (max-width: 768px){
+
+    /* BODY */
+    body{
+      padding: 15px;
+    }
+
+    /* NAVBAR */
+    nav{
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 10px;
+    }
+
+    nav a{
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+
+    /* HERO (remove o deslocamento lateral) */
+    .hero-home{
+      padding: 20px;
+      margin: 40px auto;
+      padding-left: 20px; /* corrige aquele corte */
+    }
+
+    /* TÍTULO PRINCIPAL */
+    .hero-title{
+      font-size: 38px; /* antes 80px */
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    /* SUBTÍTULO */
+    .hero-subtitle{
+      font-size: 16px;
+      padding: 0 5px;
+    }
+
+    /* BOTÕES */
+    .hero-acoes{
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-btn,
+    .btn-secundario{
+      width: 100%;
+      text-align: center;
+    }
+
+    /* SOCIAL */
+    .hero-social{
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* GRID (remove o empurrão lateral) */
+    .grid{
+      padding-left: 0;
+      justify-content: center;
+    }
+
+    /* PROJETO DESTAQUE */
     .projeto-destaque{
       grid-template-columns: 1fr;
+      gap: 20px;
     }
-  }
-  .hero-social{
-    display: flex;
-    justify-content: center;
-    gap: 18px;
-    margin-top: 25px;
-  }
 
-  .social-icon{
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.25s ease;
-  }
+    /* IMAGENS */
+    .imagem-container{
+      height: 220px;
+    }
 
-  .social-icon img{
-    width: 50px;
-    height: 50px;
-    transition: 0.25s;
-  }
+    .projeto-destaque .imagem-container{
+      height: 240px;
+    }
 
-  .social-icon:hover{
-    transform: translateY(-5px) scale(1.05);
-    filter: drop-shadow(0 0 10px rgba(77, 208, 225, 0.7));
+    /* CARDS */
+    .projeto-card{
+      width: 100%;
+    }
+
+    /* REMOVE QUALQUER OVERFLOW */
+    html, body{
+      overflow-x: hidden;
+    }
   }
 
   </style>
