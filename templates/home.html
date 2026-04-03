@@ -18,16 +18,18 @@
     <a href="/sobre/" class="hero-btn">Conhecer mais</a>
     <a href="/projetos/" class="btn-secundario">Ver projetos</a>
   </div>
-  </div>
+</div>
+
   <div class="hero-social">
     <a href="https://github.com/KevenLucas025" target="_blank" class="social-icon">
-    <img src="{% static 'imagens_habilidades/github_logo.png' %}" alt="GitHub">
+    <img src="{% static 'imagens_habilidades/github_logo_branco.png' %}" alt="GitHub">
     </a>
+
     <a href="https://www.linkedin.com/in/keven-lucas-32949b205/" target="_blank" class="social-icon">
-    <img src="{% static 'imagens_habilidades/linkedin.webp' %}" alt="LinkedIn">
+    <img src="{% static 'imagens_habilidades/linkedin_logo_branco.png' %}" alt="LinkedIn">
     </a>
+    
   </div>
-</div>
 
 <!-- PROJETO EM DESTAQUE -->
 <section class="secao-destaque">
@@ -120,16 +122,5 @@
   </div>
 </section>
 
-<!-- SCRIPT PARALLAX -->
-<script>
-window.addEventListener("scroll", () => {
-  const scroll = window.scrollY;
-  const hero = document.querySelector(".hero-home");
-
-  if(hero){
-    hero.style.transform = `translateY(${scroll * 0.15}px)`;
-  }
-});
-</script>
 
 {% endblock %}

@@ -15,37 +15,44 @@
 </head>
 
   <style>
-
+    
   body{
     font-family: system-ui, Arial;
-    max-width: 980px;
     margin: 0 auto;
     padding: 30px;
     line-height: 1.5;
     background-color: #0f0f0f;
     color: #e5e5e5;
   }
+  .container{
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 30px;
+  }
 
-  /*Background dos botões de navegação*/
-  nav{
-    position: relative;
-    top: 10px;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 30px;
-    
+  /* FUNDO OCUPANDO A TELA TODA */
+  .nav-bg{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+
+    width: 100%;
     background: rgba(255, 255, 255,0.05);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-
-    padding: 10px 20px;
-
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
+
+  nav{
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 20px;
+  }
+
   /*Botões de navegação*/
   nav a{
     color: #e5e5e5;
@@ -210,11 +217,8 @@
     border-radius: 10px;
 
   }
-  @media (max-width: 768px) {
-    .trajetoria {
-      grid-template-columns: 1fr;
-    }
-  }
+
+  
   /*Título minhas habilidades*/
   h2{
     text-align: center;
@@ -260,15 +264,17 @@
     color: #9ca3af;
     word-break: break-word;
   }
-  /*Títulos principais da home*/
+  /*Títulos principais da home + background do quadrado*/
   .hero-home{
-    max-width: 1100px;
-    margin: 100px auto 80px;
+    margin: 150px auto 100px;
     text-align: center; /* tira do centro */
-    padding-left: 40px; /* desloca pro lado */
-    background: radial-gradient(circle at top left,  #1a1a1a, #0f0f0f);
+    max-width: 1400px;
+    padding-left: 60px 20px; /* desloca pro lado */
     position: relative;
-    overflow: hidden;
+    overflow: visible; /* Garante que o título não seja cortado */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .hero-badge{
@@ -281,11 +287,13 @@
     border-radius: 10px;
     margin-bottom: 24px;
   }
-
+  /*Texto acima do desenvolvedor python*/
   .hero-intro{
+    font-size: 24px; /* Aumentado */
     font-weight: 500;
     color: #e5e5e5;
     margin-bottom: 10px;
+    letter-spacing: 1px;
   }
 
   
@@ -294,20 +302,23 @@
     font-weight: bold;
   }
 
-  .hero-title{
-    font-size: 80px;
-    font-weight: 900;
-    line-height: 1.05;
-    margin: 0 0 20px 0;
+  .hero-title {
+    font-size: clamp(20px, 15vw, 100px) !important;
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -2px;
+    margin: 10px 0 30px 0;
     color: white;
+    white-space: nowrap; /* 🔥 ISSO resolve */
   }
 
   .hero-subtitle{
-    max-width: 760px;
+    max-width: 3000px;
     margin: 0 auto 32px;
-    font-size: 22px;
+    font-size: clamp(18px, 2vw, 26px) !important;
     color: #cbd5e1;
     line-height: 1.6;
+    font-weight: 300;
   }
   /*botões de conhecer mais*/
   .hero-btn{
@@ -321,6 +332,8 @@
     transition: 0.3s ease;
 
   }
+
+
   /*botões de email e cv*/
   .btn-cv,
   .btn-email{
@@ -369,19 +382,40 @@
     gap: 20px;
     margin-top: 30px;
   }
-  .social-icon img{
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-  }
 
+  /*botoes da home,github e linkedin*/
   .social-icon{
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.3s ease;
   }
+  /*botoes da home,github e linkedin*/
+  .social-icon img {
+    width: auto;      /* Deixa a largura livre */
+    height: 100%;     /* Força os dois a terem a mesma ALTURA exata */
+    max-width: 100%;  /* Garante que não ultrapasse o box */
+    object-fit: contain; /* Mantém a proporção sem achatar */
+  
+  }
+  .social-icon:hover img{
+    filter: brightness(0) saturate(100%) invert(73%) sepia(36%) saturate(641%) hue-rotate(147deg) brightness(94%) contrast(92%);
+  }
+  
+ 
+  /*ìcones da home,github e linkedin*/
+  .hero-social{
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    display: flex;
+    margin-top: -30px;
+    width: 100%; /* Ocupa a largura total para o justify funcionar */
+    }
+
 
   .habilidade-card {
     height: 140px;
@@ -581,6 +615,7 @@
     transition: 0.25s;
   }
 
+  /* BOTÃO SECUNDÁRIO */
   .btn-secundario:hover{
     background-color: #4dd0e1;
     color: black;
@@ -591,7 +626,8 @@
     display: flex;
     justify-content: center;
     gap: 20px;
-    margin-top: 20px;
+    margin-top: 25px;
+    transform: translateY(-30px); /* 🔥 sobe sem quebrar nada,os botões conhecer mais e ber projetos */
   }
 
   /* TÍTULOS DE SEÇÃO */
@@ -644,9 +680,45 @@
     display: flex;
     gap: 12px;
   }
+  .menu-toggle{
+    position: fixed;
+    top: 6px;
+    right: 20px;
+    font-size: 35px;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    }
+  /* menu escondido */
+  .menu-dropdown{
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 10px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .menu-dropdow a{
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+  .menu-dropdown a:hover{
+    background: #4dd0e1;
+    color: black;
+  }
 
+  /* quando ativo */
+  .menu-dropdown.ativo{
+    display: flex;
+  }
   @media (max-width: 768px){
-
     /* BODY */
     body{
       padding: 15px;
@@ -671,19 +743,7 @@
       position: relative;
       z-index: 2;
     }
-    .social-icon img{
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .social-icon{
-      width: 42px;
-      height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    
     /* TÍTULO PRINCIPAL */
     .hero-title {
       font-size: 34px;
@@ -719,8 +779,11 @@
     /* SOCIAL */
     .hero-social{
       flex-wrap: wrap;
+      align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 20px;
+      display: flex;
+      width: 100%; /* Ocupa a largura total para o justify funcionar */
     }
 
     /* GRID (remove o empurrão lateral) */
@@ -759,28 +822,44 @@
 </head>
 
 <body>
+<div class="nav-bg">
+  <nav>
+    <a href="/">HOME</a>
+    <a href="/sobre/">SOBRE</a>
+    <a href="/projetos/">PROJETOS</a>
+    <a href="/contato/">CONTATO</a>
+    
+  <button class="menu-toggle">☰</button>
 
-<nav>
-  <a href="/">HOME</a>
-  <a href="/sobre/">SOBRE</a>
-  <a href="/projetos/">PROJETOS</a>
-  <a href="/contato/">CONTATO</a>
-</nav>
-
-{% block content %}{% endblock %}
-
-<footer>© {% now "Y" %} Keven Lucas</footer>
+    <div class="menu-dropdown">
+      <a href="/">Mais opções</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/projetos/">Projetos</a>
+      <a href="/contato/">Contato</a>
+    </div>
+  </nav>
+</div>
 
 <script>
-window.addEventListener("scroll", () => {
-  const scroll = window.scrollY;
-  const hero = document.querySelector(".hero-home");
+const toggle = document.querySelector(".menu-toggle");
+const menu = document.querySelector(".menu-dropdown");
 
-  if (hero) {
-    hero.style.transform = `translateY(${scroll * 0.2}px)`;
+toggle.addEventListener("click", () => {
+  menu.classList.toggle("ativo");
+});
+document.addEventListener("click", (e) => {
+  if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+    menu.classList.remove("ativo");
   }
 });
 </script>
+
+
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
+
+<footer>© {% now "Y" %} Keven Lucas</footer>
 
 </body>
 </html>
