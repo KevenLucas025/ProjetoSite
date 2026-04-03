@@ -295,7 +295,11 @@
   }
 
   .hero-title{
-    font-size: clamp(36px, 8vw, 80px);
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 1.05;
+    margin: 0 0 20px 0;
+    color: white;
   }
 
   .hero-subtitle{
@@ -628,8 +632,6 @@
     gap: 12px;
   }
 
-  /* RESPONSIVO */
-  /* ========================= */
   @media (max-width: 768px){
 
     /* BODY */
@@ -650,12 +652,25 @@
     }
 
     /* HERO (remove o deslocamento lateral) */
+    /* REMOVE BUG DE SOBREPOSIÇÃO */
+    .hero,
     .hero-home{
-      padding: 20px;
-      margin: 40px auto;
-      padding-left: 20px; /* corrige aquele corte */
+      position: relative;
+      z-index: 2;
+    }
+    .social-icon img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
+    .social-icon{
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     /* TÍTULO PRINCIPAL */
     .hero-title{
       font-size: 38px; /* antes 80px */
@@ -672,6 +687,7 @@
     /* BOTÕES */
     .hero-acoes{
       flex-direction: column;
+      align-items: center; /* centraliza */
       gap: 12px;
     }
 
@@ -679,6 +695,7 @@
     .btn-secundario{
       width: 100%;
       text-align: center;
+      max-width: 260px; /* controla largura */
     }
 
     /* SOCIAL */
