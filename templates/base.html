@@ -725,15 +725,15 @@
     }
 
     /* NAVBAR */
-    nav{
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 10px;
+     nav {
+      display: flex;
+      justify-content: space-between; /* 🔥 separa esquerda/direita */
+      align-items: center;
+      padding: 10px 15px;
     }
 
     nav a{
-      padding: 6px 10px;
-      font-size: 14px;
+      display: none; /*Esconde a barra do background dos botões de navegação*/
     }
 
     /* HERO (remove o deslocamento lateral) */
@@ -743,11 +743,34 @@
       position: relative;
       z-index: 2;
     }
+    .menu-toggle{
+      display: block;
+      font-size: 28px;
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    .menu-dropdown{
+      position: absolute;
+      top: 60px;
+      right: 15px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 10px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .menu-dropdown.ativo{
+      display: flex;
+    }
     
     /* TÍTULO PRINCIPAL */
     .hero-title {
-      font-size: 34px;
-      padding: 0 10px;
+      font-size: 30px;
+      white-space: normal; /* 🔥 ESSENCIAL */
     }
 
     /* SUBTÍTULO */
