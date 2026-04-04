@@ -719,6 +719,16 @@
     display: flex;
   }
   @media (max-width: 768px){
+    /* TÍTULO PRINCIPAL */
+    .hero-title {
+      font-size: 36px !important;
+      white-space: normal !important; /* 🔥 ESSENCIAL */
+      line-height: 1.1;
+      letter-spacing: -1px;
+      text-align: center;
+      width: 100%;
+    }
+
     /* BODY */
     body{
       padding: 15px;
@@ -726,10 +736,12 @@
 
     /* NAVBAR */
      nav {
-      display: flex;
-      justify-content: space-between; /* 🔥 separa esquerda/direita */
+      display: flex-end !important;
+      padding: 10px 20px;
       align-items: center;
-      padding: 10px 15px;
+      padding: 15px 20px;
+      position: relative; /* Base para o dropdown */
+      min-height: 30px;
     }
 
     nav a{
@@ -743,35 +755,42 @@
       position: relative;
       z-index: 2;
     }
-    .menu-toggle{
-      display: block;
-      font-size: 28px;
+    .menu-toggle {
+      display: block; /* Mostra o botão ☰ */
       background: transparent;
       border: none;
       color: white;
+      font-size: 32px;
       cursor: pointer;
+      z-index: 1001;
     }
-    .menu-dropdown{
+    .menu-dropdown {
       position: absolute;
       top: 60px;
-      right: 15px;
+      right: 20px;
       background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 10px;
-      padding: 10px;
-      display: none;
+      border: 1px solid #333;
+      border-radius: 12px;
+      width: 200px;
+      display: none; /* JS controla isso */
       flex-direction: column;
-      gap: 10px;
+      padding: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 1000;
     }
-    .menu-dropdown.ativo{
-      display: flex;
+    .menu-dropdown.ativo {
+      display: flex !important;
+    }
+    .menu-dropdown a {
+      display: block !important; /* 🔥 Faz os links aparecerem */
+      color: white !important;
+      padding: 12px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
     }
     
-    /* TÍTULO PRINCIPAL */
-    .hero-title {
-      font-size: 30px;
-      white-space: normal; /* 🔥 ESSENCIAL */
-    }
+    
 
     /* SUBTÍTULO */
     .hero-subtitle{
@@ -855,7 +874,7 @@
   <button class="menu-toggle">☰</button>
 
     <div class="menu-dropdown">
-      <a href="/">Mais opções</a>
+      <a href="/">Home</a>
       <a href="/sobre/">Sobre</a>
       <a href="/projetos/">Projetos</a>
       <a href="/contato/">Contato</a>
