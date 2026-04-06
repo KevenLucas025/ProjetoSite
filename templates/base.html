@@ -36,21 +36,19 @@
     top: 0;
     z-index: 999;
 
-    width: 100%;
-    background: rgba(255, 255, 255,0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    width: auto;
+    background: transparent;
   }
 
   nav{
-    max-width: 1100px;
-    margin: 0 auto;
     display: flex;
-    justify-content: center;
-    gap: 12px;
-    padding: 10px 20px;
+    justify-content: flex-end;
+    padding: 10px;
+    height: 45px;
+
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
   }
 
   /*Botões de navegação*/
@@ -61,7 +59,9 @@
     border-radius: 8px;
     text-decoration: none;
     transition: 0.25s ease;
-    
+  }
+  nav > a{
+    display: none;
   }
   /*Botões de navegação passando mouse por cima*/
   nav a:hover{
@@ -266,7 +266,7 @@
   }
   /*Títulos principais da home + background do quadrado*/
   .hero-home{
-    margin: 150px auto 100px;
+    margin: 80px auto 100px;
     text-align: center; /* tira do centro */
     max-width: 1400px;
     padding-left: 60px 20px; /* desloca pro lado */
@@ -314,7 +314,7 @@
 
   .hero-subtitle{
     max-width: 3000px;
-    margin: 0 auto 32px;
+    margin: 16px auto 32px;
     font-size: clamp(18px, 2vw, 26px) !important;
     color: #cbd5e1;
     line-height: 1.6;
@@ -681,15 +681,47 @@
     gap: 12px;
   }
   .menu-toggle{
-    position: fixed;
-    top: 6px;
-    right: 20px;
-    font-size: 35px;
+    width: 30px;   /* 🔥 ESSENCIAL */
+    height: 30px;  /* 🔥 ESSENCIAL */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     background: transparent;
     border: none;
-    color: white;
     cursor: pointer;
-    }
+
+    padding: 0;
+  }
+    /* 🔥 efeito ao clicar */
+  .menu-toggle:active{
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  /* linhas */
+  .menu-toggle span{
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+
+    transition: all 0.3s ease;
+  }
+  /* quando ativo */
+  .menu-toggle.ativo span:nth-child(1){
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .menu-toggle.ativo span:nth-child(2){
+    opacity: 0;
+  }
+
+  .menu-toggle.ativo span:nth-child(3){
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+  
   /* menu escondido */
   .menu-dropdown{
     position: absolute;
@@ -747,21 +779,36 @@
     nav a{
       display: none; /*Esconde a barra do background dos botões de navegação*/
     }
+    .nav-bg{
+      position: fixed;
+      top: 12px;
+      left: 10px;
+      z-index: 999;
+      width: 100%;
+      right: 10px;
+      width: auto;
+      border-radius: 20px;
+    }
 
-    /* HERO (remove o deslocamento lateral) */
     /* REMOVE BUG DE SOBREPOSIÇÃO */
     .hero,
     .hero-home{
       position: relative;
       z-index: 2;
+      margin: 60px auto 50px;
     }
+    /* Mostra o botão ☰ */
     .menu-toggle {
-      display: block; /* Mostra o botão ☰ */
+      width: 30px;
+      height: 22px; /* 🔥 Altura total do conjunto de riscos */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* Espalha os riscos igualmente */
       background: transparent;
       border: none;
-      color: white;
-      font-size: 32px;
       cursor: pointer;
+      padding: 0;
+      margin: 0;
       z-index: 1001;
     }
     .menu-dropdown {
@@ -789,8 +836,6 @@
       border-radius: 8px;
       font-size: 16px;
     }
-    
-    
 
     /* SUBTÍTULO */
     .hero-subtitle{
@@ -871,7 +916,11 @@
     <a href="/projetos/">PROJETOS</a>
     <a href="/contato/">CONTATO</a>
     
-  <button class="menu-toggle">☰</button>
+  <button class="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
     <div class="menu-dropdown">
       <a href="/">Home</a>
@@ -888,10 +937,12 @@ const menu = document.querySelector(".menu-dropdown");
 
 toggle.addEventListener("click", () => {
   menu.classList.toggle("ativo");
+  toggle.classList.toggle("ativo");
 });
 document.addEventListener("click", (e) => {
   if (!toggle.contains(e.target) && !menu.contains(e.target)) {
     menu.classList.remove("ativo");
+    toggle.classList.remove("ativo"); // 🔥 ESSENCIAL
   }
 });
 </script>
