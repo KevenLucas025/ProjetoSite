@@ -39,10 +39,18 @@
     width: auto;
     background: transparent;
   }
-
+  .logo-background img{
+    height: 50px;
+    object-fit: contain;
+    transition: 0.3s;
+  }
+  .logo-background img:hover{
+    transform: scale(1.20);
+    opacity: 0.9;
+  }
   nav{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 10px;
     height: 45px;
 
@@ -63,8 +71,9 @@
   nav > a{
     display: none;
   }
+  
   /*Botões de navegação passando mouse por cima*/
-  nav a:hover{
+  nav > a:hover{
     background-color:  #4dd0e1;
     color: black;
   }
@@ -681,6 +690,10 @@
     gap: 12px;
   }
   .menu-toggle{
+    position: absolute;
+    right: 15px;  /*  move pra esquerda/direita */
+    top: 16px;    /*  move pra cima/baixo */
+
     width: 30px;   /* 🔥 ESSENCIAL */
     height: 30px;  /* 🔥 ESSENCIAL */
 
@@ -727,29 +740,47 @@
     position: absolute;
     top: 60px;
     right: 20px;
+    width: 200px;
+    text-align: center;
+
     background: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-radius: 10px;
-    padding: 10px;
-    display: none;
+    
+    display: flex; 
     flex-direction: column;
+
+    overflow: hidden;
+
+    max-height: 0; /* começa fechado */
+
+    padding: 0;
+    gap: 0;
+    border-width: 0; 
+
+    transition: all 0.50s ease;  
+  }
+  /* quando ativo */
+  .menu-dropdown.ativo{
+    opacity: 1;
+    max-height: 300px;
     gap: 10px;
+    padding: 10px; 
+    border-width: 1px;
+    text-align: center;
+
   }
   .menu-dropdow a{
     color: white;
     text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 6px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    display: block;
   }
   .menu-dropdown a:hover{
     background: #4dd0e1;
     color: black;
   }
 
-  /* quando ativo */
-  .menu-dropdown.ativo{
-    display: flex;
-  }
+  
   @media (max-width: 768px){
     /* TÍTULO PRINCIPAL */
     .hero-title {
@@ -798,36 +829,42 @@
       margin: 60px auto 50px;
     }
     /* Mostra o botão ☰ */
-    .menu-toggle {
-      width: 30px;
-      height: 22px; /* 🔥 Altura total do conjunto de riscos */
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between; /* Espalha os riscos igualmente */
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin: 0;
-      z-index: 1001;
+    .menu-toggle{
+      top: 25px; 
+      right: 15px; 
+      height: 22px;
     }
-    .menu-dropdown {
+    /* menu escondido */
+    .menu-dropdown{
       position: absolute;
       top: 60px;
       right: 20px;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 12px;
       width: 200px;
-      display: none; /* JS controla isso */
+      text-align: center;
+
+      background: #1a1a1a;
+      
+      display: flex; 
       flex-direction: column;
-      padding: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      z-index: 1000;
+
+      overflow: hidden;
+
+      max-height: 0; /* começa fechado */
+
+      padding: 0;
+      gap: 0;
+      border-width: 0; 
+
+      transition: all 0.50s ease;  
     }
+
     .menu-dropdown.ativo {
-      display: flex !important;
+      opacity: 1;
+      gap: 10px;
+      padding: 10px; 
+      border-width: 1px;
     }
+
     .menu-dropdown a {
       display: block !important; /* 🔥 Faz os links aparecerem */
       color: white !important;
@@ -911,6 +948,12 @@
 <body>
 <div class="nav-bg">
   <nav>
+    <div class="logo-background">
+      <a href="/">
+        <img src="{% static 'imagem_navegador/logo_site.png' %}" alt="Logo">
+      </a>
+    </div>
+
     <a href="/">HOME</a>
     <a href="/sobre/">SOBRE</a>
     <a href="/projetos/">PROJETOS</a>
