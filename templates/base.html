@@ -17,6 +17,8 @@
   <style>
     
   body{
+    opacity: 0;
+    transition: opacity 0.4s ease;
     font-family: system-ui, Arial;
     margin: 0 auto;
     padding: 30px;
@@ -24,10 +26,37 @@
     background-color: #0f0f0f;
     color: #e5e5e5;
   }
+  body.loaded{
+    opacity: 1;
+  }
   .container{
     max-width: 980px;
     margin: 0 auto;
     padding: 30px;
+  }
+  @keyframes flutuar {
+    0% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50%{
+      transform: translateY(0px) rotate(0deg);
+    }
+    100%{
+      transform: translateY(0px) rotate(0deg);
+    }
+  }
+  .hero-minha-foto img{
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #4dd0e1;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    position: relative;
+    top: -200px;
+    right: 130px;
+
+    animation: flutuar 3s ease-in-out infinite;
   }
 
   /* FUNDO OCUPANDO A TELA TODA */
@@ -40,9 +69,13 @@
     background: transparent;
   }
   .logo-background img{
-    height: 50px;
+    height: 80px;
     object-fit: contain;
     transition: 0.3s;
+    position: relative;
+
+    right: 24px;
+    top: -13px;
   }
   .logo-background img:hover{
     transform: scale(1.20);
@@ -273,7 +306,7 @@
     color: #9ca3af;
     word-break: break-word;
   }
-  /*Títulos principais da home + background do quadrado*/
+  /*Títulos principais da home*/
   .hero-home{
     margin: 80px auto 100px;
     text-align: center; /* tira do centro */
@@ -296,6 +329,7 @@
     border-radius: 10px;
     margin-bottom: 24px;
   }
+  
   /*Texto acima do desenvolvedor python*/
   .hero-intro{
     font-size: 24px; /* Aumentado */
@@ -311,14 +345,38 @@
     font-weight: bold;
   }
 
+  /*Título principal Desenvolvedor Python Junior*/
   .hero-title {
-    font-size: clamp(20px, 15vw, 100px) !important;
+    font-size: clamp(15px, 8vw, 90px) !important;
     font-weight: 800;
     line-height: 0.85;
     letter-spacing: -2px;
     margin: 10px 0 30px 0;
     color: white;
-    white-space: nowrap; /* 🔥 ISSO resolve */
+
+    white-space: nowrap; /* ISSO resolve */
+    overflow-wrap: anywhere;
+  }
+  /* Container Flex para alinhar foto e texto */
+  .hero-content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px; /* Espaço entre a foto e o texto */
+    margin: 40px 0;
+    max-width: 1000px;
+  }
+
+  /* Resetando a posição da foto */
+  .hero-minha-foto img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #4dd0e1;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    /* Remova o top e right antigos */
+    position: static; 
   }
 
   .hero-subtitle{
@@ -341,7 +399,6 @@
     transition: 0.3s ease;
 
   }
-
 
   /*botões de email e cv*/
   .btn-cv,
@@ -630,13 +687,13 @@
     color: black;
   }
 
-  /* AÇÕES HERO */
+  /* AÇÕES HERO / Botão Ver Projeto e Conhecer Mais */
   .hero-acoes{
     display: flex;
     justify-content: center;
     gap: 20px;
     margin-top: 25px;
-    transform: translateY(-30px); /* 🔥 sobe sem quebrar nada,os botões conhecer mais e ber projetos */
+    transform: translateY(300px); /* 🔥 sobe sem quebrar nada,os botões conhecer mais e ver projetos */
   }
 
   /* TÍTULOS DE SEÇÃO */
@@ -791,6 +848,20 @@
       text-align: center;
       width: 100%;
     }
+    
+    .logo-background img{
+      height: 80px;
+      object-fit: contain;
+      transition: 0.3s;
+      position: relative;
+
+      right: 24px;
+      top: 6px;
+    }
+    .logo-background img:hover{
+      transform: scale(1.20);
+      opacity: 0.9;
+    }
 
     /* BODY */
     body{
@@ -807,7 +878,7 @@
       min-height: 30px;
     }
 
-    nav a{
+    nav > a{
       display: none; /*Esconde a barra do background dos botões de navegação*/
     }
     .nav-bg{
@@ -988,6 +1059,25 @@ document.addEventListener("click", (e) => {
     toggle.classList.remove("ativo"); // 🔥 ESSENCIAL
   }
 });
+
+document.addEventListener("DOMContentLoaded", () =>{
+  document.body.classList.add("loaded");
+});
+
+document.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", function(e) {
+    if (this.href && this.target !== "_blank") {
+      e.preventDefault();
+
+      document.body.classList.remove("loaded");
+
+      setTimeout(() => {
+        window.location = this.href;
+      }, 300);
+    }
+  });
+});
+
 </script>
 
 
