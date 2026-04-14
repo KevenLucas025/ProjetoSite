@@ -3,6 +3,9 @@
 {% load static %}
 
 
+
+
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,15 +14,15 @@
 
   <link rel="icon" type="image/png" href="{% static 'imagem_navegador/logo_site.png' %}">
 
-
-</head>
-
+  
+  
   <style>
-    
+  
   body{
     opacity: 0;
     transition: opacity 0.4s ease;
     font-family: system-ui, Arial;
+    min-height: 100vh; /* Ocupa no mínimo 100% da altura da tela */
     margin: 0 auto;
     padding: 30px;
     line-height: 1.5;
@@ -54,10 +57,13 @@
   body.loaded{
     opacity: 1;
   }
-  .container{
+  .container {
+    flex: 1; 
+    width: 100%;
     max-width: 980px;
     margin: 0 auto;
     padding: 30px;
+    box-sizing: border-box;
   }
   @keyframes flutuar {
     0% {
@@ -310,11 +316,19 @@
   h2{
     text-align: center;
   }
-  footer{
-    text-align: center;
-    margin-top: 40px;
+  .footer {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+
     color: #9ca3af;
     font-size: 14px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  body.modal-open .footer {
+    display: none;
   }
   .contato-grid{
     display: grid;
@@ -664,6 +678,36 @@
   .modal.ativo{
     display: flex;
   }
+  body.modal-open {
+    overflow: hidden;
+  }
+  .modal-sugestao{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    padding: 20px;
+  }
+
+  .modal-sugestao.ativo{
+    display: flex !important;
+  }
+
+  /* Reutilizando o estilo do conteúdo para manter o padrão visual */
+  .modal-sugestao .modal-conteudo {
+      background: #161616;
+      color: #e5e5e5;
+      width: 100%;
+      max-width: 500px; /* Um pouco menor que o de projetos */
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      border: 1px solid #2a2a2a;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+  }
 
   .modal-conteudo{
     background: #161616;
@@ -911,6 +955,120 @@
     color: black;
   }
 
+  #formSugestao{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  #formSugestao label{
+    font-size: 14px;
+    color: #cbd51e;
+
+  }
+  #formSugestao input,
+  #formSugestao select,
+  #formSugestao textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #2a2a2a;
+    background: #1a1a1a;
+    color: white;
+    font-size: 14px;
+  }
+
+  #formSugestao input:focus,
+  #formSugestao select:focus,
+  #formSugestao textarea:focus {
+    outline: none;
+    border-color: #4dd0e1;
+  }
+
+  .acoes-form {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+
+  .btn-enviar {
+    background: linear-gradient(135deg, #4dd0e1, #22d3ee);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn-enviar:hover {
+    transform: translateY(-2px);
+  }
+  /*Botão enviar sugestão*/
+  #btnEnviar{
+    position: relative;
+    padding: 12px 24px;
+    border: none;
+    background: #4dd0e1;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  /*Faz o botão de enviar virar um looping quando tiver enviando a sugestão*/
+  .spinner{
+    display: none;
+    width: 16px;
+    height: 16px;
+
+    border: 2px solid rgba(0,0,0,0.2);
+    border-top: 3px solid black;
+
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+
+    position: absolute;
+    right: 15px;
+    top: 24%;
+    transform: translateY(-50%);
+  }
+  /* 1. O botão ganha o espaço extra (padding) */
+  #btnEnviar.enviando {
+      padding-right: 45px !important; 
+      padding-left: 20px !important;
+  }
+
+  /* 2. O spinner apenas aparece, sem ter padding próprio */
+  #btnEnviar.enviando .spinner {
+      display: block;
+  }
+  @keyframes girar {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #22c55e;
+    color: white;
+    padding: 16px 22px;
+    border-radius: 10px;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
   
   @media (max-width: 768px){
     /* TÍTULO PRINCIPAL */
@@ -1131,6 +1289,7 @@
     <a href="/sobre/">SOBRE</a>
     <a href="/projetos/">PROJETOS</a>
     <a href="/contato/">CONTATO</a>
+    <a href="#" id="btnSugestao">SUGESTÕES</a>
     
   <button class="menu-toggle">
     <span></span>
@@ -1143,11 +1302,25 @@
       <a href="/sobre/">Sobre</a>
       <a href="/projetos/">Projetos</a>
       <a href="/contato/">Contato</a>
+      <a href="#" id="btnSugestaoMobile">Sugestões</a>
     </div>
   </nav>
 </div>
 
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
+
+{% include "modal_sugestao.html" %}
+<footer class="footer">
+  © {% now "Y" %} Keven Lucas
+</footer>
+
+<script src="{% static 'js/modal_sugestao.js' %}"></script>
+<script src="{% static 'js/sugestao.js' %}"></script>
+
 <script>
+
 const toggle = document.querySelector(".menu-toggle");
 const menu = document.querySelector(".menu-dropdown");
 
@@ -1168,6 +1341,13 @@ document.addEventListener("DOMContentLoaded", () =>{
 
 document.querySelectorAll("a").forEach(link => {
   link.addEventListener("click", function(e) {
+
+    if (this.id === "btnSugestao" || this.id === "btnSugestaoMobile") {
+      e.preventDefault();
+      return; //  deixa o modal funcionar
+      
+    }
+
     if (this.href && this.target !== "_blank") {
       e.preventDefault();
 
@@ -1180,56 +1360,54 @@ document.querySelectorAll("a").forEach(link => {
   });
 });
 
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("particulas");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+if (canvas) {
+  const ctx = canvas.getContext("2d");
 
-let particles = [];
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-for (let i = 0; i < 80; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    radius: Math.random() * 2,
-    speedX: (Math.random() - 0.5) * 0.5,
-    speedY: (Math.random() - 0.5) * 0.5
+  let particles = [];
+
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 2,
+      speedX: (Math.random() - 0.5) * 0.5,
+      speedY: (Math.random() - 0.5) * 0.5
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,255,0.5)";
+      ctx.fill();
+
+      p.x += p.speedX;
+      p.y += p.speedY;
+
+      if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+    });
+
+    requestAnimationFrame(drawParticles);
+  }
+
+  drawParticles();
+
+  // 🔥 resize responsivo
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   });
 }
-
-function drawParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  particles.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255,255,255,0.5)";
-    ctx.fill();
-
-    p.x += p.speedX;
-    p.y += p.speedY;
-
-    // loop na tela
-    if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-  });
-
-  requestAnimationFrame(drawParticles);
-}
-
-drawParticles();
-
-
 
 </script>
-
-
-<div class="container">
-  {% block content %}{% endblock %}
-</div>
-
-<footer>© {% now "Y" %} Keven Lucas</footer>
-
 </body>
 </html>
