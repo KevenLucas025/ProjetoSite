@@ -39,6 +39,7 @@ def enviar_sugestao(request):
                 message=f'Email do usuário: {email_usuario}\n\nSugestão:\n{mensagem}',
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[settings.EMAIL_HOST_USER],
+                fail_silently=False
             )
 
             return JsonResponse({'status': 'ok'})
@@ -46,4 +47,4 @@ def enviar_sugestao(request):
         except Exception as e:
             return JsonResponse({'erro': str(e)}, status=500)
 
-    return JsonResponse({'status': 'erro'})
+    return JsonResponse({'status': 'erro'}) 
