@@ -50,6 +50,6 @@ def enviar_sugestao(request):
             print("ERRO COMPLETO:")
             traceback.print_exc()
 
-            return JsonResponse({'erro': str(e)}, status=500)
+            return JsonResponse({'erro': str(e),'detalhe':'Verifique as credencias SMTP'}, status=500)
 
     return JsonResponse({'status': 'erro'})
