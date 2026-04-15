@@ -14,42 +14,58 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       console.log("Enviando pro Django:", dados);
-      
-      fetch("/enviar_sugestao/",{
+      console.log("CSRF Token:", getCookie("csrftoken"));
+
+      fetch("/enviar_sugestao/", {
         method: "POST",
+        credentials: "same-origin",
         headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken")
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken")
         },
         body: JSON.stringify(dados)
       })
-      .then(res => res.json())
+      .then(res => {
+        console.log("Status da resposta:", res.status);
+
+        if (!res.ok) {
+          throw new Error("Erro HTTP: " + res.status);
+        }
+        return res.json();
+      })
       .then(data => {
-        mostrarToast();
-        form.reset();
+        console.log("Resposta do backend:", data);
+
+        if (data.status === "ok") {
+          mostrarToast();
+          form.reset();
+        } else {
+          throw new Error("Erro retornado pelo servidor");
+        }
       })
-      .catch(err =>{
-        console.error("Erro",err);
+      .catch(err => {
+        console.error("Erro completo:", err);
         alert("Erro ao enviar sugestão ❌");
-      })
-    });
+      });
+
+    }); // 👈 FECHAMENTO CORRETO AQUI
   }
 
 });
 
 function getCookie(name){
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== ""){
-        const cookies = document.cookie.split(";");
-        for (let cookie of cookies){
-            cookie = cookie.trim();
-            if (cookie.startsWith(name + "=")) {
-                cookieValue = cookie.substring(name.length + 1);
-                break;
-            }
-        }
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== ""){
+    const cookies = document.cookie.split(";");
+    for (let cookie of cookies){
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + "=")) {
+        cookieValue = cookie.substring(name.length + 1);
+        break;
+      }
     }
-    return cookieValue;
+  }
+  return cookieValue;
 }
 
 function mostrarToast() {
