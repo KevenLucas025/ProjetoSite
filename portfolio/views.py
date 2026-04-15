@@ -92,6 +92,7 @@ Mensagem:
             return JsonResponse({'status': 'ok'})
 
         except Exception as e:
+            print("ERRO REAL:", e)
             return JsonResponse({'erro': str(e)}, status=500)
 
     return JsonResponse({'status': 'erro'})

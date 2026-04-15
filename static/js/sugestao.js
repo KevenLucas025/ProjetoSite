@@ -29,7 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Status da resposta:", res.status);
 
         if (!res.ok) {
-          throw new Error("Erro HTTP: " + res.status);
+          return res.json().then(err => {
+            throw new Error(err.erro || "Erro desconhecido");
+          });
         }
         return res.json();
       })
@@ -44,11 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
       .catch(err => {
-        console.error("Erro completo:", err);
-        alert("Erro ao enviar sugestão ❌");
+        console.error("Erro completo:", err.message);
+        alert("Erro ao enviar sugestão ❌\n" + err.message);
       });
 
-    }); // 👈 FECHAMENTO CORRETO AQUI
+    });
   }
 
 });
