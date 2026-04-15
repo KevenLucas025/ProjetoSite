@@ -32,20 +32,17 @@ def enviar_sugestao(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-
-            nome = data.get('nome')
+            
             email_usuario = data.get('email')
-            assunto = data.get('assunto')
             mensagem = data.get('mensagem')
 
-            email = EmailMultiAlternatives(
-                subject='Teste',
-                body='Teste simples',
+            send_mail(
+                subject='📩 Nova sugestão recebi do site',
+                message=f'Email do usuário: {email_usuario}\n\nSugestão:\n{mensagem}',
                 from_email=settings.EMAIL_HOST_USER,
-                to=[settings.EMAIL_HOST_USER],
+                recipient_list=[settings.EMAIL_HOST_USER],
+                fail_silently=False,  
             )
-
-            email.send(fail_silently=False)
 
             return JsonResponse({'status': 'ok'})
 
