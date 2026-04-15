@@ -14,7 +14,7 @@
 
   <link rel="icon" type="image/png" href="{% static 'imagem_navegador/logo_site.png' %}">
 
-  
+  <canvas id="particulas"></canvas>
   
   <style>
   
@@ -40,8 +40,6 @@
     
     width: 600px;
     height: 600px;
-
-    background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
   
     pointer-events: none;
     z-index: 0;
@@ -1360,46 +1358,86 @@ document.querySelectorAll("a").forEach(link => {
   });
 });
 
+// Pega o elemento <canvas> pelo ID "particulas"
 const canvas = document.getElementById("particulas");
 
+// Verifica se o canvas existe antes de executar (evita erro)
 if (canvas) {
+
+  // Cria o contexto 2D (é o "pincel" para desenhar no canvas)
   const ctx = canvas.getContext("2d");
 
+  // Define a largura do canvas igual à largura da tela
   canvas.width = window.innerWidth;
+
+  // Define a altura do canvas igual à altura da tela
   canvas.height = window.innerHeight;
 
+  // Cria um array vazio para armazenar as partículas
   let particles = [];
 
+  // Loop que cria 80 partículas
   for (let i = 0; i < 80; i++) {
+
+    // Adiciona uma nova partícula ao array
     particles.push({
+
+      // Posição horizontal aleatória dentro do canvas
       x: Math.random() * canvas.width,
+
+      // Posição vertical aleatória dentro do canvas
       y: Math.random() * canvas.height,
+
+      // Tamanho (raio) aleatório da partícula (0 até 2)
       radius: Math.random() * 2,
-      speedX: (Math.random() - 0.5) * 0.5,
+
+      // Velocidade horizontal (valor pequeno positivo ou negativo)
+      speedX: (Math.random() - 0.5) * 0.9,
+
+      // Velocidade vertical (valor pequeno positivo ou negativo)
       speedY: (Math.random() - 0.5) * 0.5
     });
   }
 
+  // Função responsável por desenhar e animar as partículas
   function drawParticles() {
+
+    // Limpa toda a área do canvas antes de redesenhar (evita "rastro")
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Percorre cada partícula do array
     particles.forEach(p => {
+
+      // Inicia um novo desenho (caminho)
       ctx.beginPath();
+
+      // Desenha um círculo na posição (x, y) com o raio definido
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+
+      // Define a cor da partícula (branco com transparência)
       ctx.fillStyle = "rgba(255,255,255,0.5)";
+
+      // Preenche o círculo com a cor definida
       ctx.fill();
 
+      // Atualiza a posição da partícula (movimento)
       p.x += p.speedX;
       p.y += p.speedY;
 
+      // Se a partícula bater na borda esquerda ou direita, inverte direção
       if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+
+      // Se a partícula bater no topo ou base, inverte direção
       if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
     });
 
+    // Faz a animação rodar continuamente (loop suave)
     requestAnimationFrame(drawParticles);
   }
 
+  // Inicia a animação chamando a função pela primeira vez
   drawParticles();
+
 
   // 🔥 resize responsivo
   window.addEventListener("resize", () => {

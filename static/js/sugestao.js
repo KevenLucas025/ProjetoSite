@@ -29,8 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Status da resposta:", res.status);
 
         if (!res.ok) {
-          return res.json().then(err => {
-            throw new Error(err.erro || "Erro desconhecido");
+          return res.text().then(text => {
+            console.error("Resposta bruta do servidor:", text);
+            throw new Error("Erro HTTP: " + res.status);
           });
         }
         return res.json();
