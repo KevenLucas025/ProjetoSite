@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home | Keven{% endblock %}
+{% block content %}
+
+<!-- HERO -->
+<div class="hero hero-home">
+  <p class="hero-intro">Olá, muito prazer eu sou o <span>Keven</span></p>
+  <canvas id="particulas"></canvas>
+  <div class="animar">
+    <h1 class="hero-title">Desenvolvedor Python Junior</h1>
+  </div>
+
+  <div class="hero-content-wrapper">
+    <div class="hero-minha-foto">
+      <img src="{% static 'minha_imagem/minha_foto.jpg' %}" alt="Foto Keven">
+    </div>
+    
+    <p class="hero-subtitle">
+      Crio sistemas desktop, automações e soluções em Python voltadas
+      para produtividade, organização e resolução de problemas reais.
+    </p>
+  </div>
+
+  <div class="hero-acoes">
+    <a href="/sobre/" class="hero-btn">Conhecer mais</a>
+    <a href="/projetos/" class="btn-secundario">Ver projetos</a>
+  </div>
+</div>
+
+  <div class="hero-social">
+    <a href="https://github.com/KevenLucas025" target="_blank" class="social-icon">
+    <img src="{% static 'imagens_habilidades/github_logo_branco.png' %}" alt="GitHub">
+    </a>
+
+    <a href="https://www.linkedin.com/in/keven-lucas-32949b205/" target="_blank" class="social-icon">
+    <img src="{% static 'imagens_habilidades/linkedin_logo_branco.png' %}" alt="LinkedIn">
+    </a>
+    
+  </div>
+
+<!-- PROJETO EM DESTAQUE -->
+<section class="secao-destaque">
+  <h2 class="titulo-secao">🚀 Projeto em destaque</h2>
+
+  {% for p in destaques|slice:":1" %}
+  <div class="projeto-destaque">
+
+  <!-- IMAGEM COM HOVER -->
+  <div class="imagem-container">
+    {% if p.imagem %}
+      <img src="{% static p.imagem %}" alt="{{ p.titulo }}" class="projeto-img">
+    {% else %}
+      <div class="sem-imagem">Sem imagem</div>
+    {% endif %}
+
+    <div class="overlay">
+      <h3 class="overlay-titulo">{{ p.titulo }}</h3>
+
+      <div class="overlay-botoes">
+        {% if p.tem_download %}
+          {% if p.link_demo %}
+            <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
+              Download
+            </a>
+          {% endif %}
+        {% else %}
+          {% if p.link_github %}
+            <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
+              GitHub
+            </a>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- DESCRIÇÃO DO LADO -->
+  <div class="destaque-info">
+    <h3>{{ p.titulo }}</h3>
+
+    <p>
+      {{ p.descricao|default:"Projeto desenvolvido com foco em automação e produtividade." }}
+    </p>
+
+</div>
+
+  </div>
+  {% endfor %}
+</section>
+
+<!-- OUTROS PROJETOS -->
+<section>
+  <h2 class="titulo-secao">Outros projetos você encontra na aba <strong>Projetos</strong></h2>
+
+  <div class="grid">
+    {% for p in destaques|slice:"1:" %}
+    <div class="card projeto-card">
+
+      <div class="imagem-container">
+        {% if p.imagem %}
+          <img src="{% static p.imagem %}" alt="{{ p.titulo }}" class="projeto-img">
+        {% else %}
+          <div class="sem-imagem">Sem imagem</div>
+        {% endif %}
+
+        <div class="overlay">
+          <h3 class="overlay-titulo">{{ p.titulo }}</h3>
+
+          <div class="overlay-botoes">
+            {% if p.tem_download %}
+              {% if p.link_demo %}
+                <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
+                  Download
+                </a>
+              {% endif %}
+            {% else %}
+              {% if p.link_github %}
+                <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
+                  GitHub
+                </a>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+
+{% endblock %}

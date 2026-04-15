@@ -1,0 +1,42 @@
+  {% extends "base.html" %}
+  {% load static %}
+  {% block title %}Contato | Keven{% endblock %}
+  {% block content %}
+
+  <div class="hero">
+    <h1 class="titulo-secao-contato">Contato</h1>
+    <p>
+      Estou disponível para oportunidades, projetos freelance ou parcerias.
+      Se tiver alguma ideia ou precisar de uma solução, vamos conversar!
+    </p>
+    <p style="color:#22d3ee; font-weight: bold;">
+      ✔ Disponível para novas oportunidades
+    </p>
+  </div>
+
+  <div class="contato-grid">
+
+    <a href="mailto:keven.lucas00@hotmail.com" class="contato-card">
+      <div class="contato-item">
+        <img src="{% static 'imagens_habilidades/email.png' %}" alt="Email">
+        <h3>Email</h3>
+      </div>
+    </a>
+
+    <a href="https://github.com/KevenLucas025" target="_blank" class="contato-card">
+      <div class="contato-item">
+        <img src="{% static 'imagens_habilidades/github_logo.png' %}" alt="GitHub">
+        <h3>GitHub</h3>
+      </div>
+    </a>
+
+    <a href="https://www.linkedin.com/in/keven-lucas-32949b205/" target="_blank" class="contato-card">
+      <div class="contato-item">
+        <img src="{% static 'imagens_habilidades/linkedin.webp' %}" alt="LinkedIn">
+        <h3>LinkedIn</h3>
+      </div>
+    </a>
+
+  </div>
+
+  {% endblock %}

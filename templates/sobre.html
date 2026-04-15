@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Sobre | Keven{% endblock %}
+{% block content %}
+
+<div class="hero">
+  <h1>Sobre Mim</h1>
+
+  <p>
+    Olá, me chamo <strong>Keven Lucas</strong>. Sou Desenvolvedor Python Junior,
+    com foco no desenvolvimento de sistemas desktop, automações e soluções voltadas
+    para otimização de processos.
+  </p>
+
+  <p>
+    Tenho experiência com <strong>Python, PySide6, SQLite</strong> e automação de tarefas
+    utilizando ferramentas como <strong>Selenium</strong> e <strong>PyAutoGUI</strong>.
+    Estou aprendendo a lidar com <strong>Django</strong> para desenvolvimento Web,
+    como é o caso do meu site atual. Também desenvolvo projetos que envolvem integração
+    entre sistemas, manipulação de dados e criação de interfaces gráficas.
+  </p>
+
+  <p>
+    Busco constantemente evoluir minhas habilidades em programação e desenvolver
+    soluções cada vez mais completas, modernas e eficientes.
+  </p>
+
+  <div class="trajetoria">
+    <h2 class="titulo-trajetoria">Minha Trajetória na Programação</h2>
+  <!-- COLUNA ESQUERDA -->
+
+    <p>
+      Iniciei minha jornada na programação através do curso de <strong>Python</strong> na plataforma
+      <strong>Curso em Vídeo</strong>, ministrado pelo professor <strong>Gustavo Guanabara</strong>.
+    </p>
+
+    <p>
+      Durante o aprendizado, concluí os três módulos do curso (Mundo 1, Mundo 2 e Mundo 3),
+      onde adquiri uma base sólida na linguagem e compreendi os principais <strong>conceitos da programação</strong>.
+    </p>
+
+    <p>
+      Foi nesse processo que desenvolvi uma forte identificação com a área, despertando
+      minha paixão por tecnologia e pela criação de soluções através do <strong>código</strong>.
+    </p>
+
+    <p>
+      Desde então, venho evoluindo constantemente, buscando aprimorar minhas habilidades
+      e construir projetos cada vez mais <strong>completos e eficientes</strong>.
+    </p>
+
+  <!-- COLUNA DIREITA -->
+    <p>
+      Após concluir o curso, comecei a aplicar meus conhecimentos em pequenos projetos,
+      como o sistema de cadastro de pessoas, disponível na aba de Projetos. Em seguida,
+      desenvolvi uma versão aprimorada, o <strong>"Cadastro de Pessoas 2"</strong>.
+    </p>
+
+    <p>
+      Posteriormente, desenvolvi um novo projeto mais completo utilizando <strong>PySide6</strong>,
+      <strong>Qt Designer</strong> e <strong>SQLite3</strong>, no projeto <strong>"Sistema de Gerenciamento"</strong>,
+      onde busquei maior organização, atenção aos detalhes e uma estrutura mais robusta.
+    </p>
+
+    <p>
+      Paralelamente, tive a oportunidade de atuar em dois projetos de automação na empresa
+      em que trabalho: <strong>Automação de Vendas</strong> e <strong>Automação de Faturas</strong>.
+    </p>
+
+    <p>
+      Nesses projetos, pude aplicar e aprimorar minhas habilidades técnicas na prática,
+      especialmente no desenvolvimento de automações utilizando <strong>Selenium</strong> e <strong>PyAutoGUI</strong>,
+      com foco principal em <strong>Python</strong>. Também utilizei <strong>JavaScript</strong> como suporte em algumas
+      situações específicas, ampliando minha capacidade de integração e adaptação em diferentes cenários.
+    </p>
+</div>
+  
+
+  <div class="habilidades-section">
+    <h2>Minhas Habilidades</h2>
+
+    <div class="habilidades-grid">
+      <div class="habilidade-card python">
+        <span>Python</span>
+      </div>
+
+      <div class="habilidade-card html">
+        <span>HTML</span>
+      </div>
+
+      <div class="habilidade-card css">
+        <span>CSS</span>
+      </div>
+
+      <div class="habilidade-card django">
+        <span>Django</span>
+      </div>
+
+      <div class="habilidade-card sqlite">
+        <span>SQLite</span>
+      </div>
+      <div class="habilidade-card github">
+        <span>GitHub</span>
+      </div>
+      <div class="habilidade-card windows">
+        <span>Windows</span>
+      </div>
+      <div class="habilidade-card filmora9">
+        <span>Wondershare Filmora 9</span>
+      </div>
+  </div>
+
+  <div class="sobre-acoes">
+    <a href="{% static 'cv/Keven_Lucas_CV.pdf' %}" download class="btn-cv">
+      Baixar CV
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg"
+          width="18" height="18" viewBox="0 0 24 24"
+          fill="none"
+          stroke="#000"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M12 3v12"/>
+          <path d="M7 10l5 5 5-5"/>
+          <path d="M5 21h14"/>
+        </svg>
+      </span>
+    </a>
+
+    <a href="mailto:keven.lucas00@hotmail.com" class="btn-email">
+      Entrar em contato
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg"
+            width="18" height="18" viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="14" rx="2"/>
+          <path d="M3 7l9 6 9-6"/>
+        </svg>
+      </span>
+    </a>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+<div class="modal-sugestao" id="modalSugestao">
+  <div class="modal-conteudo">
+
+    <button class="modal-fechar" id="fecharSugestao">&times;</button>
+
+    <h2>Enviar sugestão</h2>
+    <form id="formSugestao">
+        
+        <label>Assunto</label>
+        <select id="assunto" required>
+            <option value="">Selecione...</option>
+            <option>Erro</option>
+            <option>Bug</option>
+            <option>Sugestão de Melhoria</option>
+            <option>Nova Funcionalidade</option>
+            <option>Outro</option>
+        </select>
+
+        <label>Nome</label>
+        <input type="text"  id="nome" placeholder="Digite seu nome" required>
+
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Digite seu email" required>
+
+        <label>Descrição</label>
+        <textarea id="mensagem" rows="5" placeholder="Digite sua sugestão..." required></textarea>
+
+        <div class="acoes-form">
+        <button type="submit" id="btnEnviar">
+            <span class="texto-btn">Enviar</span>
+            <span class="spinner"></span>
+            </button>
+      </div>
+
+    </form>
+    <div id="toast" class="toast">
+        ✅ Sugestão enviada com sucesso!
+  </div>
+</div>
