@@ -33,8 +33,10 @@
     line-height: 1.5;
     background-color: #0f0f0f;
     color: #e5e5e5;
-    position: relative;
     overflow-x: hidden;
+
+    display: block;
+    flex-direction: column;
   }
   body::before{
     content: "";
@@ -362,19 +364,18 @@
     text-align: center;
   }
   .footer {
-    position: fixed;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-
+    /* Remova o position absolute e o top fixo */
+    text-align: center;
+    padding: 40px 18px 20px 18px; /* Espaçamento interno */
+    margin-top: auto; /* ESTA É A MÁGICA: empurra o footer para o fim do espaço disponível */
+    
     color: #9ca3af;
     font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
     z-index: 10;
-    pointer-events: none;
   }
-  body.modal-open .footer {
-    display: none;
-  }
+  
   .contato-grid{
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(240px, 1fr));
@@ -1116,7 +1117,32 @@
     opacity: 1;
     transform: translateY(0);
   }
-  
+  .projeto-futuro{
+    margin-top: 80px;
+  }
+  .card-futuro{
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 14px;
+    padding: 28px;
+    text-align: center;
+    max-width: 700px;
+    margin: auto;
+  }
+  .card-futuro h3{
+      color: white;
+      margin-bottom: 15px;
+  }
+  .card-futuro p{
+      color: #cbd5e1;
+      line-height: 1.6;
+  }
+  .card-futuro span{
+      display: inline-block;
+      margin-top: 15px;
+      color: #4dd0e1;
+      font-weight: bold;
+  }
   @media (max-width: 768px){
     /* TÍTULO PRINCIPAL */
     .hero-title {
@@ -1371,10 +1397,13 @@
   {% block content %}{% endblock %}
 </div>
 
+<div class="footer">
+  © 2026 Keven Lucas
+</div>
+
 {% include "modal_sugestao.html" %}
-<footer class="footer">
-  © {% now "Y" %} Keven Lucas
-</footer>
+
+
 
 <script src="{% static 'js/modal_sugestao.js' %}"></script>
 <script src="{% static 'js/sugestao.js' %}"></script>
