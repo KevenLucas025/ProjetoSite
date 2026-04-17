@@ -15,6 +15,8 @@
 
   <title>Keven Lucas | Python Developer | Portfólio Django Campinas</title>
 
+  
+
   <link rel="icon" type="image/png" href="{% static 'imagem_navegador/logo_site.png' %}">
 
   
@@ -90,7 +92,67 @@
 
     animation: flutuar 3s ease-in-out infinite;
   }
+  .status-open {
+    position: relative;
+    background: #111;
+    color: #4dd0e1;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    max-width: 420px;
+    margin: 25px auto 10px auto;
+    overflow: hidden; /* Corta o que sobrar do brilho girando */
+    z-index: 1;
+  }
 
+  /* O "BRILHO" QUE GIRA */
+  .status-open::before {
+    content: "";
+    position: absolute;
+    /* O segredo: o brilho precisa ser maior que o card para cobrir as pontas ao girar */
+    width: 800px; 
+    height: 800px; 
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Gradiente cônico que cria o rastro de luz */
+    background: conic-gradient(
+      from 0deg,
+      transparent 0%,
+      #22d3ee 15%, 
+      #ffffff 20%, 
+      #22d3ee 25%,
+      transparent 40%
+    );
+    
+    animation: girarBorda 4s linear infinite;
+    z-index: -2;
+  }
+
+  /* FUNDO INTERNO (Cobre o centro para deixar só a borda) */
+  .status-open::after {
+    content: "";
+    position: absolute;
+    inset: 2px; /* Largura da borda (ajuste aqui se quiser mais grossa) */
+    background: #111;
+    border-radius: 11px;
+    z-index: -1;
+  }
+
+  /* ANIMAÇÃO DE ROTAÇÃO */
+  @keyframes girarBorda {
+    /* Mantemos o translate(-50%, -50%) para ele não sair do centro enquanto gira */
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+    
   /* FUNDO OCUPANDO A TELA TODA */
   .nav-bg{
     position: sticky;
@@ -1274,12 +1336,18 @@
       position: relative;
       top: 50px;
     }
+    .status-open{
+    position: relative;
+    top: 80px;
+    right: 0px;
+  }
   }
 
   </style>
 </head>
 
 <body>
+  
 <canvas id="particulas"></canvas>
 <div class="nav-bg">
   <nav>
@@ -1310,6 +1378,11 @@
       <a href="#" id="btnSugestaoMobile">Sugestões</a>
     </div>
   </nav>
+
+
+</div>
+<div class="status-open">
+  ✔ Disponível para novas oportunidades
 </div>
 
 <div class="container">
