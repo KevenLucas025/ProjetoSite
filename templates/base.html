@@ -92,7 +92,7 @@
 
     animation: flutuar 3s ease-in-out infinite;
   }
-  .status-open {
+  .status-open{
     position: relative;
     background: #111;
     color: #4dd0e1;
@@ -101,58 +101,40 @@
     padding: 12px;
     border-radius: 12px;
     max-width: 420px;
-    margin: 25px auto 10px auto;
-    overflow: hidden; /* Corta o que sobrar do brilho girando */
+    margin: 25px auto 10px auto; /* Centraliza e dá espaço */
+    overflow: hidden;
     z-index: 1;
   }
-
-  /* O "BRILHO" QUE GIRA */
-  .status-open::before {
+  .status-open::before{
     content: "";
     position: absolute;
-    /* O segredo: o brilho precisa ser maior que o card para cobrir as pontas ao girar */
-    width: 800px; 
-    height: 800px; 
+    inset: -2px;
+    border-radius: 12px;
 
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    /* Gradiente cônico que cria o rastro de luz */
-    background: conic-gradient(
-      from 0deg,
-      transparent 0%,
-      #22d3ee 15%, 
-      #ffffff 20%, 
-      #22d3ee 25%,
-      transparent 40%
-    );
-    
-    animation: girarBorda 4s linear infinite;
+    background: linear-gradient(90deg,transparent,#22d3ee,#ffffff,#22d3ee);
+    background-size: 300% 300%;
+    animation: brilhoBorda 4s linear infinite;
     z-index: -2;
   }
-
-  /* FUNDO INTERNO (Cobre o centro para deixar só a borda) */
-  .status-open::after {
-    content: "";
-    position: absolute;
-    inset: 2px; /* Largura da borda (ajuste aqui se quiser mais grossa) */
-    background: #111;
-    border-radius: 11px;
-    z-index: -1;
+  /* FUNDO INTERNO */
+  .status-open::after{
+      content: "";
+      position: absolute;
+      inset: 2px;
+      background: #111;
+      border-radius: 10px;
+      z-index: -1;
   }
 
-  /* ANIMAÇÃO DE ROTAÇÃO */
-  @keyframes girarBorda {
-    /* Mantemos o translate(-50%, -50%) para ele não sair do centro enquanto gira */
-    from {
-      transform: translate(-50%, -50%) rotate(0deg);
+  @keyframes brilhoBorda{
+    0%{
+        background-position: 200% 0;
     }
-    to {
-      transform: translate(-50%, -50%) rotate(360deg);
+    100%{
+        background-position: -200% 0;
     }
   }
-    
+  
   /* FUNDO OCUPANDO A TELA TODA */
   .nav-bg{
     position: sticky;
