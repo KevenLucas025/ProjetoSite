@@ -29,3 +29,19 @@
     <strong>Sugestões:</strong> Uma aba nova onde você pode enviar suas sugestões, melhorias, novas funcionalidades ou outras ideias para o site.
   </li>
 </ul>
+
+<hr>
+
+<h2>🚀 Possíveis melhorias futuras</h2>
+
+<ul>
+<li>🛠️ Painel administrativo personalizado</li>
+<li>💬 Área de comentários</li>
+<li>📊 Dashboard com estatísticas</li>
+<li>🔗 Integração com GitHub e LinkedIn</li>
+<li>👔 Área exclusiva para recrutadores</li>
+<li>✨ Novos efeitos visuais e animações</li>
+<li>📈 SEO avançado para maior alcance</li>
+</ul>
+
+<hr>
