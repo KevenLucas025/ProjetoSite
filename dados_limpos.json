@@ -1,0 +1,110 @@
+[
+{
+  "model": "portfolio.projeto",
+  "pk": 1,
+  "fields": {
+    "titulo": "Sistema de Gerenciamento",
+    "descricao": "🧠 Sistema de Gerenciamento\r\n\r\nSistema desktop desenvolvido em Python, que evoluiu de uma aplicação simples para leitura de XML e cadastro de usuários para um sistema completo de gerenciamento.\r\n\r\nAtualmente, permite o controle de usuários, produtos (estoque) e clientes, oferecendo funcionalidades como histórico de ações, relatórios em PDF, importação/exportação de dados (CSV) e uma interface prática e personalizável.\r\n\r\nProjeto em constante evolução, com foco em organização, eficiência e escalabilidade. 🚀",
+    "tecnologias": "Python, QtDesigner, SQLite3 e PySide6",
+    "link_github": "https://github.com/KevenLucas025/ProjetoERP",
+    "link_demo": "https://github.com/KevenLucas025/Sistema-de-Gerenciamento---Download/releases/download/v1.1.18/Sistema-de-Gerenciamento.zip",
+    "imagem": "imagens_projetos/SIstema_de_Gerenciamento.png",
+    "destaque": true,
+    "criado_em": "2026-03-18",
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": true,
+    "video_demo": "https://res.cloudinary.com/dwz3wrelv/video/upload/v1774199653/Sistema_de_Gerenciamento_cfig1s.mp4"
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 2,
+  "fields": {
+    "titulo": "Cadastro de Pessoas 2",
+    "descricao": "Meu segundo projeto desenvolvido em Python, evoluindo o sistema anterior de cadastro de pessoas.\r\n\r\nNesta versão, implementei uma interface gráfica utilizando Tkinter, tornando a aplicação mais intuitiva e fácil de usar, mantendo o mesmo conceito de cadastro simples.\r\n\r\nOs dados dos usuários são armazenados em arquivos CSV, permitindo persistência das informações sem a necessidade de banco de dados.\r\n\r\nAlém disso, utilizei a biblioteca Pillow (PIL) para manipulação de imagens, agregando mais funcionalidades ao sistema.",
+    "tecnologias": "Python, Tkinter e CSV",
+    "link_github": "https://github.com/KevenLucas025/ProjetoCadastro",
+    "link_demo": "",
+    "imagem": "imagens_projetos/Cadastro_de_Pessoas.jpg",
+    "destaque": false,
+    "criado_em": null,
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false,
+    "video_demo": "https://res.cloudinary.com/dwz3wrelv/video/upload/v1774795603/ProjetoCDP_dltals.mp4"
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 3,
+  "fields": {
+    "titulo": "Cadastro de Pessoas",
+    "descricao": "Sistema simples para cadastro de pessoas, desenvolvido como meu primeiro projeto em Python.\r\n\r\nNa época, ainda estava em fase inicial de aprendizado, mas utilizei este projeto como base para desenvolver e aprimorar meus conhecimentos na linguagem.\r\n\r\nA aplicação realiza apenas cadastros básicos, sem utilização de banco de dados ou interface gráfica, sendo totalmente voltada para fins de aprendizado.",
+    "tecnologias": "Python",
+    "link_github": "https://github.com/KevenLucas025/ProjetoCadastro",
+    "link_demo": "",
+    "imagem": "imagens_projetos/Cadastro_de_Pessoas.jpg",
+    "destaque": false,
+    "criado_em": "2026-03-18",
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false,
+    "video_demo": "https://res.cloudinary.com/dwz3wrelv/video/upload/v1774713521/ProjetoCadastro_2_ybvqke.mp4"
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 4,
+  "fields": {
+    "titulo": "Àutomação Fatura | Empresarial",
+    "descricao": "À automação desenvolvido exclusivamente para a empresa Nexus Corp Telecom.\r\n\r\nNão tive o prazer de ter desenvolvido completamente, mas pude aprimorar o código e o seu desempenho visando mais agilidade e praticidade durante as consultas da faturas.\r\n\r\nO sistema funciona usando Selenium e PyAutoGUI. Seu funcionamento segue desde cadastro automatizado até o envio da fatura do cliente para o usuário que pesquisou.",
+    "tecnologias": "Python, Selenium, PyAutoGui, SQLite3 e JavaScript",
+    "link_github": "https://github.com/KevenLucas025/CodigoFatura",
+    "link_demo": "",
+    "imagem": "imagens_projetos/automação_vendas.avif",
+    "destaque": false,
+    "criado_em": null,
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false,
+    "video_demo": "videos/2026-03-11 20-07-06.mp4"
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 5,
+  "fields": {
+    "titulo": "Àutomação Vendas | Empresarial",
+    "descricao": "2º projeto desenvolvido exclusivamente para a empresa Nexus Corp Telecom.\r\n\r\nTrata-se de uma automação de vendas, criada para ofertar produtos da Claro para clientes em todo o Brasil, automatizando todo o processo comercial.\r\n\r\nA solução realiza desde o primeiro contato com o cliente até o fechamento da venda, além de enviar automaticamente e-mails para a equipe responsável pela elaboração de contratos.",
+    "tecnologias": "Python, Selenium, PyAutoGui, SQLite3 e JavaScript",
+    "link_github": "https://github.com/KevenLucas025/Robo_Nexus_Vendas",
+    "link_demo": "https://github.com/KevenLucas025/Robo_Nexus_Vendas",
+    "imagem": "imagens_projetos/automação_python.avif",
+    "destaque": false,
+    "criado_em": null,
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false,
+    "video_demo": "videos/2026-03-11 20-07-06.mp4"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$S9WvlykRTLLR9HKOBAilMm$5Wx+ZczE2rVqTf9P12BytTexl+yhFCzFT7DZRGVbnWs=",
+    "last_login": "2026-03-18T23:15:04.201Z",
+    "is_superuser": true,
+    "username": "Keven_Lucas",
+    "first_name": "",
+    "last_name": "",
+    "email": "keven.lucas00@hotmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-03-18T23:14:32.017Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
