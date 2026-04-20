@@ -235,21 +235,6 @@
     margin-right: 6px;
   }
 
-  .hero{
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
-  .hero h1{
-    font-size: 42px;
-    margin-bottom: 10px;
-  }
-
-  .hero p{
-    font-size: 18px;
-    color: #9ca3af;
-  }
-
   .projeto-card{
     overflow: hidden;
     width: 260px;
@@ -1127,22 +1112,181 @@
     padding: 28px;
     text-align: center;
     max-width: 700px;
-    margin: auto;
+    margin: 0 auto 30px auto;
   }
   .card-futuro h3{
-      color: white;
-      margin-bottom: 15px;
+    color: white;
+    margin-bottom: 15px;
   }
   .card-futuro p{
-      color: #cbd5e1;
-      line-height: 1.6;
+    color: #cbd5e1;
+    line-height: 1.6;
   }
   .card-futuro span{
-      display: inline-block;
-      margin-top: 15px;
-      color: #4dd0e1;
-      font-weight: bold;
+    display: inline-block;
+    margin-top: 15px;
+    color: #4dd0e1;
+    font-weight: bold;
   }
+  .sobre-layout{
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 50px;
+    align-items: start;
+    margin-top: 40px;
+  }
+  /* TEXTO */
+  .sobre-texto{
+    position: relative;
+    left: -100px;
+    text-align: center;
+    font-size: 20px;
+  }
+  .sobre-texto h1::after{
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #4dd0e1;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 10px;
+  }
+  .sobre-stats{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+    margin: 50px auto;
+    max-width: 800px;
+  }
+  .stat-card{
+    background:#111;
+    border:1px solid #29d9ff;
+    padding:5px;
+    border-radius:14px;
+    text-align:center;
+    transition:.3s;
+  }
+  .stat-card span{
+    display: block;
+    margin-top: -5px;
+  }
+  .stat-card h3{
+    display: block;
+    margin-top: 5px;
+  }
+  
+  .stat-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 20px rgba(41,217,255,.25);
+  }
+  .stat-card h3{
+    color:#29d9ff;
+    font-size:34px;
+    margin-bottom:10px;
+  }
+
+  .stat-card span{
+      color:#fff;
+  }
+  .objetivo-profissional{
+    margin: 80px;
+    max-width: 900px;
+    text-align: center;
+    background: #111;
+    border: 1px solid #2d2d2d;
+    border-radius: 18px;
+    padding: 40px;
+  }
+  .objetivo-profissional h2{
+    font-size: 30px;
+    margin-bottom: 25px;
+  }
+  .objetivo-profissional h2::after{
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #4dd0e1;
+    display: block;
+    margin: 12px auto 0;
+    border-radius: 10px;
+  }
+  .objetivo-profissional p{
+    color: #cbd5e1;
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 18px;
+  }
+  .skiils-bar{
+    max-width: 700px;
+    margin: 30px auto 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+  }
+  .skill span{
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    text-align: left;
+  }
+  .barra{
+    width: 100%;
+    height: 28px;
+    background: #1f1f1f;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progresso{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+
+
+    border-radius: 999px;
+    background: linear-gradient(90deg,#4dd0e1,#22d3e2);
+
+  }
+  .python{ width: 75%; }
+  .django{ width: 60%; }
+  .sqlite{ width: 70%; }
+  .html{ width: 60%; }
+  .wondershare-filmora{ width: 95%;}
+  .windows{ width: 75%;}
+  .github{ width: 75%;}
+  
+  .frase-final{
+    text-align: center;
+    margin: 70px auto 20px;
+    font-size: 24px;
+    font-weight: 700;
+    max-width: 800px;
+    line-height: 1.5;
+    background-clip: text;
+
+    background: linear-gradient(90deg, #ffffff, #4dd0e1, #ffffff);
+    background-size: 200% auto;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: brilhoFrase 5s linear infinite;
+  }
+
+  @keyframes brilhoFrase{
+    0%{
+      background-position: 200% center;
+    }
+    100%{
+      background-position: -200% center;
+    }
+  }
+
   @media (max-width: 768px){
     /* TÍTULO PRINCIPAL */
     .hero-title {

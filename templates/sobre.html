@@ -3,28 +3,53 @@
 {% block title %}Sobre | Keven{% endblock %}
 {% block content %}
 
-<div class="hero">
-  <h1>Sobre Mim</h1>
+<section class="sobre-layout">
 
-  <p>
-    Olá, me chamo <strong>Keven Lucas</strong>. Sou Desenvolvedor Python Junior,
-    com foco no desenvolvimento de sistemas desktop, automações e soluções voltadas
-    para otimização de processos.
-  </p>
+  <!-- TEXTO -->
+  <div class="sobre-texto">
+    <h1>Sobre Mim</h1>
 
-  <p>
-    Tenho experiência com <strong>Python, PySide6, SQLite</strong> e automação de tarefas
-    utilizando ferramentas como <strong>Selenium</strong> e <strong>PyAutoGUI</strong>.
-    Estou aprendendo a lidar com <strong>Django</strong> para desenvolvimento Web,
-    como é o caso do meu site atual. Também desenvolvo projetos que envolvem integração
-    entre sistemas, manipulação de dados e criação de interfaces gráficas.
-  </p>
+    <p>
+      Olá, me chamo <strong>Keven Lucas</strong>. Sou Desenvolvedor Python Júnior,
+      com foco no desenvolvimento de sistemas desktop, automações e soluções voltadas
+      para otimização de processos.
+    </p>
 
-  <p>
-    Busco constantemente evoluir minhas habilidades em programação e desenvolver
-    soluções cada vez mais completas, modernas e eficientes.
-  </p>
+    <p>
+      Possuo experiência com <strong>Python, PySide6, SQLite</strong> e automação de tarefas
+      utilizando ferramentas como <strong>Selenium</strong> e <strong>PyAutoGUI</strong>.
+      Atualmente estou aprofundando meus conhecimentos em <strong>Django</strong> para desenvolvimento Web,
+      como é o caso do meu site atual. Também desenvolvo projetos que envolvem integração
+      entre sistemas, manipulação de dados e criação de interfaces gráficas.
+    </p>
 
+    <p>
+      Busco constantemente evoluir minhas habilidades em programação.
+    </p>
+  </div>
+
+  <!-- STATS -->
+  <div class="sobre-stats">
+
+    <div class="stat-card">
+      <h3>+3</h3>
+      <span>Projetos Desenvolvidos</span>
+    </div>
+
+    <div class="stat-card">
+      <h3>+2</h3>
+      <span>Automações Empresariais</span>
+    </div>
+
+    <div class="stat-card">
+      <h3>+4</h3>
+      <span>Tecnologias Dominadas</span>
+    </div>
+
+  </div>
+
+</section>
+    
   <div class="trajetoria">
     <h2 class="titulo-trajetoria">Minha Trajetória na Programação</h2>
   <!-- COLUNA ESQUERDA -->
@@ -75,9 +100,60 @@
     </p>
 </div>
   
+<section class="objetivo-profissional">
+  <h2>Objetivo Profissional</h2>
+  <p>
+    Busco uma oportunidade na área de desenvolvimento de software, onde eu possa
+    aplicar meus conhecimentos em Python, automação de processos e desenvolvimento web,
+    contribuindo com soluções eficientes e evoluindo constantemente como profissional.
+  </p>
+  <p>
+    Tenho grande interesse em atuar com desenvolvimento backend, sistemas internos,
+    automações empresariais e projetos que gerem impacto real no negócio.
+  </p>
+
+</section>
 
   <div class="habilidades-section">
     <h2>Minhas Habilidades</h2>
+
+    <!-- 🔥 NOVA PARTE -->
+  <div class="skills-bar">
+    <div class="skill">
+      <span>Python</span>
+      <div class="barra"><div class="progresso python">75%</div></div>
+    </div>
+
+    <div class="skill">
+      <span>Django</span>
+      <div class="barra"><div class="progresso django">60%</div></div>
+    </div>
+
+    <div class="skill">
+      <span>SQLite</span>
+      <div class="barra"><div class="progresso sqlite">70%</div></div>
+    </div>
+
+    <div class="skill">
+      <span>HTML/CSS</span>
+      <div class="barra"><div class="progresso html">70%</div></div>
+    </div>
+    
+    <div class="skill">
+      <span>Wondershare-Filmora9</span>
+      <div class="barra"><div class="progresso filmora">95%</div></div>
+    </div>
+
+    <div class="skill">
+      <span>Windows</span>
+      <div class="barra"><div class="progresso windows">75%</div></div>
+    </div>
+
+    <div class="skill">
+      <span>GitHub</span>
+      <div class="barra"><div class="progresso github">75%</div></div>
+    </div>
+  </div>
 
     <div class="habilidades-grid">
       <div class="habilidade-card python">
@@ -145,5 +221,8 @@
     </a>
   </div>
 </div>
+<p class="frase-final">
+  Transformo ideias em soluções através da programação.
+</p>
 
 {% endblock %}
