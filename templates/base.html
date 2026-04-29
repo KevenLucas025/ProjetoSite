@@ -1329,6 +1329,100 @@
       background-position: -200% center;
     }
   }
+  /* FUNDO ESCURO */
+  .modal-aviso{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+  }
+
+  .modal-aviso.ativo{
+      display:flex;
+  }
+
+  /* CAIXA */
+  .modal-conteudo{
+    background:#111;
+    color:#fff;
+    padding:35px;
+    width:90%;
+    max-width:420px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow: 0 0 8px #22d3ee;
+    animation:subir .25s ease;
+    
+  }
+
+  /* ÍCONE */
+  .icone-aviso{
+    font-size:42px;
+    display:block;
+    margin-bottom:12px;
+  }
+
+  /* TÍTULO */
+  .modal-conteudo h3{
+    font-size:24px;
+    margin-bottom:10px;
+  }
+
+  /* TEXTO */
+  .modal-conteudo p{
+    color:#cfcfcf;
+    margin-bottom:22px;
+  }
+
+  /* BOTÃO */
+  .btn-fechar{
+    background:linear-gradient(90deg,#00c896,#00e0ff);
+    color:#000;
+    border:none;
+    padding:12px 28px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+  }
+
+  .btn-fechar:hover{
+    transform:scale(1.05);
+  }
+  /* BOTÃO EXCLUSIVO DO CARD KANBAN */
+  .btn-kanban{
+      background-color: white;
+      color: black;
+      padding: 16px 16px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s ease;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+  }
+
+  /* HOVER */
+  .btn-kanban:hover{
+      background-color: #2563eb;
+      color: white;
+  }
+
+
+  /* ANIMAÇÃO */
+  @keyframes subir{
+    from{
+      opacity:0;
+      transform:translateY(90px);
+    }
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
+  }
 
   @media (max-width: 768px){
     /* TÍTULO PRINCIPAL */
@@ -1516,6 +1610,13 @@
     .projeto-destaque .imagem-container{
       height: 240px;
     }
+    .imagem-container:hover .overlay{
+    opacity: 0; /* desativa hover fake */
+    }
+
+    .imagem-container.ativo .overlay{
+      opacity: 1;
+    }
 
     /* CARDS */
     .projeto-card{
@@ -1593,8 +1694,11 @@
     font-size: 20px;
     padding: 0 10px;
   }
+  
+  
 
   }
+  
 
   </style>
 </head>
@@ -1780,6 +1884,36 @@ if (canvas) {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   });
+  
+if (window.innerWidth <= 768) {
+
+  document.querySelectorAll(".imagem-container").forEach(card => {
+
+    card.addEventListener("click", function(e){
+
+      if (e.target.closest(".btn-overlay") || e.target.closest(".btn-kanban")) {
+        return;
+      }
+
+      document.querySelectorAll(".imagem-container").forEach(c => {
+        if (c !== card) c.classList.remove("ativo");
+      });
+
+      card.classList.toggle("ativo");
+    });
+
+  });
+
+  document.addEventListener("click", function(e){
+    if (!e.target.closest(".imagem-container")) {
+      document.querySelectorAll(".imagem-container").forEach(c=>{
+        c.classList.remove("ativo");
+      });
+    }
+  });
+
+}
+
 }
 
 </script>
