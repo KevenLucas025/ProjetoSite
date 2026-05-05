@@ -1423,6 +1423,15 @@
       transform:translateY(0);
     }
   }
+  
+  .aviso-mobile {
+    display: none;
+    background: #1f1f1f;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
 
   @media (max-width: 768px){
     /* TÍTULO PRINCIPAL */
@@ -1611,11 +1620,18 @@
       height: 240px;
     }
     .imagem-container:hover .overlay{
-    opacity: 0; /* desativa hover fake */
+    opacity: 0 !important; /* desativa hover fake */
+      }
+      
+    .overlay {
+      opacity: 0;
+      transition: 0.3s ease;
+      pointer-events: none;
     }
 
     .imagem-container.ativo .overlay{
       opacity: 1;
+      pointer-events: auto;
     }
 
     /* CARDS */
@@ -1738,9 +1754,7 @@
 
 
 </div>
-<div class="status-open">
-  ✔ Disponível para novas oportunidades
-</div>
+
 
 <div class="container">
   {% block content %}{% endblock %}
@@ -1885,34 +1899,38 @@ if (canvas) {
     canvas.height = window.innerHeight;
   });
   
-if (window.innerWidth <= 768) {
+document.addEventListener("DOMContentLoaded", function () {
 
-  document.querySelectorAll(".imagem-container").forEach(card => {
+  if (window.innerWidth <= 768) {
 
-    card.addEventListener("click", function(e){
+    document.querySelectorAll(".imagem-container").forEach(card => {
 
-      if (e.target.closest(".btn-overlay") || e.target.closest(".btn-kanban")) {
-        return;
-      }
+      card.addEventListener("click", function(e){
 
-      document.querySelectorAll(".imagem-container").forEach(c => {
-        if (c !== card) c.classList.remove("ativo");
+        if (e.target.closest(".btn-overlay") || e.target.closest(".btn-kanban")) {
+          return;
+        }
+
+        document.querySelectorAll(".imagem-container").forEach(c => {
+          if (c !== card) c.classList.remove("ativo");
+        });
+
+        card.classList.toggle("ativo");
       });
 
-      card.classList.toggle("ativo");
     });
 
-  });
+    document.addEventListener("click", function(e){
+      if (!e.target.closest(".imagem-container")) {
+        document.querySelectorAll(".imagem-container").forEach(c=>{
+          c.classList.remove("ativo");
+        });
+      }
+    });
 
-  document.addEventListener("click", function(e){
-    if (!e.target.closest(".imagem-container")) {
-      document.querySelectorAll(".imagem-container").forEach(c=>{
-        c.classList.remove("ativo");
-      });
-    }
-  });
+  }
 
-}
+});
 
 }
 

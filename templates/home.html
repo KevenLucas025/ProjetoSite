@@ -108,12 +108,15 @@
       <div class="overlay">
         <h3 class="overlay-titulo">Sistema de Gestão Kanban</h3>
 
-        <div class="overlay-botoes">
-          <button type="button"
-                  onclick="abrirAviso()"
-                  class="btn-kanban">
-            Acessar Projeto
-          </button>
+        <a href="https://kanban-82vd.onrender.com/" 
+            target="_blank" 
+            class="btn-kanban"
+            title="Abrirá em uma nova aba">
+            Ver Projeto Online 🌐
+          </a>
+          <div id="avisoMobile" class="aviso-mobile">
+          ⚠️ Este sistema ainda não é otimizado para dispositivos móveis.  
+          Para melhor experiência, acesse pelo computador.
         </div>
       </div>
     </div>
@@ -139,6 +142,7 @@
 
 
 <!-- MODAL PERSONALIZADO -->
+ <!--
 <div id="modalAviso" class="modal-aviso">
   <div class="modal-conteudo">
     <span class="icone-aviso">🚧</span>
@@ -150,6 +154,8 @@
       </button>
   </div>
 </div>
+ -->
+
 
 
 
@@ -220,14 +226,13 @@
     {% endfor %}
   </div>
 </section>
-<script>
-function abrirAviso() {
-    document.getElementById("modalAviso").classList.add("ativo");
-}
 
-function fecharAviso() {
-    document.getElementById("modalAviso").classList.remove("ativo");
-}
+<script>
+  if (window.innerWidth <= 768 && !sessionStorage.getItem("avisoMobile")) {
+    alert("Este sistema ainda não é otimizado para mobile. Use um computador para melhor experiência.");
+    sessionStorage.setItem("avisoMobile", "true");
+  }
 </script>
+
 
 {% endblock %}
