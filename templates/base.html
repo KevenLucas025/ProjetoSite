@@ -1423,7 +1423,33 @@
       transform:translateY(0);
     }
   }
-  
+  .mobile-botoes {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  /* BOTÕES */
+  .btn-mobile {
+    display: inline-block;
+    border: 1px solid #4dd0e1;
+    background: linear-gradient(135deg, #4dd0e1, #22d3ee);
+    color: black;
+    font-weight: bold;
+    padding: 14px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.25s;
+    text-align: center;
+  }
+  .btn-mobile .emoji {
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.4));
+  }
+
+ 
+
+
   
 
   @media (max-width: 768px){
@@ -1611,35 +1637,38 @@
       grid-template-columns: 1fr;
       gap: 20px;
     }
+    .projeto-destaque .imagem-container{
+      height: 220px;
+    }
 
-  /* 1. Reset de altura para mobile */
-    .imagem-container, 
-    .projeto-destaque .imagem-container {
+    /* IMAGENS */
+    .imagem-container{
       height: 220px;
       position: relative;
+      cursor: pointer;
+      overflow: hidden;
     }
-
-  /* 2. Estado NATURAL (Escondido) */
-    .imagem-container .overlay {
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-      display: flex !important; /* Mantém o flex mas invisível */
-      transition: opacity 0.3s ease;
-    }
-
-  /* 3. Desativa o Hover do Desktop (Garante que o dedo não ative o hover bugado) */
     .imagem-container:hover .overlay {
-      opacity: 0 !important;
+        opacity: 0 !important; 
     }
 
-  /* 4. ESTADO ATIVO (Clicado) - DEVE VIR POR ÚLTIMO */
+    .overlay {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.8);
+        opacity: 0 !important; /* Esconde por padrão */
+        visibility: hidden;
+        pointer-events: none; /* Bloqueia clique quando invisível */
+        transition: opacity 0.3s ease;
+        z-index: 5;
+    }
+
     .imagem-container.ativo .overlay {
       opacity: 1 !important;
-      visibility: visible !important;
-      pointer-events: auto !important;
-      background: rgba(0, 0, 0, 0.85) !important;
-      z-index: 99;
+      visibility: visible;
+      pointer-events: auto !important; /* LIBERA O CLIQUE NO BOTÃO */
     }
 
     /* CARDS */
@@ -1718,6 +1747,14 @@
     font-size: 20px;
     padding: 0 10px;
   }
+  .mobile-botoes {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    z-index: 10;
+    position: relative;
+    }
   
   
 
@@ -1907,33 +1944,30 @@ if (canvas) {
     canvas.height = window.innerHeight;
   });
   
-// FORA de qualquer IF, direto no final do script
 document.addEventListener("DOMContentLoaded", function () {
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-    if (isMobile) {
+    if (window.matchMedia("(max-width: 768px)").matches) {
         const containers = document.querySelectorAll(".imagem-container");
 
         containers.forEach(card => {
             card.addEventListener("click", function (e) {
-                // Impede fechar se clicar nos botões internos
-                if (e.target.classList.contains('btn-overlay') || e.target.closest('.btn-overlay')) {
-                    return;
+                // 🔥 SE CLICOU EM UM BOTÃO OU LINK, NÃO EXECUTA O TOGGLE DO CARD
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                    return; 
                 }
 
-                // Fecha os outros
+                // Fecha os outros cards
                 containers.forEach(c => {
                     if (c !== card) c.classList.remove("ativo");
                 });
 
-                // Alterna o atual
+                // Abre/Fecha o atual
                 card.classList.toggle("ativo");
             });
         });
 
         // Fecha ao clicar fora
         document.addEventListener("click", function (e) {
-            if (!e.target.closest(".imagem-container")) {
+            if (!e.target.closest(".imagem-container") && !e.target.closest(".mobile-botoes")) {
                 containers.forEach(c => c.classList.remove("ativo"));
             }
         });

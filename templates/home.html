@@ -1,233 +1,255 @@
-{% extends "base.html" %}
-{% load static %}
-{% block title %}Home | Keven{% endblock %}
-{% block content %}
+  {% extends "base.html" %}
+  {% load static %}
+  {% block title %}Home | Keven{% endblock %}
+  {% block content %}
 
-<!-- HERO -->
-<div class="hero hero-home">
-  <p class="hero-intro">Olá, muito prazer eu sou o <span>Keven</span></p>
-  <canvas id="particulas"></canvas>
-  <div class="animar">
-    <h1 class="hero-title">Desenvolvedor Python</h1>
-  </div>
-
-  <div class="hero-content-wrapper">
-    <div class="hero-minha-foto">
-      <img src="{% static 'minha_imagem/minha_foto.jpg' %}" alt="Foto Keven">
+  <!-- HERO -->
+  <div class="hero hero-home">
+    <p class="hero-intro">Olá, muito prazer eu sou o <span>Keven</span></p>
+    <canvas id="particulas"></canvas>
+    <div class="animar">
+      <h1 class="hero-title">Desenvolvedor Python</h1>
     </div>
-    
-    <p class="hero-subtitle">
-      Crio sistemas desktop, automações e soluções em Python voltadas
-      para produtividade, organização e resolução de problemas reais.
-    </p>
+
+    <div class="hero-content-wrapper">
+      <div class="hero-minha-foto">
+        <img src="{% static 'minha_imagem/minha_foto.jpg' %}" alt="Foto Keven">
+      </div>
+      
+      <p class="hero-subtitle">
+        Crio sistemas desktop, automações e soluções em Python voltadas
+        para produtividade, organização e resolução de problemas reais.
+      </p>
+    </div>
+
+    <div class="hero-acoes">
+      <a href="/sobre/" class="hero-btn">Conhecer mais</a>
+      <a href="/projetos/" class="btn-secundario">Ver projetos</a>
+    </div>
   </div>
 
-  <div class="hero-acoes">
-    <a href="/sobre/" class="hero-btn">Conhecer mais</a>
-    <a href="/projetos/" class="btn-secundario">Ver projetos</a>
-  </div>
-</div>
+    <div class="hero-social">
+      <a href="https://github.com/KevenLucas025" target="_blank" class="social-icon">
+      <img src="{% static 'imagens_habilidades/github_logo_branco.png' %}" alt="GitHub">
+      </a>
 
-  <div class="hero-social">
-    <a href="https://github.com/KevenLucas025" target="_blank" class="social-icon">
-    <img src="{% static 'imagens_habilidades/github_logo_branco.png' %}" alt="GitHub">
-    </a>
+      <a href="https://www.linkedin.com/in/keven-lucas-32949b205/" target="_blank" class="social-icon">
+      <img src="{% static 'imagens_habilidades/linkedin_logo_branco.png' %}" alt="LinkedIn">
+      </a>
+      
+    </div>
 
-    <a href="https://www.linkedin.com/in/keven-lucas-32949b205/" target="_blank" class="social-icon">
-    <img src="{% static 'imagens_habilidades/linkedin_logo_branco.png' %}" alt="LinkedIn">
-    </a>
-    
-  </div>
-
-<!-- PROJETO EM DESTAQUE -->
-<section class="secao-destaque">
-  <h2 class="titulo-secao">🚀 Projeto em destaque</h2>
+  <!-- PROJETO EM DESTAQUE -->
+  <section class="secao-destaque">
+    <h2 class="titulo-secao">🚀 Projeto em destaque</h2>
 
   {% for p in destaques|slice:":1" %}
   <div class="projeto-destaque">
 
-  <!-- IMAGEM COM HOVER -->
-  <div class="imagem-container">
-    {% if p.imagem %}
-      <img src="{% static p.imagem %}" alt="{{ p.titulo }}" class="projeto-img">
-    {% else %}
-      <div class="sem-imagem">Sem imagem</div>
-    {% endif %}
+    <!-- IMAGEM -->
+    <div class="imagem-container">
+      {% if p.imagem %}
+        <img src="{% static p.imagem %}" alt="{{ p.titulo }}" class="projeto-img">
+      {% else %}
+        <div class="sem-imagem">Sem imagem</div>
+      {% endif %}
 
-    <div class="overlay">
-      <h3 class="overlay-titulo">{{ p.titulo }}</h3>
+      <div class="overlay">
+        <h3 class="overlay-titulo">{{ p.titulo }}</h3>
 
-      <div class="overlay-botoes">
+        <div class="overlay-botoes">
+          {% if p.tem_download %}
+            {% if p.link_demo %}
+              <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
+                Download
+              </a>
+            {% endif %}
+          {% else %}
+            {% if p.link_github %}
+              <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
+                GitHub
+              </a>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIÇÃO -->
+    <div class="destaque-info">
+      <h3>{{ p.titulo }}</h3>
+
+      <p>
+        {{ p.descricao|default:"Projeto desenvolvido com foco em automação e produtividade." }}
+      </p>
+
+      <!-- 🔥 BOTÃO MOBILE (SÓ DESTE CARD) -->
+      <div class="mobile-botoes">
         {% if p.tem_download %}
           {% if p.link_demo %}
-            <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
-              Download
-            </a>
-          {% endif %}
-        {% else %}
-
-          {% if p.link_github %}
-            <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
-              GitHub
+            <a href="{{ p.link_demo }}" target="_blank" class="btn-mobile download">
+               Download do Sistema
             </a>
           {% endif %}
         {% endif %}
-
       </div>
+
     </div>
-  </div>
-
-  <!-- DESCRIÇÃO DO LADO -->
-  <div class="destaque-info">
-    <h3>{{ p.titulo }}</h3>
-
-    <p>
-      {{ p.descricao|default:"Projeto desenvolvido com foco em automação e produtividade." }}
-    </p>
-
-</div>
 
   </div>
   {% endfor %}
 </section>
-<section>
 
-<!-- HTML -->
+
+
+<!-- PROJETO EM DESENVOLVIMENTO -->
 <section class="projeto-em-desenvolvimento">
 
   <h2 class="titulo-secao">⚙️ Projeto em desenvolvimento</h2>
 
-  <div class="projeto-destaque">
+  <!-- 📌 KANBAN -->
+  <!-- PROJETO KANBAN -->
+<div class="projeto-destaque">
 
-    <div class="imagem-container">
+  <div class="imagem-container">
 
-      <img src="{% static 'imagens_projetos/imagem_kanban.png' %}" 
-           alt="Sistema Kanban" 
-           class="projeto-img">
+    <img src="{% static 'imagens_projetos/imagem_kanban.png' %}" 
+         alt="Sistema Kanban" 
+         class="projeto-img">
 
-      <div class="overlay">
-        <h3 class="overlay-titulo">Sistema de Gestão Kanban</h3>
+    <div class="overlay">
+      <h3 class="overlay-titulo">Sistema Kanban</h3>
 
-        <a href="https://kanban-82vd.onrender.com/" 
-            target="_blank" 
-            class="btn-kanban"
-            title="Abrirá em uma nova aba">
-            Ver Projeto Online 🌐
-          </a>
-          <div id="avisoMobile" class="aviso-mobile">
-          ⚠️ Este sistema ainda não é otimizado para dispositivos móveis.  
-          Para melhor experiência, acesse pelo computador.
-        </div>
+      <a href="https://kanban-82vd.onrender.com/" 
+         target="_blank" 
+         class="btn-kanban">
+        Acessar projeto online 
+      </a>
+
+      <div class="aviso-mobile">
+        ⚠️ O sistema ainda não está disponível para dispositivos móveis
+        Para uma melhor experiência acesse no computador.
       </div>
     </div>
 
-    <div class="destaque-info">
-      <h3>Sistema de Gestão com Metodologia Kanban</h3>
+  </div>
 
-      <p>
-        Projeto focado em organização de tarefas, produtividade de equipes
-        e acompanhamento de processos utilizando a metodologia Kanban.
-      </p>
+  <div class="destaque-info">
+    <h3>Sistema Kanban</h3>
 
-      <p>
-        O sistema contará com criação de cards, colunas dinâmicas,
-        movimentação de tarefas e gerenciamento visual completo.
-      </p>
+    <p>
+      Projeto focado em organização de tarefas, produtividade de equipes
+      e acompanhamento de processos utilizando a metodologia Kanban.
+    </p>
 
+    <p>
+      O sistema contará com criação de cards, colunas dinâmicas,
+      movimentação de tarefas e gerenciamento visual completo.
+    </p>
+
+    <!-- 🔥 BOTÃO MOBILE (SÓ KANBAN) -->
+    <div class="mobile-botoes">
+      <a href="https://kanban-82vd.onrender.com/" 
+         target="_blank" 
+         class="btn-mobile online">
+        Acessar Projeto Online 
+      </a>
     </div>
 
   </div>
 
-</section>
-
-
-<!-- MODAL PERSONALIZADO -->
- <!--
-<div id="modalAviso" class="modal-aviso">
-  <div class="modal-conteudo">
-    <span class="icone-aviso">🚧</span>
-    <h3>Projeto em Desenvolvimento</h3>
-    <p>Este projeto ainda está sendo desenvolvido.</p>
-
-    <button type="button" onclick="fecharAviso()" class="btn-fechar">
-        OK
-      </button>
-  </div>
 </div>
- -->
-
-
-
-
-
-<section class="projeto-futuro">
-
-  <h2 class="titulo-secao"> 📌 Próximos Projetos</h2>
-      
-      <div class="card-futuro">
-      <h3>Execução do Sistema de Gerenciamento em um local online</h3>
-      <p>O projeto será uma implementação do Sistema de Gerenciamento,
-      permitindo sua execução diretamente em um ambiente online.
-      </p>
-      <span>🚧  Em estudo</span>
-
-    </div>
-
-    <div class="card-futuro">
-      <h3>Monitor de Preços com Integração via API do Telegram</h3>
-      <p>
-        Desenvolvimento de um sistema de rastreamento de preços que utiliza Web
-        Scraping para coletar dados, armazena o histórico em SQLite e dispara
-        notificações automáticas para grupos específicos do Telegram sempre que uma
-        oferta atinge um valor alvo.
-      </p>
-      <span>🚧 Em estudo</span>
-    </div>
-
 
 </section>
-<!-- OUTROS PROJETOS -->
-<section>
-  <h2 class="titulo-secao">Outros projetos você encontra na aba <strong>Projetos</strong></h2>
 
-  <div class="grid">
-    {% for p in destaques|slice:"1:" %}
-    <div class="card projeto-card">
 
-      <div class="imagem-container">
-        {% if p.imagem %}
-          <img src="{% static p.imagem %}" alt="{{ p.titulo }}" class="projeto-img">
-        {% else %}
-          <div class="sem-imagem">Sem imagem</div>
-        {% endif %}
+  <!-- MODAL PERSONALIZADO -->
+  <!--
+  <div id="modalAviso" class="modal-aviso">
+    <div class="modal-conteudo">
+      <span class="icone-aviso">🚧</span>
+      <h3>Projeto em Desenvolvimento</h3>
+      <p>Este projeto ainda está sendo desenvolvido.</p>
 
-        <div class="overlay">
-          <h3 class="overlay-titulo">{{ p.titulo }}</h3>
+      <button type="button" onclick="fecharAviso()" class="btn-fechar">
+          OK
+        </button>
+    </div>
+  </div>
+  -->
 
-          <div class="overlay-botoes">
-            {% if p.tem_download %}
-              {% if p.link_demo %}
-                <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
-                  Download
-                </a>
+
+
+
+
+  <section class="projeto-futuro">
+
+    <h2 class="titulo-secao"> 📌 Próximos Projetos</h2>
+        
+        <div class="card-futuro">
+        <h3>Execução do Sistema de Gerenciamento em um local online</h3>
+        <p>O projeto será uma implementação do Sistema de Gerenciamento,
+        permitindo sua execução diretamente em um ambiente online.
+        </p>
+        <span>🚧  Em estudo</span>
+
+      </div>
+
+      <div class="card-futuro">
+        <h3>Monitor de Preços com Integração via API do Telegram</h3>
+        <p>
+          Desenvolvimento de um sistema de rastreamento de preços que utiliza Web
+          Scraping para coletar dados, armazena o histórico em SQLite e dispara
+          notificações automáticas para grupos específicos do Telegram sempre que uma
+          oferta atinge um valor alvo.
+        </p>
+        <span>🚧 Em estudo</span>
+      </div>
+
+
+  </section>
+  <!-- OUTROS PROJETOS -->
+  <section>
+    <h2 class="titulo-secao">Outros projetos você encontra na aba <strong>Projetos</strong></h2>
+
+    <div class="grid">
+      {% for p in destaques|slice:"1:" %}
+      <div class="card projeto-card">
+
+        <div class="imagem-container">
+          {% if p.imagem %}
+            <img src="{% static p.imagem %}" alt="{{ p.titulo }}" class="projeto-img">
+          {% else %}
+            <div class="sem-imagem">Sem imagem</div>
+          {% endif %}
+
+          <div class="overlay">
+            <h3 class="overlay-titulo">{{ p.titulo }}</h3>
+
+            <div class="overlay-botoes">
+              {% if p.tem_download %}
+                {% if p.link_demo %}
+                  <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
+                    Download
+                  </a>
+                {% endif %}
+              {% else %}
+                {% if p.link_github %}
+                  <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
+                    GitHub
+                  </a>
+                {% endif %}
               {% endif %}
-            {% else %}
-              {% if p.link_github %}
-                <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
-                  GitHub
-                </a>
-              {% endif %}
-            {% endif %}
+            </div>
           </div>
         </div>
+
       </div>
-
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-</section>
+  </section>
 
 
 
 
-{% endblock %}
+  {% endblock %}
