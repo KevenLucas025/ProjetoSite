@@ -1,0 +1,53 @@
+[
+{
+  "model": "portfolio.projeto",
+  "pk": 1,
+  "fields": {
+    "titulo": "Sistema de Gerenciamento",
+    "descricao": "",
+    "tecnologias": "Python, PySide6, SQLite, QtDesigner",
+    "link_github": "https://github.com/KevenLucas025/Sistema-de-Gerenciamento---Download/releases/download/v1.1.18/Sistema-de-Gerenciamento.zip",
+    "link_demo": "https://github.com/KevenLucas025/Sistema-de-Gerenciamento---Download/releases/download/v1.1.18/Sistema-de-Gerenciamento.zip",
+    "imagem": "projetos/SIstema_de_Gerenciamento.png",
+    "destaque": true,
+    "criado_em": null,
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": true
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 2,
+  "fields": {
+    "titulo": "Cadastro de Pessoas 2",
+    "descricao": "",
+    "tecnologias": "Python",
+    "link_github": "https://github.com/KevenLucas025/ProjetoCDP",
+    "link_demo": "",
+    "imagem": "projetos/Cadastro_de_Pessoas.jpg",
+    "destaque": false,
+    "criado_em": "2026-03-10",
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 3,
+  "fields": {
+    "titulo": "Cadastro de Pessoas",
+    "descricao": "",
+    "tecnologias": "Python",
+    "link_github": "https://github.com/KevenLucas025/ProjetoCadastro",
+    "link_demo": "",
+    "imagem": "projetos/Cadastro_de_Pessoas_PZMay97.jpg",
+    "destaque": false,
+    "criado_em": null,
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false
+  }
+}
+]

@@ -1,0 +1,2015 @@
+<!doctype html>
+<html lang="pt-br">
+{% load static %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="DQWjH2m3Bad-2Zj9-w8rQlr2U_BShtGe5PCT9YxjgAw" />
+  <meta name="description"
+  content="Keven Lucas é Desenvolvedor Python em Campinas. Portfólio com projetos em Django, automações, sistemas desktop e soluções web.">
+
+  <title>Keven Lucas | Python Developer | Portfólio Django Campinas</title>
+
+
+  <link rel="icon" type="image/png" href="{% static 'imagem_navegador/logo_site.png' %}">
+
+  
+  <style>
+  
+  body{
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    font-family: system-ui, Arial;
+    min-height: 100vh; /* Ocupa no mínimo 100% da altura da tela */
+    margin: 0 auto;
+    padding: 30px;
+    line-height: 1.5;
+    background-color: #0f0f0f;
+    color: #e5e5e5;
+    overflow-x: hidden;
+
+    display: block;
+    flex-direction: column;
+  }
+  body::before{
+    content: "";
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
+    width: 600px;
+    height: 600px;
+  
+    pointer-events: none;
+    z-index: 0;
+  }
+  #particulas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* atrás de tudo */
+  }
+  body.loaded{
+    opacity: 1;
+  }
+  .container {
+    flex: 1; 
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 30px;
+    box-sizing: border-box;
+  }
+  @keyframes flutuar {
+    0% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50%{
+      transform: translateY(15px) rotate(0deg);
+    }
+    100%{
+      transform: translateY(0px) rotate(0deg);
+    }
+  }
+  .hero-minha-foto img{
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #4dd0e1;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    position: relative;
+    top: -200px;
+    right: 130px;
+
+    animation: flutuar 3s ease-in-out infinite;
+  }
+  .status-open{
+    position: relative;
+    background: #111;
+    color: #4dd0e1;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    max-width: 420px;
+    margin: 25px auto 10px auto; /* Centraliza e dá espaço */
+    overflow: hidden;
+    z-index: 1;
+  }
+  .status-open::before{
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 12px;
+
+    background: linear-gradient(90deg,transparent,#22d3ee,#ffffff,#22d3ee);
+    background-size: 300% 300%;
+    animation: brilhoBorda 4s linear infinite;
+    z-index: -2;
+  }
+  /* FUNDO INTERNO */
+  .status-open::after{
+      content: "";
+      position: absolute;
+      inset: 2px;
+      background: #111;
+      border-radius: 10px;
+      z-index: -1;
+  }
+
+  @keyframes brilhoBorda{
+    0%{
+        background-position: 200% 0;
+    }
+    100%{
+        background-position: -200% 0;
+    }
+  }
+  
+  /* FUNDO OCUPANDO A TELA TODA */
+  .nav-bg{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+
+    width: auto;
+    background: transparent;
+  }
+
+  .logo-background img{
+    height: 80px;
+    object-fit: contain;
+    transition: 0.3s;
+    position: relative;
+
+    right: 24px;
+    top: -13px;
+  }
+
+  .logo-background img:hover{
+    transform: scale(1.20);
+    opacity: 0.9;
+  }
+
+  nav{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    height: 45px;
+
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+  }
+
+  /*Botões de navegação*/
+  nav a{
+    color: #e5e5e5;
+    font-weight: 500px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.25s ease;
+  }
+
+  nav > a{
+    display: none;
+  }
+  
+  /*Botões de navegação passando mouse por cima*/
+  nav > a:hover{
+    background-color:  #4dd0e1;
+    color: black;
+  }
+
+  /*Card da home*/
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    padding: 20px;
+  }
+
+  /*layout dos cards*/
+  .card{
+    background-color: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .titulo-secao-contato{
+    text-align: center;
+  }
+
+  .titulo-secao-contato::after{
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #4dd0e1;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 10px;
+  }
+
+  .titulo-secao-projetos{
+    text-align: center;
+  }
+
+  .titulo-secao-projetos::after{
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #4dd0e1;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 10px;
+  }
+
+  .tag{
+    display: inline-block;
+    padding: 2px 8px;
+    border: 3px solid #ccc;
+    border-radius: 999px;
+    font-size: 12px;
+    margin-right: 6px;
+  }
+
+  .projeto-card{
+    overflow: hidden;
+    width: 260px;
+    height: 280px;
+    margin: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  }
+  .projeto-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  }
+
+  .imagem-container{
+    position: relative;
+    width: 100%;
+    height: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    
+  }
+
+  .projeto-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .overlay{
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .imagem-container:hover .overlay{
+    opacity: 1;
+  }
+  .imagem-container:hover .projeto-img{
+    transform: scale(1.05);
+  }
+  .btn-overlay{
+    background-color: white;
+    color: black;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s ease;
+  }
+  .btn-overlay:hover{
+    background-color: #2563eb;
+    color: white;
+  }
+  .sem-imagem{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-weight: bold;
+    background-color: #1f1f1f;
+  }
+  .destaque-card{
+    overflow: hidden;
+    width: 700px;
+    height: 380px;
+    margin: 0 auto;
+  }
+  .destaque-card .imagem-container{
+    height: 380px;
+  }
+  /*Texto da trajetória*/
+  .trajetoria {
+    column-count: 2;       /* Define 2 colunas automáticas */
+    column-gap: 40px;      /* Espaço entre as colunas */
+    text-align: justify;
+    column-fill: balance;
+  }
+  /* Isso remove qualquer recuo estranho no primeiro item de cada coluna */
+  .trajetoria p:first-child {
+    margin-top: 0;
+    
+  }
+  /*Texto da trajetória*/
+  .trajetoria p {
+    break-inside: avoid; 
+    margin-top: 0;
+    margin-bottom: 0.5em; /* Controla o espaço entre os parágrafos */
+  }
+  /*Título da trajetória*/
+  .titulo-trajetoria {
+    column-span: all;      /* Faz o título atravessar todas as colunas */
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  /*Risco em baixo do título*/
+  .titulo-trajetoria::after{
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #4dd0e1;
+    display: block;
+    margin: 12px auto 0;
+    border-radius: 10px;
+
+  }
+
+  
+  /*Título minhas habilidades*/
+  h2{
+    text-align: center;
+  }
+  .footer {
+    /* Remova o position absolute e o top fixo */
+    text-align: center;
+    padding: 40px 18px 20px 18px; /* Espaçamento interno */
+    margin-top: auto; /* ESTA É A MÁGICA: empurra o footer para o fim do espaço disponível */
+    
+    color: #9ca3af;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    z-index: 10;
+  }
+  
+ 
+  /*Títulos principais da home*/
+  .hero-home{
+    margin: 80px auto 100px;
+    text-align: center; /* tira do centro */
+    max-width: 1400px;
+    padding-left: 60px 20px; /* desloca pro lado */
+    position: relative;
+    overflow: visible; /* Garante que o título não seja cortado */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-badge{
+    display: inline-block;
+    background-color: #151a2d;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+  }
+  
+  /*Texto acima do desenvolvedor python*/
+  .hero-intro{
+    font-size: 24px; /* Aumentado */
+    font-weight: 500;
+    color: #e5e5e5;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  
+  .hero-intro span{
+    color: #22d3ee;
+    font-weight: bold;
+  }
+
+  /*Título principal Desenvolvedor Python Junior*/
+  .hero-title {
+    font-size: clamp(10px, 8vw, 90px) !important;
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -2px;
+    margin: 10px 0 30px 0;
+    color: block;
+
+    /* Gradiente: Preto -> Branco -> Preto */
+    background: linear-gradient(
+        to right, 
+        #111 20%, 
+        #fff 50%, 
+        #111 80%
+    );
+
+    background-size: 200% auto;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    white-space: nowrap; 
+    overflow-wrap: anywhere;
+
+    animation: passarBrilho 5s linear infinite !important;
+  }
+
+  @keyframes passarBrilho {
+    0% {
+        background-position: 100% center;
+    }
+    100% {
+        background-position: -100% center;
+    }
+  }
+  /* Container Flex para alinhar foto e texto */
+  .hero-content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px; /* Espaço entre a foto e o texto */
+    margin: 40px 0;
+    max-width: 1000px;
+    position: relative;
+    right: 50px;
+  }
+
+  /* Resetando a posição da foto */
+  .hero-minha-foto img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #4dd0e1;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    /* Remova o top e right antigos */
+    position: static; 
+  }
+
+  .hero-subtitle{
+    max-width: 3000px;
+    margin: 16px auto 32px;
+    font-size: clamp(18px, 2vw, 26px) !important;
+    color: #cbd5e1;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  /*botões de conhecer mais*/
+  .hero-btn{
+    display: inline-block;
+    background: linear-gradient(135deg, #4dd0e1, #22d3ee);
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 16px 42px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+
+  }
+
+  /*botões de email e cv*/
+  .btn-cv,
+  .btn-email{
+    display: inline-block;
+    background-color: #4dd0e1;
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 14px 36px;
+    border-radius: 8px;
+    transition: 0.25s ease;
+  }
+  /*botões de email e cv*/
+  .btn-cv:hover,
+  .btn-email:hover{
+    background-color: #22d3ee;
+    transform: translateY(-2px);
+  }
+  /*botões de email e cv*/
+  .hero-btn:hover{
+    background-color: #22d3ee;
+    transform: translateY(-2px);
+  }
+  .sobre-acoes{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+
+  .habilidades-section {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .habilidades-section h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: white;
+  }
+  .habilidades-section h2::after {
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #4dd0e1;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 10px;
+  }
+
+  .habilidades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+
+  /*botoes da home,github e linkedin*/
+  .social-icon{
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease;
+  }
+  /*botoes da home,github e linkedin*/
+  .social-icon img {
+    width: auto;      /* Deixa a largura livre */
+    height: 100%;     /* Força os dois a terem a mesma ALTURA exata */
+    max-width: 100%;  /* Garante que não ultrapasse o box */
+    object-fit: contain; /* Mantém a proporção sem achatar */
+  
+  }
+  .social-icon:hover img{
+    filter: brightness(0) saturate(100%) invert(73%) sepia(36%) saturate(641%) hue-rotate(147deg) brightness(94%) contrast(92%);
+  }
+ 
+  /*ìcones da home,github e linkedin*/
+  .hero-social{
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    display: flex;
+    margin-top: -50px;
+    width: 100%; /* Ocupa a largura total para o justify funcionar */
+    }
+
+    /* AÇÕES HERO / Botão Ver Projeto e Conhecer Mais */
+  .hero-acoes{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: -30px;
+    position: relative;
+    right: -30px;
+  }
+
+  .habilidade-card {
+    height: 140px;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 14px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .habilidade-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    transition: background 0.3s ease;
+  }
+
+  .habilidade-card span {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .habilidade-card:hover {
+    transform: translateY(-6px) scale(1.02);
+  }
+
+  .habilidade-card:hover::before {
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  /* Imagens de fundo */
+  .habilidade-card.python {
+    background-image: url('/static/imagens_habilidades/Python_Imagem.png');
+  }
+
+  .habilidade-card.html {
+    background-image: url('/static/imagens_habilidades/icone-html-orange.png');
+  }
+
+  .habilidade-card.css {
+    background-image: url('/static/imagens_habilidades/css_logo.png');
+  }
+
+  .habilidade-card.django {
+    background-image: url('/static/imagens_habilidades/django_logo.png');
+  }
+
+  .habilidade-card.sqlite {
+    background-image: url('/static/imagens_habilidades/SQLite-Logo.png');
+  }
+
+  .habilidade-card.github {
+    background-image: url('/static/imagens_habilidades/github_logo.png');
+  }
+
+  .habilidade-card.windows{
+    background-image: url('/static/imagens_habilidades/windows_logo.png');
+  }
+  .habilidade-card.filmora9{
+    background-image: url('/static/imagens_habilidades/filmora.png');
+  }
+
+  /*Botões dentro dos cards*/
+  .overlay-botoes{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .btn-detalhes{
+    border: none;
+    cursor: pointer;
+  }
+
+  /*Janela dentro dos cards*/
+  .modal{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+  }
+
+  .modal.ativo{
+    display: flex;
+  }
+  body.modal-open {
+    overflow: hidden;
+  }
+  .modal-sugestao{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    padding: 20px;
+  }
+
+  .modal-sugestao.ativo{
+    display: flex !important;
+  }
+
+  /* Reutilizando o estilo do conteúdo para manter o padrão visual */
+  .modal-sugestao .modal-conteudo {
+      background: #161616;
+      color: #e5e5e5;
+      width: 100%;
+      max-width: 500px; /* Um pouco menor que o de projetos */
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      border: 1px solid #2a2a2a;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+  }
+
+  .modal-conteudo{
+    background: #161616;
+    color: #e5e5e5;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+    text-align: left;
+  }
+
+  .modal-conteudo h2{
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 18px;
+    color: #cbd5e1;
+  }
+
+  .modal-conteudo p{
+    color: #cbd5e1;
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  .modal-fechar{
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .modal-botoes{
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  #modalDescricao,
+  #modalTecnologias{
+    white-space: pre-line;
+  }
+  .modal-video-conteudo {
+    max-width: 900px;
+  }
+  .video-wrapper {
+    width: 100%;
+    margin-top: 20px;
+  }
+  #videoProjeto{
+    width: 100%;
+    max-height: 70vh;
+    border-radius: 12px;
+    background: black;
+    display: block;
+  }
+  .contato-item{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .contato-item img{
+    width: 28px;
+    height: 28px;
+  }
+  
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animar {
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+  }
+  /* BOTÃO SECUNDÁRIO */
+  .btn-secundario{
+    display: inline-block;
+    border: 1px solid #4dd0e1;
+    color: #4dd0e1;
+    padding: 14px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.25s;
+  }
+
+  /* BOTÃO SECUNDÁRIO */
+  .btn-secundario:hover{
+    background-color: #4dd0e1;
+    color: black;
+  }
+
+  
+
+  /* TÍTULOS DE SEÇÃO */
+  .titulo-secao{
+    text-align: center;
+    font-size: 28px;
+    margin: 60px 0 30px;
+    position: relative;
+  }
+
+  .titulo-secao::after{
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #4dd0e1;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 10px;
+  }
+
+  /* PROJETO DESTAQUE */
+  .projeto-destaque{
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .destaque-img img{
+    width: 100%;
+    border-radius: 12px;
+  }
+  /* Faz o destaque maior */
+  .projeto-destaque .imagem-container{
+    height: 380px;
+  }
+
+  .destaque-info h3{
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .destaque-info p{
+    color: #cbd5e1;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .botoes-destaque{
+    display: flex;
+    gap: 12px;
+  }
+  .menu-toggle{
+    position: absolute;
+    right: 15px;  /*  move pra esquerda/direita */
+    top: 16px;    /*  move pra cima/baixo */
+
+    width: 30px;   /* 🔥 ESSENCIAL */
+    height: 30px;  /* 🔥 ESSENCIAL */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    padding: 0;
+  }
+    /* 🔥 efeito ao clicar */
+  .menu-toggle:active{
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  /* linhas */
+  .menu-toggle span{
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+
+    transition: all 0.3s ease;
+  }
+  /* quando ativo */
+  .menu-toggle.ativo span:nth-child(1){
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .menu-toggle.ativo span:nth-child(2){
+    opacity: 0;
+  }
+
+  .menu-toggle.ativo span:nth-child(3){
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+  
+  /* menu escondido */
+  .menu-dropdown{
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    width: 200px;
+    text-align: center;
+
+    background: #1a1a1a;
+    
+    display: flex; 
+    flex-direction: column;
+
+    overflow: hidden;
+
+    max-height: 0; /* começa fechado */
+
+    padding: 0;
+    gap: 0;
+    border-width: 0; 
+
+    transition: all 0.50s ease;  
+  }
+  /* quando ativo */
+  .menu-dropdown.ativo{
+    opacity: 1;
+    max-height: 300px;
+    gap: 10px;
+    padding: 10px; 
+    border-width: 1px;
+    text-align: center;
+
+  }
+  .menu-dropdow a{
+    color: white;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 10px;
+    display: block;
+  }
+  .menu-dropdown a:hover{
+    background: #4dd0e1;
+    color: black;
+  }
+
+  #formSugestao{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  #formSugestao label{
+    font-size: 14px;
+    color: #cbd51e;
+    text-align: left;
+
+  }
+  #formSugestao input,
+  #formSugestao select,
+  #formSugestao textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #2a2a2a;
+    background: #1a1a1a;
+    color: white;
+    font-size: 14px;
+  }
+
+  #formSugestao input:focus,
+  #formSugestao select:focus,
+  #formSugestao textarea:focus {
+    outline: none;
+    border-color: #4dd0e1;
+  }
+
+  .acoes-form {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+
+  .btn-enviar {
+    background: linear-gradient(135deg, #4dd0e1, #22d3ee);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn-enviar:hover {
+    transform: translateY(-2px);
+  }
+  /*Botão enviar sugestão*/
+  #btnEnviar{
+    position: relative;
+    padding: 12px 24px;
+    border: none;
+    background: #4dd0e1;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  /*Faz o botão de enviar virar um looping quando tiver enviando a sugestão*/
+  .spinner{
+    display: none;
+    width: 16px;
+    height: 16px;
+
+    border: 2px solid rgba(0,0,0,0.2);
+    border-top: 3px solid black;
+
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+
+    position: absolute;
+    right: 15px;
+    top: 24%;
+    transform: translateY(-50%);
+  }
+  /* 1. O botão ganha o espaço extra (padding) */
+  #btnEnviar.enviando {
+      padding-right: 45px !important; 
+      padding-left: 20px !important;
+  }
+
+  /* 2. O spinner apenas aparece, sem ter padding próprio */
+  #btnEnviar.enviando .spinner {
+      display: block;
+  }
+  @keyframes girar {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #22c55e;
+    color: white;
+    padding: 16px 22px;
+    border-radius: 10px;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .projeto-futuro{
+    margin-top: 80px;
+  }
+  .card-futuro{
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 14px;
+    padding: 28px;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+  }
+  .card-futuro h3{
+    color: white;
+    margin-bottom: 15px;
+  }
+  .card-futuro p{
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+  .card-futuro span{
+    display: inline-block;
+    margin-top: 15px;
+    color: #4dd0e1;
+    font-weight: bold;
+  }
+  .sobre-layout{
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 50px;
+    align-items: start;
+    margin-top: 40px;
+  }
+  /* TEXTO */
+  .sobre-texto{
+    position: relative;
+    left: -100px;
+    text-align: center;
+    font-size: 20px;
+  }
+  .sobre-texto h1::after{
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #4dd0e1;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 10px;
+  }
+  .sobre-stats{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+    margin: 50px auto;
+    max-width: 800px;
+  }
+  .stat-card{
+    background:#111;
+    border:1px solid #29d9ff;
+    padding:5px;
+    border-radius:14px;
+    text-align:center;
+    transition:.3s;
+  }
+  .stat-card span{
+    display: block;
+    margin-top: -5px;
+  }
+  .stat-card h3{
+    display: block;
+    margin-top: 5px;
+  }
+  
+  .stat-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 20px rgba(41,217,255,.25);
+  }
+  .stat-card h3{
+    color:#29d9ff;
+    font-size:34px;
+    margin-bottom:10px;
+  }
+
+  .stat-card span{
+      color:#fff;
+  }
+  .objetivo-profissional{
+    margin: 80px;
+    max-width: 900px;
+    text-align: center;
+    background: #111;
+    border: 1px solid #2d2d2d;
+    border-radius: 18px;
+    padding: 40px;
+  }
+  .objetivo-profissional h2{
+    font-size: 30px;
+    margin-bottom: 25px;
+  }
+  .objetivo-profissional h2::after{
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #4dd0e1;
+    display: block;
+    margin: 12px auto 0;
+    border-radius: 10px;
+  }
+  .objetivo-profissional p{
+    color: #cbd5e1;
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 18px;
+  }
+  .skiils-bar{
+    max-width: 700px;
+    margin: 30px auto 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+  }
+  .skill span{
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    text-align: left;
+  }
+  .barra{
+    width: 100%;
+    height: 28px;
+    background: #1f1f1f;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progresso{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+
+
+    border-radius: 999px;
+    background: linear-gradient(90deg,#4dd0e1,#22d3e2);
+
+  }
+  .python{ width: 75%; }
+  .django{ width: 60%; }
+  .sqlite{ width: 70%; }
+  .html{ width: 60%; }
+  .wondershare-filmora{ width: 95%;}
+  .windows{ width: 75%;}
+  .github{ width: 75%;}
+  
+  .frase-final{
+    text-align: center;
+    margin: 70px auto 20px;
+    font-size: 24px;
+    font-weight: 700;
+    max-width: 800px;
+    line-height: 1.5;
+    background-clip: text;
+
+    background: linear-gradient(90deg, #ffffff, #4dd0e1, #ffffff);
+    background-size: 200% auto;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: brilhoFrase 5s linear infinite;
+  }
+  .cotato-page{
+    max-width: 1100px;
+    margin: auto;
+  }
+  .hero-contato{
+    text-align: center;
+    margin-top: 40px;
+  }
+  /*Texto vamos conversar*/
+  .badge-contato{
+    display: inline-block;
+    background: #111;
+    color: #4dd0e1;
+    padding: 10px 18px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  /*Subtitulo abaixo do texto de cima*/
+  .subtitulo-contato{
+    max-width: 700px;
+    margin: auto;
+    color: #cbd5e1;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+  .contato-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 20px;
+    margin-top: 50px;
+  }
+  .contato-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 20px;
+    margin-top: 50px;
+  }
+  .contato-card{
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-radius: 18px;
+    padding: 25px;
+    text-decoration: none;
+    transition: .3s;
+  }
+  .contato-card:hover{
+    transform: translateY(-8px);
+    border-color: #4dd0e1;
+    box-shadow: 0 0 25px rgba(77,208,225,.15);
+  }
+  
+  .contato-item{
+      display: flex;
+      gap: 15px;
+      align-items: center;
+  }
+  .contato-item img{
+    width: 42px;
+    height: 42px;
+  }
+  .contato-item h3{
+    color: white;
+    margin: 0;
+  }
+  .contato-item p{
+    color: #9ca3af;
+    margin: 3px 0 0;
+    font-size: 14px;
+  }
+
+  @keyframes brilhoFrase{
+    0%{
+      background-position: 200% center;
+    }
+    100%{
+      background-position: -200% center;
+    }
+  }
+  /* FUNDO ESCURO */
+  .modal-aviso{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+  }
+
+  .modal-aviso.ativo{
+      display:flex;
+  }
+
+  /* CAIXA */
+  .modal-conteudo{
+    background:#111;
+    color:#fff;
+    padding:35px;
+    width:90%;
+    max-width:420px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow: 0 0 8px #22d3ee;
+    animation:subir .25s ease;
+    
+  }
+
+  /* ÍCONE */
+  .icone-aviso{
+    font-size:42px;
+    display:block;
+    margin-bottom:12px;
+  }
+
+  /* TÍTULO */
+  .modal-conteudo h3{
+    font-size:24px;
+    margin-bottom:10px;
+  }
+
+  /* TEXTO */
+  .modal-conteudo p{
+    color:#cfcfcf;
+    margin-bottom:22px;
+  }
+
+  /* BOTÃO */
+  .btn-fechar{
+    background:linear-gradient(90deg,#00c896,#00e0ff);
+    color:#000;
+    border:none;
+    padding:12px 28px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+  }
+
+  .btn-fechar:hover{
+    transform:scale(1.05);
+  }
+  /* BOTÃO EXCLUSIVO DO CARD KANBAN */
+  .btn-kanban{
+      background-color: white;
+      color: black;
+      padding: 16px 16px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s ease;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+  }
+
+  /* HOVER */
+  .btn-kanban:hover{
+      background-color: #2563eb;
+      color: white;
+  }
+
+
+  /* ANIMAÇÃO */
+  @keyframes subir{
+    from{
+      opacity:0;
+      transform:translateY(90px);
+    }
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
+  }
+  .mobile-botoes {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  /* BOTÕES */
+  .btn-mobile {
+    display: inline-block;
+    border: 1px solid #4dd0e1;
+    background: linear-gradient(135deg, #4dd0e1, #22d3ee);
+    color: black;
+    font-weight: bold;
+    padding: 14px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.25s;
+    text-align: center;
+  }
+  .btn-mobile .emoji {
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.4));
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .badge {
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #3a3a3a;
+    transition: 0.2s;
+  }
+
+  .badge:hover {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+  }
+
+
+  
+
+  @media (max-width: 768px){
+    /* TÍTULO PRINCIPAL */
+    .hero-title {
+      font-size: 36px !important;
+      white-space: normal !important; /* 🔥 ESSENCIAL */
+      line-height: 1.3;
+      letter-spacing: -1px;
+      text-align: center;
+      width: 100%;
+
+    }
+    .aviso-mobile {
+      display: none;
+      background: #1f1f1f;
+      color: #fff;
+      padding: 12px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    .habilidades-grid{
+      display: grid;
+      grid-template-columns: repeat(2, 140px);
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+    .habilidades-section{
+      padding: 15px;
+      text-align: center;
+    }
+    .habilidade-card span{
+      font-size: 15px;
+      text-align: center;
+    }
+    .logo-background img{
+      height: 80px;
+      object-fit: contain;
+      transition: 0.3s;
+      position: relative;
+
+      right: 24px;
+      top: 6px;
+    }
+    .logo-background img:hover{
+      transform: scale(1.20);
+      opacity: 0.9;
+    }
+
+    /* BODY */
+    body{
+      padding: 15px;
+    }
+
+    /* NAVBAR */
+     nav {
+      display: flex-end !important;
+      padding: 10px 20px;
+      align-items: center;
+      padding: 15px 20px;
+      position: relative; /* Base para o dropdown */
+      min-height: 30px;
+    }
+
+    nav > a{
+      display: none; /*Esconde a barra do background dos botões de navegação*/
+    }
+    .nav-bg{
+      position: fixed;
+      top: 12px;
+      left: 10px;
+      z-index: 999;
+      width: 100%;
+      right: 10px;
+      width: auto;
+      border-radius: 20px;
+    }
+    .titulo-secao-projetos{
+      position: relative;
+      top: 45px;
+    }
+
+    /* REMOVE BUG DE SOBREPOSIÇÃO */
+    .hero,
+    .hero-home{
+      position: relative;
+      z-index: 2;
+      margin: 60px auto 50px;
+    }
+    /* Mostra o botão ☰ */
+    .menu-toggle{
+      top: 25px; 
+      right: 15px; 
+      height: 22px;
+    }
+    /* menu escondido */
+    .menu-dropdown{
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      width: 200px;
+      text-align: center;
+
+      background: #1a1a1a;
+      
+      display: flex; 
+      flex-direction: column;
+
+      overflow: hidden;
+
+      max-height: 0; /* começa fechado */
+
+      padding: 0;
+      gap: 0;
+      border-width: 0; 
+
+      transition: all 0.50s ease;  
+    }
+
+    .menu-dropdown.ativo {
+      opacity: 1;
+      gap: 10px;
+      padding: 10px; 
+      border-width: 1px;
+    }
+
+    .menu-dropdown a {
+      display: block !important; /* 🔥 Faz os links aparecerem */
+      color: white !important;
+      padding: 12px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    /* SUBTÍTULO */
+    .hero-subtitle{
+      font-size: 16px;
+      padding: 0 5px;
+    }
+
+    /* Btões Ver Projetos e Conhecer Mais */
+    .hero-acoes{
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* centraliza */
+      gap: 20px;
+      width: 100%;
+      padding: 0 20px; /* Evita que encoste nas bordas da tela */
+      box-sizing: border-box;
+      position: relative;
+      right: 0;
+
+    }
+
+    .hero-btn, 
+    .btn-secundario {
+      width: 100%;        /* Largura total do container */
+      max-width: 300px;   /* Mas não deixa ficar gigante em tablets */
+      box-sizing: border-box; /* Garante que o padding não "estoure" a largura */
+      text-align: center;
+      padding: 16px 20px; /* Padding interno menor para não cortar */
+    }
+
+    /* Botões GitHub e Linkedin */
+    .hero-social{
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      display: flex;
+      margin-top: 30px;
+      width: 100%; /* Ocupa a largura total para o justify funcionar */
+    }
+
+    /* GRID (remove o empurrão lateral) */
+    .grid{
+      padding-left: 0;
+      justify-content: center;
+    }
+
+    /* PROJETO DESTAQUE */
+    .projeto-destaque{
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .projeto-destaque .imagem-container{
+      height: 220px;
+    }
+
+    /* IMAGENS */
+    .imagem-container{
+      height: 220px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .imagem-container:hover .overlay {
+        opacity: 0 !important; 
+    }
+
+    .overlay {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.8);
+        opacity: 0 !important; /* Esconde por padrão */
+        visibility: hidden;
+        pointer-events: none; /* Bloqueia clique quando invisível */
+        transition: opacity 0.3s ease;
+        z-index: 5;
+    }
+
+    .imagem-container.ativo .overlay {
+      opacity: 1 !important;
+      visibility: visible;
+      pointer-events: auto !important; /* LIBERA O CLIQUE NO BOTÃO */
+    }
+
+    /* CARDS */
+    .projeto-card{
+      width: 100%;
+    }
+
+    /* REMOVE QUALQUER OVERFLOW */
+    html, body{
+      overflow-x: hidden;
+    }
+    .hero-minha-foto{
+      display: none;
+    }
+    /* Container Flex para alinhar foto e texto */
+    .hero-content-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px; /* Espaço entre a foto e o texto */
+      margin: 40px 0;
+      max-width: 1000px;
+      position: relative;
+      right: 0;
+    }
+    /*layout dos cards*/
+    .card{
+      position: relative;
+      top: 50px;
+    }
+    .status-open{
+    position: relative;
+    top: 80px;
+    right: 0px;
+  }
+  .sobre-layout{
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 30px;
+  }
+  .sobre-texto{
+    left: 0;
+    font-size: 18px;
+    text-align: center;
+  }
+  .sobre-texto h1{
+    font-size: 42px;
+  }
+  .sobre-stats{
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 0;
+  }
+  .stat-card{
+    padding: 18px 10px;
+  }
+  .stat-card h3{
+    font-size: 30px;
+  }
+  .stat-card span{
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .objetivo-profissional{
+    margin: 40px 0;
+    padding: 25px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .trajetoria{
+    column-count: 1;
+    text-align: left;
+  }
+ /* FRASE FINAL */
+  .frase-final{
+    font-size: 20px;
+    padding: 0 10px;
+  }
+  .mobile-botoes {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    z-index: 10;
+    position: relative;
+    }
+  
+  
+
+  }
+  
+
+  </style>
+</head>
+
+<body>
+  
+<canvas id="particulas"></canvas>
+<div class="nav-bg">
+  <nav>
+    <div class="logo-background">
+      <a href="/">
+        <img src="{% static 'imagem_navegador/logo_site.png' %}" alt="Logo">
+      </a>
+    </div>
+    
+
+    <a href="/">HOME</a>
+    <a href="/sobre/">SOBRE</a>
+    <a href="/projetos/">PROJETOS</a>
+    <a href="/contato/">CONTATO</a>
+    <a href="#" id="btnSugestao">SUGESTÕES</a>
+    
+  <button class="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+    <div class="menu-dropdown">
+      <a href="/">Home</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/projetos/">Projetos</a>
+      <a href="/contato/">Contato</a>
+      <a href="#" id="btnSugestaoMobile">Sugestões</a>
+    </div>
+  </nav>
+
+
+</div>
+
+
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
+
+<div class="footer">
+  © 2026 Keven Lucas
+</div>
+
+{% include "modal_sugestao.html" %}
+
+
+
+<script src="{% static 'js/modal_sugestao.js' %}"></script>
+<script src="{% static 'js/sugestao.js' %}"></script>
+
+<script>
+
+const toggle = document.querySelector(".menu-toggle");
+const menu = document.querySelector(".menu-dropdown");
+
+toggle.addEventListener("click", () => {
+  menu.classList.toggle("ativo");
+  toggle.classList.toggle("ativo");
+});
+document.addEventListener("click", (e) => {
+  if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+    menu.classList.remove("ativo");
+    toggle.classList.remove("ativo"); // 🔥 ESSENCIAL
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () =>{
+  document.body.classList.add("loaded");
+});
+
+document.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", function(e) {
+
+    if (this.id === "btnSugestao" || this.id === "btnSugestaoMobile") {
+      e.preventDefault();
+      return; //  deixa o modal funcionar
+      
+    }
+
+    if (this.href && this.target !== "_blank") {
+      e.preventDefault();
+
+      document.body.classList.remove("loaded");
+
+      setTimeout(() => {
+        window.location = this.href;
+      }, 300);
+    }
+  });
+});
+
+// Pega o elemento <canvas> pelo ID "particulas"
+const canvas = document.getElementById("particulas");
+
+// Verifica se o canvas existe antes de executar (evita erro)
+if (canvas) {
+
+  // Cria o contexto 2D (é o "pincel" para desenhar no canvas)
+  const ctx = canvas.getContext("2d");
+
+  // Define a largura do canvas igual à largura da tela
+  canvas.width = window.innerWidth;
+
+  // Define a altura do canvas igual à altura da tela
+  canvas.height = window.innerHeight;
+
+  // Cria um array vazio para armazenar as partículas
+  let particles = [];
+
+  // Loop que cria 80 partículas
+  for (let i = 0; i < 80; i++) {
+
+    // Adiciona uma nova partícula ao array
+    particles.push({
+
+      // Posição horizontal aleatória dentro do canvas
+      x: Math.random() * canvas.width,
+
+      // Posição vertical aleatória dentro do canvas
+      y: Math.random() * canvas.height,
+
+      // Tamanho (raio) aleatório da partícula (0 até 2)
+      radius: Math.random() * 2,
+
+      // Velocidade horizontal (valor pequeno positivo ou negativo)
+      speedX: (Math.random() - 0.5) * 0.9,
+
+      // Velocidade vertical (valor pequeno positivo ou negativo)
+      speedY: (Math.random() - 0.5) * 0.5
+    });
+  }
+
+  // Função responsável por desenhar e animar as partículas
+  function drawParticles() {
+
+    // Limpa toda a área do canvas antes de redesenhar (evita "rastro")
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Percorre cada partícula do array
+    particles.forEach(p => {
+
+      // Inicia um novo desenho (caminho)
+      ctx.beginPath();
+
+      // Desenha um círculo na posição (x, y) com o raio definido
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+
+      // Define a cor da partícula (branco com transparência)
+      ctx.fillStyle = "rgba(255,255,255,0.5)";
+
+      // Preenche o círculo com a cor definida
+      ctx.fill();
+
+      // Atualiza a posição da partícula (movimento)
+      p.x += p.speedX;
+      p.y += p.speedY;
+
+      // Se a partícula bater na borda esquerda ou direita, inverte direção
+      if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+
+      // Se a partícula bater no topo ou base, inverte direção
+      if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+    });
+
+    // Faz a animação rodar continuamente (loop suave)
+    requestAnimationFrame(drawParticles);
+  }
+
+  // Inicia a animação chamando a função pela primeira vez
+  drawParticles();
+
+
+  // 🔥 resize responsivo
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+  
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        const containers = document.querySelectorAll(".imagem-container");
+
+        containers.forEach(card => {
+            card.addEventListener("click", function (e) {
+                // 🔥 SE CLICOU EM UM BOTÃO OU LINK, NÃO EXECUTA O TOGGLE DO CARD
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                    return; 
+                }
+
+                // Fecha os outros cards
+                containers.forEach(c => {
+                    if (c !== card) c.classList.remove("ativo");
+                });
+
+                // Abre/Fecha o atual
+                card.classList.toggle("ativo");
+            });
+        });
+
+        // Fecha ao clicar fora
+        document.addEventListener("click", function (e) {
+            if (!e.target.closest(".imagem-container") && !e.target.closest(".mobile-botoes")) {
+                containers.forEach(c => c.classList.remove("ativo"));
+            }
+        });
+    }
+});
+
+}
+
+</script>
+</body>
+</html>

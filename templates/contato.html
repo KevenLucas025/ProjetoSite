@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Contato | Keven{% endblock %}
+{% block content %}
+
+<section class="contato-page">
+
+  <!-- HERO -->
+  <div class="hero-contato">
+
+    <h1 class="titulo-secao-contato">Contato</h1>
+
+    <p class="subtitulo-contato">
+      Estou disponível para oportunidades sobre freelas,
+      parcerias e novos desafios na área de tecnologia.
+    </p>
+
+  </div>
+
+  <!-- CARDS -->
+  <div class="contato-grid">
+
+    <a href="mailto:keven.lucas00@hotmail.com" class="contato-card">
+      <div class="contato-item">
+        <img src="{% static 'imagens_habilidades/email.png' %}">
+        <div>
+          <h3>Email</h3>
+          <p>Contato profissional direto</p>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://github.com/KevenLucas025" target="_blank" class="contato-card">
+      <div class="contato-item">
+        <img src="{% static 'imagens_habilidades/github_logo.png' %}">
+        <div>
+          <h3>GitHub</h3>
+          <p>Projetos e códigos publicados</p>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://www.linkedin.com/in/keven-lucas-32949b205/" target="_blank" class="contato-card">
+      <div class="contato-item">
+        <img src="{% static 'imagens_habilidades/linkedin.webp' %}">
+        <div>
+          <h3>LinkedIn</h3>
+          <p>Perfil profissional e networking</p>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://wa.me/5519982018869" target="_blank" class="contato-card">
+      <div class="contato-item">
+        <img src="{% static 'imagens_habilidades/logo_whatsapp.png' %}">
+        <div>
+          <h3>WhatsApp</h3>
+          <p>Resposta rápida e direta</p>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- FRASE FINAL -->
+  <p class="frase-final">
+    Grandes oportunidades começam com uma simples mensagem.
+  </p>
+
+</section>
+
+{% endblock %}
