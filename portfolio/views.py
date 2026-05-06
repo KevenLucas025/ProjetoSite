@@ -38,6 +38,9 @@ def enviar_sugestao(request):
             nome_user = data.get('nome', 'Anônimo')
             email_usuario = data.get('email')
             mensagem = data.get('mensagem')
+            
+            print("EMAIL:", settings.EMAIL_HOST_USER)
+            print("PASS:", settings.EMAIL_HOST_PASSWORD)
 
             # 1. Configuração do Assunto e Destinatários
             subject = f'📩 Nova Sugestão: {assunto_user}'
