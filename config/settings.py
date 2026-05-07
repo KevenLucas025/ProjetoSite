@@ -10,10 +10,9 @@ load_dotenv()
 
 DEBUG = os.environ.get("DEBUG", "True") == "True" 
 
-if DEBUG:
-    EMAIL_BACKEND = "portfolio.email_backend.CustomEmailBackend"
-else:
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    
 EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
