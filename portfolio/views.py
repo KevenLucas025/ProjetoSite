@@ -39,13 +39,15 @@ def enviar_sugestao(request):
             email_usuario = data.get('email')
             mensagem = data.get('mensagem')
             
-            print("EMAIL:", settings.EMAIL_HOST_USER)
+            print("EMAIL:", settings.DEFAULT_FROM_EMAIL)
             print("PASS:", settings.EMAIL_HOST_PASSWORD)
 
             # 1. Configuração do Assunto e Destinatários
             subject = f'📩 Nova Sugestão: {assunto_user}'
-            from_email = settings.EMAIL_HOST_USER
-            to = [settings.EMAIL_HOST_USER]
+            to = ["kevenmathers@gmail.com"]
+            
+            from_email = settings.DEFAULT_FROM_EMAIL
+            
 
             # 2. O corpo do e-mail em HTML com CSS Inline (melhor compatibilidade)
             html_content = f"""
