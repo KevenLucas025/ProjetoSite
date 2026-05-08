@@ -1002,6 +1002,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
+    gap: 10px;
   }
 
   .btn-enviar {
@@ -1056,6 +1057,31 @@
   /* 2. O spinner apenas aparece, sem ter padding próprio */
   #btnEnviar.enviando .spinner {
       display: block;
+  }
+  .btn-cancelar{
+    background: transparent;
+    border: 1px solid #555;
+    color: #ccc;
+
+    padding: 10px 18px;
+    border-radius: 8px;
+
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+  }
+
+  .btn-cancelar:hover{
+      background: #2a2a2a;
+      border-color: #888;
+      color: #fff;
+  }
+
+  .btn-cancelar:active{
+      transform: scale(0.97);
   }
   @keyframes girar {
     from {
@@ -1492,14 +1518,7 @@
       width: 100%;
 
     }
-    .aviso-mobile {
-      display: none;
-      background: #1f1f1f;
-      color: #fff;
-      padding: 12px;
-      text-align: center;
-      font-size: 0.9rem;
-    }
+    
     .habilidades-grid{
       display: grid;
       grid-template-columns: repeat(2, 140px);
@@ -2002,6 +2021,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+function fecharModal(){
+
+  const modal = document.getElementById("modalSugestao");
+
+  modal.classList.remove("ativo");
+
+}
 
 }
 
