@@ -1568,7 +1568,33 @@
     border-color: #4f46e5;
   }
   
+  .filtros {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
 
+  .btn-filtro {
+    padding: 8px 16px;
+    border: 1px solid #4dd0e1;
+    background: transparent;
+    color: #4dd0e1;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn-filtro:hover {
+    background: #4dd0e1;
+    color: #000;
+  }
+
+  .btn-filtro.ativo {
+    background: #4dd0e1;
+    color: #000;
+    font-weight: bold;
+  }
   
 
   @media (max-width: 768px){
