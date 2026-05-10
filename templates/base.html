@@ -11,11 +11,9 @@
 
   <title>Keven Lucas | Python Developer | Portfólio Django Campinas</title>
 
-  
 
   <link rel="icon" type="image/png" href="{% static 'imagem_navegador/logo_site.png' %}">
 
-  
   
   <style>
   
@@ -187,12 +185,12 @@
 
   /*Card da home*/
   .grid{
-    display: flex;
-    justify-content: flex-start; /* tira do centro */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 30px;
-    flex-wrap: wrap;
-    padding-left: 40px;
+    padding: 20px;
   }
+
   /*layout dos cards*/
   .card{
     background-color: #1a1a1a;
@@ -200,9 +198,11 @@
     border-radius: 12px;
     padding: 14px;
   }
+
   .titulo-secao-contato{
     text-align: center;
   }
+
   .titulo-secao-contato::after{
     content: "";
     width: 60px;
@@ -212,9 +212,11 @@
     margin: 10px auto 0;
     border-radius: 10px;
   }
+
   .titulo-secao-projetos{
     text-align: center;
   }
+
   .titulo-secao-projetos::after{
     content: "";
     width: 60px;
@@ -224,6 +226,39 @@
     margin: 10px auto 0;
     border-radius: 10px;
   }
+  .subtitulo-projetos{
+      text-align: center;
+      font-size: 1.1rem;
+      color: #cfcfcf;
+      height: 50px;
+      max-width: 700px;
+      margin: 0 auto 50px auto;
+      line-height: 1.6;
+
+      padding: 8px 10px;
+
+
+      border-radius: 18px;
+      background: linear-gradient(
+        145deg,
+        #1f1f1f,
+        #181818
+      );
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    box-shadow:
+        0 4px 20px rgba(0,0,0,0.35);
+
+    backdrop-filter: blur(6px);
+
+    transition: all 0.3s ease;
+
+    } 
+    .subtitulo-projetos span{
+      position: relative;
+      top: 9px; /* sobe o texto */
+    }
 
   .tag{
     display: inline-block;
@@ -238,16 +273,53 @@
     overflow: hidden;
     width: 260px;
     height: 280px;
-    margin: 0 auto;
+    margin: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   }
-  .imagem-container{
+
+  .projeto-img.cadastro-img {
+    /* 1. Usamos contain para garantir que o texto lateral NUNCA seja cortado */
+    object-fit: contain; 
+    object-position: top; 
+    
+    /* 2. Mantemos 100% para ele tentar ocupar o máximo de espaço */
+    width: 100%;
+    height: 100%;
+    
+    transform: scale(1.6) !important;
+    
+    /* 3. Colamos a imagem no topo para o título ficar bem posicionado */
+    
+
+    transform-origin: top;
+    
+    /* 4. O padding cria o efeito de "afastar" (zoom out) que você quer */
+    padding: 15px; 
+    
+    /* 5. Fundo branco na imagem para mesclar com o container */
+    background-color: #ffffff; 
+    box-sizing: border-box;
+    display: block;
+  }
+
+  .projeto-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  }
+
+  .imagem-container {
     position: relative;
     width: 100%;
-    height: 280px;
+    height: 280px; 
     border-radius: 12px;
     overflow: hidden;
     
+   
+    background-color: #ffffff; 
+    
+    display: flex;
+    align-items: flex-start;
   }
   .projeto-img{
     width: 100%;
@@ -729,10 +801,10 @@
   }
 
   .modal-conteudo h2{
-    text-align: left;
+    text-align: center;
     margin-top: 0;
     margin-bottom: 18px;
-    color: white;
+    color: #cbd5e1;
   }
 
   .modal-conteudo p{
@@ -969,6 +1041,7 @@
   #formSugestao label{
     font-size: 14px;
     color: #cbd51e;
+    text-align: left;
 
   }
   #formSugestao input,
@@ -993,6 +1066,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
+    gap: 10px;
   }
 
   .btn-enviar {
@@ -1047,6 +1121,31 @@
   /* 2. O spinner apenas aparece, sem ter padding próprio */
   #btnEnviar.enviando .spinner {
       display: block;
+  }
+  .btn-cancelar{
+    background: transparent;
+    border: 1px solid #555;
+    color: #ccc;
+
+    padding: 10px 18px;
+    border-radius: 8px;
+
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+  }
+
+  .btn-cancelar:hover{
+      background: #2a2a2a;
+      border-color: #888;
+      color: #fff;
+  }
+
+  .btn-cancelar:active{
+      transform: scale(0.97);
   }
   @keyframes girar {
     from {
@@ -1447,12 +1546,48 @@
     filter: drop-shadow(0 0 2px rgba(0,0,0,0.4));
   }
 
- 
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
 
+  .badge {
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #3a3a3a;
+    transition: 0.2s;
+  }
+
+  .badge:hover {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+  }
+  
 
   
 
   @media (max-width: 768px){
+    .subtitulo-projetos{
+        font-size: 0.95rem;
+        padding: 30px;
+        border-radius: 14px;
+        width: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 80px; /* desce tudo */
+
+    }
+    .subtitulo-projetos span{
+      position: relative;
+      top: 0px; /* sobe o texto */
+    }
+
     /* TÍTULO PRINCIPAL */
     .hero-title {
       font-size: 36px !important;
@@ -1463,14 +1598,7 @@
       width: 100%;
 
     }
-    .aviso-mobile {
-      display: none;
-      background: #1f1f1f;
-      color: #fff;
-      padding: 12px;
-      text-align: center;
-      font-size: 0.9rem;
-    }
+    
     .habilidades-grid{
       display: grid;
       grid-template-columns: repeat(2, 140px);
@@ -1643,11 +1771,13 @@
 
     /* IMAGENS */
     .imagem-container{
-      height: 220px;
+      height: 280px;
       position: relative;
       cursor: pointer;
       overflow: hidden;
+      background-color: #ffffff; /* Previne buracos pretos no mobile */
     }
+    
     .imagem-container:hover .overlay {
         opacity: 0 !important; 
     }
@@ -1755,11 +1885,9 @@
     z-index: 10;
     position: relative;
     }
-  
-  
-
-  }
-  
+    
+    
+  }  
 
   </style>
 </head>
@@ -1796,8 +1924,6 @@
       <a href="#" id="btnSugestaoMobile">Sugestões</a>
     </div>
   </nav>
-
-
 </div>
 
 
@@ -1973,6 +2099,19 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+function fecharModal(){
+
+  const modal = document.getElementById("modalSugestao");
+  const fecharmodalProjeto = document.getElementById("modalProjeto");
+  if (modal){
+    modal.classList.remove("ativo");
+  }
+  if(fecharmodalProjeto){
+    fecharmodalProjeto.classList.remove("ativo");
+  }
+
+}
 
 }
 

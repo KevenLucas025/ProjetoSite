@@ -13,6 +13,7 @@ class Projeto(models.Model):
     ativo = models.BooleanField(default=True)
     tem_download = models.BooleanField(default=False)
     video_demo = models.CharField(max_length=255,blank=True,null=True)
+    tempo_desenvolvimento = models.CharField(max_length=50,blank=True,null=True)
 
     class Meta:
         ordering = ["ordem", "-destaque", "-id"]
