@@ -6,12 +6,21 @@
 
 
   <h1 class="titulo-secao-projetos">Meus projetos</h1>
+
+    <p class="subtitulo-projetos">
+      <span>
+          Explore alguns dos projetos que desenvolvi utilizando diferentes tecnologias.
+      </span>
+    </p>
+
   <div class="grid">
     {% for p in projetos %}
       <div class="card projeto-card">
         <div class="imagem-container">
           {% if p.imagem %}
-            <img src="{% static p.imagem %}" alt="{{ p.titulo }}" class="projeto-img">
+            <img src="{% static p.imagem %}" 
+              alt="{{ p.titulo }}" 
+              class="projeto-img {% if 'cadastro' in p.titulo|lower %}cadastro-img{% endif %}">
           {% else %}
             <div class="sem-imagem">Sem imagem</div>
           {% endif %}
@@ -33,6 +42,7 @@
                 data-titulo="{{ p.titulo|escape }}"
                 data-descricao="{{ p.descricao|default:'Sem descrição disponível'|escape }}"
                 data-tecnologias="{{ p.tecnologias|default:'Tecnologias não informadas'|escape }}"
+                data-tempo="{{ p.tempo_desenvolvimento|default:'Não informado'|escape }}"
                 data-github="{{ p.link_github|default:''|escape }}"
                 data-video="{{ p.video_demo|default:''|escape }}"
                 onclick="abrirModal(this)"
@@ -77,6 +87,12 @@
       <p>
         <strong>Tecnologias:</strong><br>
         <span id="modalTecnologias"></span>
+      </p>
+      <p>
+
+        <strong>Tempo de desenvolvimento:</strong><br>
+        <span id="modalTempo"></span>
+
       </p>
 
       <div class="modal-botoes">
@@ -124,6 +140,7 @@
       const titulo = botao.dataset.titulo;
       const descricao = botao.dataset.descricao;
       const tecnologias = botao.dataset.tecnologias;
+      const tempo = botao.dataset.tempo;
       const github = botao.dataset.github;
       const video = botao.dataset.video;
 
@@ -133,6 +150,7 @@
       document.getElementById("modalTitulo").textContent = titulo;
       document.getElementById("modalDescricao").textContent = descricao;
       document.getElementById("modalTecnologias").textContent = tecnologias;
+      document.getElementById("modalTempo").textContent = tempo;
 
       const githubBtn = document.getElementById("modalGithub");
       const demoBtn = document.getElementById("modalBtnDemonstracao");

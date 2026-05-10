@@ -226,6 +226,39 @@
     margin: 10px auto 0;
     border-radius: 10px;
   }
+  .subtitulo-projetos{
+      text-align: center;
+      font-size: 1.1rem;
+      color: #cfcfcf;
+      height: 50px;
+      max-width: 700px;
+      margin: 0 auto 50px auto;
+      line-height: 1.6;
+
+      padding: 8px 10px;
+
+
+      border-radius: 18px;
+      background: linear-gradient(
+        145deg,
+        #1f1f1f,
+        #181818
+      );
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    box-shadow:
+        0 4px 20px rgba(0,0,0,0.35);
+
+    backdrop-filter: blur(6px);
+
+    transition: all 0.3s ease;
+
+    } 
+    .subtitulo-projetos span{
+      position: relative;
+      top: 9px; /* sobe o texto */
+    }
 
   .tag{
     display: inline-block;
@@ -244,6 +277,12 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   }
+
+  .cadastro-img{
+    object-fit: contain;
+    padding: 5px;
+    background: #fff;
+}
   .projeto-card:hover{
     transform: translateY(-6px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
@@ -1503,11 +1542,27 @@
     background-color: #4f46e5;
     border-color: #4f46e5;
   }
-
+  
 
   
 
   @media (max-width: 768px){
+    .subtitulo-projetos{
+        font-size: 0.95rem;
+        padding: 30px;
+        border-radius: 14px;
+        width: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 80px; /* desce tudo */
+
+    }
+    .subtitulo-projetos span{
+      position: relative;
+      top: 0px; /* sobe o texto */
+    }
+
     /* TÍTULO PRINCIPAL */
     .hero-title {
       font-size: 36px !important;
@@ -1803,11 +1858,9 @@
     z-index: 10;
     position: relative;
     }
-  
-  
-
-  }
-  
+    
+    
+  }  
 
   </style>
 </head>
@@ -1844,8 +1897,6 @@
       <a href="#" id="btnSugestaoMobile">Sugestões</a>
     </div>
   </nav>
-
-
 </div>
 
 
@@ -2025,8 +2076,13 @@ document.addEventListener("DOMContentLoaded", function () {
 function fecharModal(){
 
   const modal = document.getElementById("modalSugestao");
-
-  modal.classList.remove("ativo");
+  const fecharmodalProjeto = document.getElementById("modalProjeto");
+  if (modal){
+    modal.classList.remove("ativo");
+  }
+  if(fecharmodalProjeto){
+    fecharmodalProjeto.classList.remove("ativo");
+  }
 
 }
 
