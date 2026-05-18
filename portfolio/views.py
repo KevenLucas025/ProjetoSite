@@ -21,7 +21,13 @@ def sobre(request):
 
 def projetos(request):
     itens = Projeto.objects.filter(ativo=True)
-    return render(request, "projetos.html", {"projetos": itens})
+    
+    context = {
+        "projetos": itens,
+        "total_projetos": itens.count(),
+    }
+    
+    return render(request, "projetos.html", context)
 
 
 def contato(request):

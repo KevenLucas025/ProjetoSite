@@ -13,7 +13,7 @@
       </span>
     </p>
     <div class="filtros">
-      <button onclick="filtrar('todos',this)" class="btn-filtro ativo">Todos</button>
+      <button onclick="filtrar('todos',this)" class="btn-filtro ativo">Todos (<span id="contador-todos">{{ total_projetos }}</span>)</button>
       <button onclick="filtrar('python',this)" class="btn-filtro">Python</button>
       <button onclick="filtrar('web',this)" class="btn-filtro">Web</button>
       <button onclick="filtrar('selenium',this)" class="btn-filtro">Automação</button>
@@ -226,6 +226,7 @@
         fecharModalVideo();
       }
     });
+    
 function filtrar(categoria, botaoClicado) {
   const cards = document.querySelectorAll('.projeto-card');
   const botoes = document.querySelectorAll('.btn-filtro');
@@ -247,6 +248,11 @@ function filtrar(categoria, botaoClicado) {
       card.style.display = 'none';
     }
   });
+
+  const contadorTodos = document.getElementById("contador-todos");
+  if (contadorTodos){
+    contadorTodos.textContent = visiveis;
+  }
 
   // mostra ou esconde mensagem
   const mensagem = document.getElementById('mensagemSemProjetos');
