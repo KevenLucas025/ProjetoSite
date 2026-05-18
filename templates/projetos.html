@@ -12,15 +12,23 @@
           Explore alguns dos projetos que desenvolvi utilizando diferentes tecnologias.
       </span>
     </p>
+    <div class="filtros">
+      <button onclick="filtrar('todos',this)" class="btn-filtro ativo">Todos</button>
+      <button onclick="filtrar('python',this)" class="btn-filtro">Python</button>
+      <button onclick="filtrar('web',this)" class="btn-filtro">Web</button>
+      <button onclick="filtrar('selenium',this)" class="btn-filtro">Automação</button>
+    </div>
 
   <div class="grid">
     {% for p in projetos %}
-      <div class="card projeto-card">
+      <div class="card projeto-card" data-categoria="{{ p.tecnologias|lower|cut:' ' }}">
         <div class="imagem-container">
           {% if p.imagem %}
             <img src="{% static p.imagem %}" 
               alt="{{ p.titulo }}" 
-              class="projeto-img {% if 'cadastro' in p.titulo|lower %}cadastro-img{% endif %}">
+              class="projeto-img
+              {% if 'cadastro' in p.titulo|lower %}cadastro-img{% endif %}
+              {% if 'monitor' in p.titulo|lower %}monitor-img{% endif %}">
           {% else %}
             <div class="sem-imagem">Sem imagem</div>
           {% endif %}
@@ -70,6 +78,9 @@
     {% empty %}
       <p>Nenhum projeto cadastrado ainda.</p>
     {% endfor %}
+    <p id="mensagemSemProjetos" style="display: none; text-align: center; margin-top: 20px;">
+      <span id="textoMensagem"></span>
+    </p>
   </div>
 
   <!-- Modal de detalhes -->
@@ -215,5 +226,43 @@
         fecharModalVideo();
       }
     });
+function filtrar(categoria, botaoClicado) {
+  const cards = document.querySelectorAll('.projeto-card');
+  const botoes = document.querySelectorAll('.btn-filtro');
+  
+
+  let visiveis = 0;
+
+  // botão ativo
+  botoes.forEach(btn => btn.classList.remove('ativo'));
+  botaoClicado.classList.add('ativo');
+
+  cards.forEach(card => {
+    const cat = card.getAttribute('data-categoria') || "";
+
+    if (categoria === 'todos' || cat.includes(categoria)) {
+      card.style.display = 'block';
+      visiveis++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  // mostra ou esconde mensagem
+  const mensagem = document.getElementById('mensagemSemProjetos');
+  const textoMensagem = document.getElementById('textoMensagem');
+
+  if (visiveis === 0) {
+    if (categoria === 'web') {
+      textoMensagem.innerHTML = "🌐 Você já está visualizando um projeto web desenvolvido (este portfólio).";
+    } else {
+      textoMensagem.innerHTML = "🚧 Nenhum projeto encontrado para esse filtro.";
+    }
+
+    mensagem.style.display = 'block';
+  } else {
+    mensagem.style.display = 'none';
+  }
+}
   </script>
   {% endblock %}

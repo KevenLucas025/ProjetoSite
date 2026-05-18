@@ -278,23 +278,63 @@
 
   }
 
-  .cadastro-img{
+  .projeto-img.cadastro-img {
+    /* 1. Usamos contain para garantir que o texto lateral NUNCA seja cortado */
+    object-fit: contain; 
+    object-position: top; 
+    
+    /* 2. Mantemos 100% para ele tentar ocupar o máximo de espaço */
+    width: 100%;
+    height: 100%;
+    
+    transform: scale(1.6) !important;
+    
+    /* 3. Colamos a imagem no topo para o título ficar bem posicionado */
+    
+
+    transform-origin: top;
+    
+    /* 4. O padding cria o efeito de "afastar" (zoom out) que você quer */
+    padding: 15px; 
+    
+    /* 5. Fundo branco na imagem para mesclar com o container */
+    background-color: #ffffff; 
+    box-sizing: border-box;
+    display: block;
+  }
+  .projeto-img.monitor-img{
+    width: 100%;
+    height: 100%;
+
     object-fit: contain;
-    padding: 5px;
-    background: #fff;
-}
+    object-position: center;
+
+    transform: scale(1) !important;
+    transform-origin: top;
+
+    display: block;
+
+    background: #ffffff; /* base do fundo da imagem */
+  }
+
   .projeto-card:hover{
     transform: translateY(-6px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
   }
 
-  .imagem-container{
+
+  .imagem-container {
     position: relative;
     width: 100%;
-    height: 280px;
+    height: 280px; 
     border-radius: 12px;
     overflow: hidden;
     
+   
+    background-color: #ffffff; 
+    
+    display: flex;
+    align-items: flex-start;
   }
   .projeto-img{
     width: 100%;
@@ -1543,7 +1583,33 @@
     border-color: #4f46e5;
   }
   
+  .filtros {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
 
+  .btn-filtro {
+    padding: 8px 16px;
+    border: 1px solid #4dd0e1;
+    background: transparent;
+    color: #4dd0e1;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn-filtro:hover {
+    background: #4dd0e1;
+    color: #000;
+  }
+
+  .btn-filtro.ativo {
+    background: #4dd0e1;
+    color: #000;
+    font-weight: bold;
+  }
   
 
   @media (max-width: 768px){
@@ -1746,11 +1812,13 @@
 
     /* IMAGENS */
     .imagem-container{
-      height: 220px;
+      height: 280px;
       position: relative;
       cursor: pointer;
       overflow: hidden;
+      background-color: #ffffff; /* Previne buracos pretos no mobile */
     }
+    
     .imagem-container:hover .overlay {
         opacity: 0 !important; 
     }
