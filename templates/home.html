@@ -1,7 +1,8 @@
-  {% extends "base.html" %}
-  {% load static %}
-  {% block title %}Home | Keven{% endblock %}
-  {% block content %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home | Keven{% endblock %}
+{% block content %}
 
   <!-- HERO -->
   <div class="hero hero-home">
@@ -41,9 +42,9 @@
 
   <!-- PROJETO EM DESTAQUE -->
   <section class="secao-destaque">
-    <h2 class="titulo-secao">🚀 Projeto em destaque</h2>
+    <h2 class="titulo-secao">🚀 Projetos em destaque</h2>
 
-  {% for p in destaques|slice:":1" %}
+  {% for p in destaques %}
   <div class="projeto-destaque">
 
     <!-- IMAGEM -->
@@ -100,7 +101,41 @@
   {% endfor %}
 </section>
 
+<section class="projeto-em-desenvolvimento">
+  <h2 class="titulo-secao">🚀 Projeto em Desenvolvimento</h2>
 
+  <div class="projeto-destaque">
+
+    <!-- IMAGEM -->
+    <div class="imagem-container">
+      <img src="{% static 'imagens_projetos/monitor_precos_telegram_branco.png' %}" 
+           alt="Monitor de Preços" 
+           class="projeto-img">
+
+      <div class="overlay">
+        <h3 class="overlay-titulo">Monitor de Preços Telegram</h3>
+
+        <div class="overlay-botoes">
+          <a href="https://t.me/+EzDDZqe4TAY0ZWZh" 
+            target="_blank" 
+            class="btn-overlay">
+            📲 Acessar grupo no Telegram
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEXTO -->
+    <div class="destaque-info">
+      <h3>Monitor de Preços com API do Telegram</h3>
+      <p>
+        Desenvolvimento de um sistema de rastreamento de preços que utiliza Web Scraping para coletar dados, armazena o histórico em 
+        SQLite e dispara notificações automáticas para grupos específicos do Telegram 
+        sempre que uma oferta atinge um valor alvo. 
+      </p>
+
+  </div>
+</section>
 
 <!-- PROJETO MAIS RECENTE -->
 <section class="projeto-em-desenvolvimento">
@@ -191,17 +226,6 @@
 
       </div>
 
-      <div class="card-futuro">
-        <h3>Monitor de Preços com Integração via API do Telegram</h3>
-        <p>
-          Desenvolvimento de um sistema de rastreamento de preços que utiliza Web
-          Scraping para coletar dados, armazena o histórico em SQLite e dispara
-          notificações automáticas para grupos específicos do Telegram sempre que uma
-          oferta atinge um valor alvo.
-        </p>
-        <span>🚧 Em planejamento</span>
-      </div>
-
 
   </section>
   <!-- OUTROS PROJETOS -->
@@ -209,7 +233,7 @@
     <h2 class="titulo-secao">Outros projetos você encontra na aba <strong>Projetos</strong></h2>
 
     <div class="grid">
-      {% for p in destaques|slice:"1:" %}
+      {% for p in destaques|slice:"2:" %}
       <div class="card projeto-card">
 
         <div class="imagem-container">
