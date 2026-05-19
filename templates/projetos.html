@@ -21,60 +21,58 @@
 
   <div class="grid">
     {% for p in projetos %}
-      <div class="card projeto-card" data-categoria="{{ p.tecnologias|lower|cut:' ' }}">
-        <div class="imagem-container">
-          {% if p.imagem %}
-            <img src="{% static p.imagem %}" 
+      <div class="card projeto-card-modern" data-categoria="{{ p.tecnologias|lower|cut:' ' }}">
+
+      <div class="imagem-container-modern">
+        {% if p.imagem %}
+          <img src="{% static p.imagem %}" 
               alt="{{ p.titulo }}" 
-              class="projeto-img
+              class="projeto-img-modern
               {% if 'cadastro' in p.titulo|lower %}cadastro-img{% endif %}
               {% if 'monitor' in p.titulo|lower %}monitor-img{% endif %}">
-          {% else %}
-            <div class="sem-imagem">Sem imagem</div>
+        {% endif %}
+      </div>
+
+      <div class="conteudo-card">
+
+        <h3 class="titulo-card">{{ p.titulo }}</h3>
+
+        <p class="descricao-card">
+          {{ p.descricao|truncatechars:90 }}
+        </p>
+
+        <div class="badges">
+          {% for tech in p.tecnologias|split:"," %}
+            <span class="badge">{{ tech|trim }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="overlay-botoes-modern">
+
+          <button
+            type="button"
+            class="btn-overlay-modern btn-detalhes"
+            data-titulo="{{ p.titulo|escape }}"
+            data-descricao="{{ p.descricao|default:'Sem descrição disponível'|escape }}"
+            data-tecnologias="{{ p.tecnologias|default:'Tecnologias não informadas'|escape }}"
+            data-tempo="{{ p.tempo_desenvolvimento|default:'Não informado'|escape }}"
+            data-github="{{ p.link_github|default:''|escape }}"
+            data-video="{{ p.video_demo|default:''|escape }}"
+            onclick="abrirModal(this)"
+          >
+            Detalhes
+          </button>
+
+          {% if p.link_github %}
+            <a href="{{ p.link_github }}" target="_blank" class="btn-overlay-modern">
+              GitHub
+            </a>
           {% endif %}
 
-          <div class="overlay">
-            <h3 class="overlay-titulo">{{ p.titulo }}</h3>
-            <div class="badges">
-              {% if p.tecnologias %}
-                {% for tech in p.tecnologias|split:"," %}
-                  <span class="badge">{{ tech|trim }}</span>
-                {% endfor %}
-              {% endif %}
-            </div>
-
-            <div class="overlay-botoes">
-              <button
-                type="button"
-                class="btn-overlay btn-detalhes"
-                data-titulo="{{ p.titulo|escape }}"
-                data-descricao="{{ p.descricao|default:'Sem descrição disponível'|escape }}"
-                data-tecnologias="{{ p.tecnologias|default:'Tecnologias não informadas'|escape }}"
-                data-tempo="{{ p.tempo_desenvolvimento|default:'Não informado'|escape }}"
-                data-github="{{ p.link_github|default:''|escape }}"
-                data-video="{{ p.video_demo|default:''|escape }}"
-                onclick="abrirModal(this)"
-                >
-                Mais detalhes
-              </button>
-
-              {% if p.tem_download %}
-                {% if p.link_demo %}
-                  <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
-                    Download Teste
-                  </a>
-                {% endif %}
-              {% else %}
-                {% if p.link_github %}
-                  <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
-                    GitHub
-                  </a>
-                {% endif %}
-              {% endif %}
-            </div>
-          </div>
         </div>
+
       </div>
+    </div>
     {% empty %}
       <p>Nenhum projeto cadastrado ainda.</p>
     {% endfor %}
@@ -228,7 +226,7 @@
     });
     
 function filtrar(categoria, botaoClicado) {
-  const cards = document.querySelectorAll('.projeto-card');
+  const cards = document.querySelectorAll('.projeto-card-modern');
   const botoes = document.querySelectorAll('.btn-filtro');
   
 

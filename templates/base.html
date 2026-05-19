@@ -186,9 +186,9 @@
   /*Card da home*/
   .grid{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 30px;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+    margin-top: 40px;
   }
 
   /*layout dos cards*/
@@ -269,16 +269,25 @@
     margin-right: 6px;
   }
 
-  .projeto-card{
+  .projeto-card-modern{
+    background: #1e1e1e;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 22px;
     overflow: hidden;
-    width: 260px;
-    height: 280px;
-    margin: 0;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
+    transition: all 0.35s ease;
+
+    position: relative;
+  }
+  .projeto-card-modern:hover{
+    transform: translateY(-10px);
+    box-shadow:
+      0 15px 35px rgba(0,0,0,0.45),
+      0 0 0 1px rgba(59,130,246,0.3);
   }
 
-  .projeto-img.cadastro-img {
+
+  .projeto-img-modern.cadastro-img {
     /* 1. Usamos contain para garantir que o texto lateral NUNCA seja cortado */
     object-fit: contain; 
     object-position: top; 
@@ -317,30 +326,54 @@
     background: #ffffff; /* base do fundo da imagem */
   }
 
-  .projeto-card:hover{
-    transform: translateY(-6px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-  }
+  
 
-  .imagem-container {
-    position: relative;
+
+  .imagem-container-modern{
     width: 100%;
-    height: 280px; 
-    border-radius: 12px;
+    height: 220px;
     overflow: hidden;
-    
-   
-    background-color: #ffffff; 
-    
-    display: flex;
-    align-items: flex-start;
+    background: #fff;
+  }
+  /*home*/
+  .imagem-container{
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+  }
+  .projeto-img-modern{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transition: transform 0.4s ease;
   }
   .projeto-img{
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
+  }
+  .conteudo-card{
+    padding: 22px;
+  }
+  .titulo-card{
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .descricao-card{
+    color: #bdbdbd;
+    line-height: 1.5;
+    font-size: 0.95rem;
+
+    margin-bottom: 18px;
+
+    min-height: 65px;
   }
   .overlay{
     position: absolute;
@@ -360,6 +393,7 @@
   .imagem-container:hover .projeto-img{
     transform: scale(1.05);
   }
+  /*HOME*/
   .btn-overlay{
     background-color: white;
     color: black;
@@ -372,6 +406,33 @@
   .btn-overlay:hover{
     background-color: #2563eb;
     color: white;
+  }
+  /*PROJETOS*/
+  .btn-overlay-modern{
+    flex: 1;
+
+    text-align: center;
+
+    background: linear-gradient(135deg, #4dd0e1, #22d3ee);
+    color: black;
+
+    padding: 12px;
+    border-radius: 12px;
+
+    font-weight: bold;
+
+    text-decoration: none;
+    border: 1px solid #4dd0e1;
+
+    font-weight: 600;
+
+    transition: 0.3s ease;
+    cursor: pointer;
+  }
+
+  .btn-overlay-modern:hover{
+    background-color: #22d3ee;
+    transform: translateY(-2px);
   }
   .sem-imagem{
     width: 100%;
@@ -742,7 +803,12 @@
     background-image: url('/static/imagens_habilidades/filmora.png');
   }
 
-  /*Botões dentro dos cards*/
+  /*Botões dentro dos cards projetos*/
+  .overlay-botoes-modern{
+    display: flex;
+
+    gap: 12px;
+  }
   .overlay-botoes{
     display: flex;
     flex-direction: column;
@@ -1560,26 +1626,31 @@
     filter: drop-shadow(0 0 2px rgba(0,0,0,0.4));
   }
 
-  .badges {
+  .badges{
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 8px;
+    gap: 10px;
+
+    margin-bottom: 22px;
   }
 
-  .badge {
-    background-color: #2a2a2a;
-    color: #fff;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    border: 1px solid #3a3a3a;
-    transition: 0.2s;
+  .badge{
+    background: transparent;
+    color: white;
+
+    border: none;
+
+    padding: 7px 12px;
+    
+
+    font-size: 0.82rem;
+    font-weight: 600;
   }
 
   .badge:hover {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
+    background-color: #22d3ee;
+    border-radius: 30px;
+    color: #000;
   }
   
   .filtros {
@@ -1612,6 +1683,19 @@
   
 
   @media (max-width: 768px){
+    .badge{
+      background: #102a43;
+      color: white;
+
+      border: none;
+
+      padding: 7px 12px;
+      border-radius: 30px;
+      
+
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
     .subtitulo-projetos{
         font-size: 0.95rem;
         padding: 30px;
