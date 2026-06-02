@@ -88,23 +88,6 @@
     "tem_download": false,
     "video_demo": "videos/2026-03-11 20-07-06.mp4"
   }
-},
-{
-  "model": "auth.user",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$1000000$S9WvlykRTLLR9HKOBAilMm$5Wx+ZczE2rVqTf9P12BytTexl+yhFCzFT7DZRGVbnWs=",
-    "last_login": "2026-03-18T23:15:04.201Z",
-    "is_superuser": true,
-    "username": "Keven_Lucas",
-    "first_name": "",
-    "last_name": "",
-    "email": "keven.lucas00@hotmail.com",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2026-03-18T23:14:32.017Z",
-    "groups": [],
-    "user_permissions": []
-  }
 }
+
 ]
