@@ -1,6 +1,25 @@
 [
 {
   "model": "portfolio.projeto",
+  "pk": 8,
+  "fields": {
+    "titulo": "Site Pessoal",
+    "descricao": "Este projeto foi criado para apresentar todos os detalhes do meu site pessoal, desenvolvido com foco em portfólio profissional e compartilhamento da minha trajetória na área de tecnologia.\r\n\r\nO ProjetoSite reúne informações sobre mim, meus projetos, conhecimentos técnicos e novidades sobre minha evolução no mundo da programação. Tudo o que eu desenvolver, aprender ou conquistar relacionado à tecnologia poderá ser acompanhado por aqui.",
+    "tecnologias": "Python, Web, SQLite3,JavaScript,HTML, CSS e Django",
+    "link_github": "https://github.com/KevenLucas025/ProjetoSite",
+    "link_demo": "",
+    "imagem": "imagens_projetos/imagem_site_pessoal.png",
+    "destaque": true,
+    "criado_em": "2026-03-01",
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false,
+    "video_demo": null,
+    "tempo_desenvolvimento": "Em evolução constante"
+  }
+},
+{
+  "model": "portfolio.projeto",
   "pk": 1,
   "fields": {
     "titulo": "Sistema de Gerenciamento",
@@ -14,61 +33,46 @@
     "ordem": 0,
     "ativo": true,
     "tem_download": true,
-    "video_demo": "https://res.cloudinary.com/dwz3wrelv/video/upload/v1774199653/Sistema_de_Gerenciamento_cfig1s.mp4"
+    "video_demo": "https://res.cloudinary.com/dwz3wrelv/video/upload/v1774199653/Sistema_de_Gerenciamento_cfig1s.mp4",
+    "tempo_desenvolvimento": null
   }
 },
 {
   "model": "portfolio.projeto",
-  "pk": 2,
+  "pk": 7,
   "fields": {
-    "titulo": "Cadastro de Pessoas 2",
-    "descricao": "Meu segundo projeto desenvolvido em Python, evoluindo o sistema anterior de cadastro de pessoas.\r\n\r\nNesta versão, implementei uma interface gráfica utilizando Tkinter, tornando a aplicação mais intuitiva e fácil de usar, mantendo o mesmo conceito de cadastro simples.\r\n\r\nOs dados dos usuários são armazenados em arquivos CSV, permitindo persistência das informações sem a necessidade de banco de dados.\r\n\r\nAlém disso, utilizei a biblioteca Pillow (PIL) para manipulação de imagens, agregando mais funcionalidades ao sistema.",
-    "tecnologias": "Python, Tkinter e CSV",
-    "link_github": "https://github.com/KevenLucas025/ProjetoCadastro",
+    "titulo": "Monitor de Preços Telegram",
+    "descricao": "Projeto de um sistema de rastreamento de preços que utiliza Web Scraping para coletar dados, armazena o histórico em SQLite e dispara notificações automáticas para grupos específicos do Telegram sempre que uma oferta atinge um valor alvo.",
+    "tecnologias": "Python, Selenium e SQLite3",
+    "link_github": "https://github.com/KevenLucas025/monitor_de_precos_telegram",
     "link_demo": "",
-    "imagem": "imagens_projetos/Cadastro_de_Pessoas.jpg",
+    "imagem": "imagens_projetos/monitor_precos_telegram_branco.png",
     "destaque": false,
-    "criado_em": null,
+    "criado_em": "2026-05-01",
     "ordem": 0,
     "ativo": true,
     "tem_download": false,
-    "video_demo": "https://res.cloudinary.com/dwz3wrelv/video/upload/v1774795603/ProjetoCDP_dltals.mp4"
+    "video_demo": null,
+    "tempo_desenvolvimento": "Em desenvolvimento"
   }
 },
 {
   "model": "portfolio.projeto",
-  "pk": 3,
+  "pk": 6,
   "fields": {
-    "titulo": "Cadastro de Pessoas",
-    "descricao": "Sistema simples para cadastro de pessoas, desenvolvido como meu primeiro projeto em Python.\r\n\r\nNa época, ainda estava em fase inicial de aprendizado, mas utilizei este projeto como base para desenvolver e aprimorar meus conhecimentos na linguagem.\r\n\r\nA aplicação realiza apenas cadastros básicos, sem utilização de banco de dados ou interface gráfica, sendo totalmente voltada para fins de aprendizado.",
-    "tecnologias": "Python",
-    "link_github": "https://github.com/KevenLucas025/ProjetoCadastro",
+    "titulo": "Metodologia Kanban",
+    "descricao": "Projeto focado em organização de tarefas, produtividade de equipes e acompanhamento de processos utilizando a metodologia Kanban.",
+    "tecnologias": "Python, Django, SQLite3, JavaScript, CSS e HTML",
+    "link_github": "https://github.com/KevenLucas025/kanban",
     "link_demo": "",
-    "imagem": "imagens_projetos/Cadastro_de_Pessoas.jpg",
+    "imagem": "imagens_projetos/imagem_kanban.png",
     "destaque": false,
-    "criado_em": "2026-03-18",
+    "criado_em": "2026-04-01",
     "ordem": 0,
     "ativo": true,
     "tem_download": false,
-    "video_demo": "https://res.cloudinary.com/dwz3wrelv/video/upload/v1774713521/ProjetoCadastro_2_ybvqke.mp4"
-  }
-},
-{
-  "model": "portfolio.projeto",
-  "pk": 4,
-  "fields": {
-    "titulo": "Àutomação Fatura | Empresarial",
-    "descricao": "À automação desenvolvido exclusivamente para a empresa Nexus Corp Telecom.\r\n\r\nNão tive o prazer de ter desenvolvido completamente, mas pude aprimorar o código e o seu desempenho visando mais agilidade e praticidade durante as consultas da faturas.\r\n\r\nO sistema funciona usando Selenium e PyAutoGUI. Seu funcionamento segue desde cadastro automatizado até o envio da fatura do cliente para o usuário que pesquisou.",
-    "tecnologias": "Python, Selenium, PyAutoGui, SQLite3 e JavaScript",
-    "link_github": "https://github.com/KevenLucas025/CodigoFatura",
-    "link_demo": "",
-    "imagem": "imagens_projetos/automação_vendas.avif",
-    "destaque": false,
-    "criado_em": null,
-    "ordem": 0,
-    "ativo": true,
-    "tem_download": false,
-    "video_demo": "videos/2026-03-11 20-07-06.mp4"
+    "video_demo": null,
+    "tempo_desenvolvimento": null
   }
 },
 {
@@ -80,31 +84,71 @@
     "tecnologias": "Python, Selenium, PyAutoGui, SQLite3 e JavaScript",
     "link_github": "https://github.com/KevenLucas025/Robo_Nexus_Vendas",
     "link_demo": "https://github.com/KevenLucas025/Robo_Nexus_Vendas",
-    "imagem": "imagens_projetos/automação_python.avif",
+    "imagem": "imagens_projetos/automacao_vendas.png",
+    "destaque": false,
+    "criado_em": "2025-11-12",
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false,
+    "video_demo": "videos/2026-03-11 20-07-06.mp4",
+    "tempo_desenvolvimento": null
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 4,
+  "fields": {
+    "titulo": "Àutomação Fatura | Empresarial",
+    "descricao": "À automação desenvolvido exclusivamente para a empresa Nexus Corp Telecom.\r\n\r\nNão tive o prazer de ter desenvolvido completamente, mas pude aprimorar o código e o seu desempenho visando mais agilidade e praticidade durante as consultas da faturas.\r\n\r\nO sistema funciona usando Selenium e PyAutoGUI. Seu funcionamento segue desde cadastro automatizado até o envio da fatura do cliente para o usuário que pesquisou.",
+    "tecnologias": "Python, Selenium, PyAutoGui, SQLite3 e JavaScript",
+    "link_github": "https://github.com/KevenLucas025/CodigoFatura",
+    "link_demo": "",
+    "imagem": "imagens_projetos/automacao_faturas.png",
+    "destaque": false,
+    "criado_em": "2025-09-17",
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false,
+    "video_demo": "videos/2026-03-11 20-07-06.mp4",
+    "tempo_desenvolvimento": null
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 3,
+  "fields": {
+    "titulo": "Cadastro de Pessoas",
+    "descricao": "Sistema simples para cadastro de pessoas, desenvolvido como meu primeiro projeto em Python.\r\n\r\nNa época, ainda estava em fase inicial de aprendizado, mas utilizei este projeto como base para desenvolver e aprimorar meus conhecimentos na linguagem.\r\n\r\nA aplicação realiza apenas cadastros básicos, sem utilização de banco de dados ou interface gráfica, sendo totalmente voltada para fins de aprendizado.",
+    "tecnologias": "Python",
+    "link_github": "https://github.com/KevenLucas025/ProjetoCadastro",
+    "link_demo": "",
+    "imagem": "imagens_projetos/Cadastro_de_Pessoas.png",
+    "destaque": false,
+    "criado_em": "2026-03-18",
+    "ordem": 0,
+    "ativo": true,
+    "tem_download": false,
+    "video_demo": "https://res.cloudinary.com/dwz3wrelv/video/upload/v1774713521/ProjetoCadastro_2_ybvqke.mp4",
+    "tempo_desenvolvimento": null
+  }
+},
+{
+  "model": "portfolio.projeto",
+  "pk": 2,
+  "fields": {
+    "titulo": "Cadastro de Pessoas 2",
+    "descricao": "Meu segundo projeto desenvolvido em Python, evoluindo o sistema anterior de cadastro de pessoas.\r\n\r\nNesta versão, implementei uma interface gráfica utilizando Tkinter, tornando a aplicação mais intuitiva e fácil de usar, mantendo o mesmo conceito de cadastro simples.\r\n\r\nOs dados dos usuários são armazenados em arquivos CSV, permitindo persistência das informações sem a necessidade de banco de dados.\r\n\r\nAlém disso, utilizei a biblioteca Pillow (PIL) para manipulação de imagens, agregando mais funcionalidades ao sistema.",
+    "tecnologias": "Python, Tkinter e CSV",
+    "link_github": "https://github.com/KevenLucas025/ProjetoCadastro",
+    "link_demo": "",
+    "imagem": "imagens_projetos/Cadastro_de_Pessoas_2.png",
     "destaque": false,
     "criado_em": null,
     "ordem": 0,
     "ativo": true,
     "tem_download": false,
-    "video_demo": "videos/2026-03-11 20-07-06.mp4"
-  }
-},
-{
-  "model": "auth.user",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$1000000$S9WvlykRTLLR9HKOBAilMm$5Wx+ZczE2rVqTf9P12BytTexl+yhFCzFT7DZRGVbnWs=",
-    "last_login": "2026-03-18T23:15:04.201Z",
-    "is_superuser": true,
-    "username": "Keven_Lucas",
-    "first_name": "",
-    "last_name": "",
-    "email": "keven.lucas00@hotmail.com",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2026-03-18T23:14:32.017Z",
-    "groups": [],
-    "user_permissions": []
+    "video_demo": "https://res.cloudinary.com/dwz3wrelv/video/upload/v1774795603/ProjetoCDP_dltals.mp4",
+    "tempo_desenvolvimento": null
   }
 }
 ]
