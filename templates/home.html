@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home | Keven{% endblock %}
+{% block content %}
+
+  <!-- HERO -->
+  <div class="hero hero-home">
+    <p class="hero-intro">Olá, muito prazer eu sou o <span>Keven</span></p>
+    <canvas id="particulas"></canvas>
+    <div class="animar">
+      <h1 class="hero-title">Desenvolvedor Python</h1>
+    </div>
+
+    <div class="hero-content-wrapper">
+      <div class="hero-minha-foto">
+        <img src="{% static 'minha_imagem/minha_foto.jpg' %}" alt="Foto Keven">
+      </div>
+      
+      <p class="hero-subtitle">
+        Crio sistemas desktop, automações e soluções em Python voltadas
+        para produtividade, organização e resolução de problemas reais.
+      </p>
+    </div>
+
+    <div class="hero-acoes">
+      <a href="/sobre/" class="hero-btn">Conhecer mais</a>
+      <a href="/projetos/" class="btn-secundario">Ver projetos</a>
+    </div>
+  </div>
+
+    <div class="hero-social">
+      <a href="https://github.com/KevenLucas025" target="_blank" class="social-icon">
+      <img src="{% static 'imagens_habilidades/github_logo_branco.png' %}" alt="GitHub">
+      </a>
+
+      <a href="https://www.linkedin.com/in/keven-lucas-32949b205/" target="_blank" class="social-icon">
+      <img src="{% static 'imagens_habilidades/linkedin_logo_branco.png' %}" alt="LinkedIn">
+      </a>
+      
+    </div>
+
+  <!-- PROJETO EM DESTAQUE -->
+<section class="secao-destaque-desktop">
+    <div class="videos-grid">
+        {% for p in destaques|slice:":2" %}
+        <section class="video-hero">
+            <div class="video-titulo">
+                <span class="animar-sub">Projeto de Destaque</span>
+
+                <h2 class="animar-tit">{{ p.titulo }}</h2>
+
+                <div class="video-acoes">
+                    {% if p.tem_download %}
+                        <a href="https://github.com/KevenLucas025/Sistema-de-Gerenciamento---Download/releases/download/v1.1.18/Sistema-de-Gerenciamento.zip" target="_blank" class="btn-video-principal">
+                            Download do Sistema
+                        </a>
+                    {% else %}
+                        <a href="{{ p.link_demo }}" target="_blank" class="btn-video-principal" title="Abrirá em uma nova guia">
+                            Acessar Sistema
+                        </a>
+                    {% endif %}
+
+                    <a href="{{ p.link_github }}" target="_blank" class="btn-video-secundario">
+                        GitHub
+                    </a>
+                </div>
+            </div>
+
+            <video
+                class="video-fullscreen"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="auto">
+                <source src="{% if p.video_demo %}{{ p.video_demo }}{% else %}{% if forloop.first %}https://res.cloudinary.com/dwz3wrelv/video/upload/v1774199653/Sistema_de_Gerenciamento_cfig1s.mp4{% else %}https://res.cloudinary.com/dwz3wrelv/video/upload/v1782604739/Kanban_gsbbfr.mp4{% endif %}{% endif %}" type="video/mp4">
+            </video>
+
+            <button class="btn-video">❚❚</button>
+            <div class="video-overlay-sombra"></div>
+        </section>
+        {% endfor %}
+    </div>
+</section>
+
+
+<!-- PROJETO EM DESTAQUE SOMENTE PARA MOBILE-->
+<section class="secao-destaque-mobile">
+    <h2 class="titulo-secao">Projetos em destaque</h2>
+
+    {% for p in destaques %}
+    <div class="projeto-destaque">
+
+        <!-- IMAGEM -->
+        <div class="imagem-container">
+            {% if p.imagem %}
+                <img src="{% static p.imagem %}" alt="{{ p.titulo }}" class="projeto-img">
+            {% else %}
+                <div class="sem-imagem">Sem imagem</div>
+            {% endif %}
+
+            <div class="overlay">
+                <h3 class="overlay-titulo">{{ p.titulo }}</h3>
+
+                <div class="overlay-botoes">
+                    {% if p.tem_download %}
+                        {% if p.link_demo %}
+                            <a href="https://github.com/KevenLucas025/Sistema-de-Gerenciamento---Download/releases/download/v1.1.18/Sistema-de-Gerenciamento.zip" target="_blank" class="btn-overlay">
+                                Download do Sistema
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        {% if p.link_github %}
+                            <a href="{{ p.link_github }}" target="_blank" class="btn-overlay">
+                                GitHub
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- DESCRIÇÃO -->
+        <div class="destaque-info">
+
+            <h3>{{ p.titulo }}</h3>
+
+            <p>
+                {{ p.descricao|default:"Projeto desenvolvido com foco em automação e produtividade." }}
+            </p>
+
+            <div class="mobile-botoes">
+
+                {% if forloop.counter == 2 %}
+
+                    <a href="https://kanban-82vd.onrender.com/"
+                       target="_blank"
+                       class="btn-kanban">
+                        Acessar o Sistema
+                    </a>
+
+                {% elif forloop.counter == 3 %}
+
+                    <a href="https://github.com/KevenLucas025/Sistema-de-Gerenciamento---Download/releases/download/v1.1.18/Sistema-de-Gerenciamento.zip"
+                       target="_blank"
+                       class="btn-mobile download">
+                        Download do Sistema
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+</section>
+
+
+<!-- PROJETO MAIS RECENTE -->
+<section class="projeto-case">
+
+    <div class="case-header">
+
+        <span class="case-label">Projeto mais recente</span>
+
+        <h2>Monitor de Preços Telegram</h2>
+
+        <p>
+            Sistema inteligente para monitoramento automático de ofertas utilizando
+            Web Scraping, SQLite e integração com a API do Telegram.
+        </p>
+
+        <div class="case-tags">
+            <span>Python</span>
+            <span>Selenium</span>
+            <span>SQLite</span>
+            <span>Telegram API</span>
+        </div>
+
+    </div>
+
+    <div class="case-conteudo">
+
+        <div class="case-imagem">
+
+            <img
+                src="{% static 'imagens_projetos/monitor_precos_telegram_branco.png' %}"
+                alt="Monitor de Preços">
+
+        </div>
+
+        <div class="case-info">
+
+            <h3>Sobre o projeto</h3>
+
+            <p>
+                O sistema realiza buscas automáticas em lojas online,
+                registra todo o histórico de preços em um banco SQLite
+                e envia notificações para grupos do Telegram sempre que
+                um produto atinge o valor desejado.
+            </p>
+
+            <div class="case-lista">
+
+                <div>✔ Web Scraping automático</div>
+
+                <div>✔ Histórico completo de preços</div>
+
+                <div>✔ Banco SQLite</div>
+
+                <div>✔ Alertas em tempo real</div>
+
+            </div>
+
+            <a
+                href="https://t.me/+EzDDZqe4TAY0ZWZh"
+                target="_blank"
+                class="btn-case">
+
+                Acessar grupo do Telegram
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+  <!-- MODAL PERSONALIZADO -->
+  <!--
+  <div id="modalAviso" class="modal-aviso">
+    <div class="modal-conteudo">
+      <span class="icone-aviso">🚧</span>
+      <h3>Projeto em Desenvolvimento</h3>
+      <p>Este projeto ainda está sendo desenvolvido.</p>
+
+      <button type="button" onclick="fecharAviso()" class="btn-fechar">
+          OK
+        </button>
+    </div>
+  </div>
+  -->
+
+
+
+
+
+<section class="projeto-futuro">
+
+    <div class="futuro-header">
+
+        <h2>Próximo Projeto</h2>
+
+        <p>
+            O próximo passo do portfólio será disponibilizar uma versão online do
+            Sistema de Gerenciamento, permitindo acesso diretamente pelo navegador.
+        </p>
+
+    </div>
+
+    <div class="futuro-card">
+
+        <div class="futuro-status">
+            🚧 Em planejamento
+        </div>
+
+        <h3>Sistema de Gerenciamento Online</h3>
+
+        <p>
+            O sistema será também executado para uma aplicação web, mantendo os recursos da
+            versão desktop e adicionando novas funcionalidades para acesso remoto.
+        </p>
+
+        <div class="futuro-features">
+
+            <div>🌐 Acesso via navegador</div>
+
+            <div>👥 Login de usuários</div>
+
+            <div>☁ Banco de dados online</div>
+
+            <div>📊 Dashboard interativo</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PROJETO MAIS RECENTE -->
+<section class="mais-projetos">
+
+    <div class="secao-header">
+
+        <span class="secao-tag">Portfólio</span>
+
+        <h2>Explore outros projetos</h2>
+
+        <p>
+            Confira outros projetos desenvolvidos utilizando Python, Django,
+            JavaScript, automações e diferentes tecnologias.
+        </p>
+
+        <button type="button" onclick="redirecionarProjetos()" class="btn-ir-projetos">
+          <span class="setas">
+            <span>▶</span>
+            <span>▶</span>
+            <span>▶</span>
+          </span>
+        </button>
+
+    </div>
+</section>
+{% endblock %}
