@@ -42,47 +42,29 @@
 
   <!-- PROJETO EM DESTAQUE -->
 <section class="secao-destaque-desktop">
-
     <div class="videos-grid">
-
         {% for p in destaques|slice:":2" %}
-
         <section class="video-hero">
-
             <div class="video-titulo">
-
                 <span class="animar-sub">Projeto de Destaque</span>
 
-                {% if forloop.first %}
+                <h2 class="animar-tit">{{ p.titulo }}</h2>
 
-                    <h2 class="animar-tit">Sistema de Gerenciamento</h2>
-
-                    <div class="video-acoes">
-                        <a href="{{ p.link_demo }}" target="_blank" class="btn-video-principal">
-                            Download
+                <div class="video-acoes">
+                    {% if p.tem_download %}
+                        <a href="https://github.com/KevenLucas025/Sistema-de-Gerenciamento---Download/releases/download/v1.1.18/Sistema-de-Gerenciamento.zip" target="_blank" class="btn-video-principal">
+                            Download do Sistema
                         </a>
-
-                        <a href="{{ p.link_github }}" target="_blank" class="btn-video-secundario">
-                            GitHub
-                        </a>
-                    </div>
-
-                {% else %}
-
-                    <h2 class="animar-tit">Gerenciador de Processos Kanban</h2>
-
-                    <div class="video-acoes">
-                        <a href="https://kanban-82vd.onrender.com/" target="_blank" class="btn-video-principal">
+                    {% else %}
+                        <a href="{{ p.link_demo }}" target="_blank" class="btn-video-principal" title="Abrirá em uma nova guia">
                             Acessar Sistema
                         </a>
+                    {% endif %}
 
-                        <a href="{{ p.link_github }}" target="_blank" class="btn-video-secundario">
-                            GitHub
-                        </a>
-                    </div>
-
-                {% endif %}
-
+                    <a href="{{ p.link_github }}" target="_blank" class="btn-video-secundario">
+                        GitHub
+                    </a>
+                </div>
             </div>
 
             <video
@@ -92,24 +74,17 @@
                 loop
                 playsinline
                 preload="auto">
-
-                <source src="{% if forloop.first %}https://res.cloudinary.com/dwz3wrelv/video/upload/v1774199653/Sistema_de_Gerenciamento_cfig1s.mp4{% else %}https://res.cloudinary.com/dwz3wrelv/video/upload/v1782604739/Kanban_gsbbfr.mp4{% endif %}" type="video/mp4">
-
+                <source src="{% if p.video_demo %}{{ p.video_demo }}{% else %}{% if forloop.first %}https://res.cloudinary.com/dwz3wrelv/video/upload/v1774199653/Sistema_de_Gerenciamento_cfig1s.mp4{% else %}https://res.cloudinary.com/dwz3wrelv/video/upload/v1782604739/Kanban_gsbbfr.mp4{% endif %}{% endif %}" type="video/mp4">
             </video>
 
             <button class="btn-video">❚❚</button>
-
             <div class="video-overlay-sombra"></div>
-
         </section>
-
         {% endfor %}
-
     </div>
-
 </section>
 
- <!-- PROJETO EM DESTAQUE -->
+
 <!-- PROJETO EM DESTAQUE SOMENTE PARA MOBILE-->
 <section class="secao-destaque-mobile">
     <h2 class="titulo-secao">Projetos em destaque</h2>
@@ -131,8 +106,8 @@
                 <div class="overlay-botoes">
                     {% if p.tem_download %}
                         {% if p.link_demo %}
-                            <a href="{{ p.link_demo }}" target="_blank" class="btn-overlay">
-                                Download
+                            <a href="https://github.com/KevenLucas025/Sistema-de-Gerenciamento---Download/releases/download/v1.1.18/Sistema-de-Gerenciamento.zip" target="_blank" class="btn-overlay">
+                                Download do Sistema
                             </a>
                         {% endif %}
                     {% else %}
@@ -162,12 +137,12 @@
                     <a href="https://kanban-82vd.onrender.com/"
                        target="_blank"
                        class="btn-kanban">
-                        Acessar o sistema
+                        Acessar o Sistema
                     </a>
 
                 {% elif forloop.counter == 3 %}
 
-                    <a href="{{ p.link_demo }}"
+                    <a href="https://github.com/KevenLucas025/Sistema-de-Gerenciamento---Download/releases/download/v1.1.18/Sistema-de-Gerenciamento.zip"
                        target="_blank"
                        class="btn-mobile download">
                         Download do Sistema
