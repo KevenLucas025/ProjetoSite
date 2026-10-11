@@ -1,77 +1,65 @@
+
 document.addEventListener("DOMContentLoaded", () => {
 
-  const btnSugestao = document.getElementById("btnSugestao");
-  const btnSugestaoMobile = document.getElementById("btnSugestaoMobile");
-  const modal = document.getElementById("modalSugestao");
-  const fechar = document.getElementById("fecharSugestao");
-  const form = document.getElementById("formSugestao");
+    const btnSugestao = document.getElementById("btnSugestao");
+    const btnSugestaoMobile = document.getElementById("btnSugestaoMobile");
 
-  const botao = document.getElementById("btnEnviar");
-  const texto = botao?.querySelector(".texto-btn");
-  const spinner = botao?.querySelector(".spinner");
+    const modal = document.getElementById("modalIndisponibilidade");
+    const btnFechar = document.getElementById("fecharIndisponibilidade");
+    const btnFecharRodape = document.getElementById("btnFecharIndisponibilidade");
+    const btnContato = document.getElementById("btnIrContato");
 
-  function abrirModal(e) {
-    e.preventDefault();
+    function abrirModal(e) {
+        e.preventDefault();
 
-    modal.classList.add("ativo");
+        if (!modal) return;
 
-    // 🔥 TRAVA O BODY (AQUI É O QUE VOCÊ PRECISA)
-    document.body.classList.add("modal-open");
+        modal.classList.add("ativo");
+        document.body.classList.add("modal-open");
 
-    // limpa formulário ao abrir
-    if (form) form.reset();
-
-    // reseta botão (caso tenha dado erro antes)
-    if (botao && texto && spinner) {
-      botao.disabled = false;
-      texto.innerText = "Enviar";
-      spinner.style.display = "none";
+        btnFechar?.focus();
     }
-  }
 
-  function fecharModal() {
-    modal.classList.remove("ativo");
+    function fecharModal() {
+        if (!modal) return;
 
-    // 🔥 libera o body quando fecha
-    document.body.classList.remove("modal-open");
-  }
+        modal.classList.remove("ativo");
+        document.body.classList.remove("modal-open");
+    }
 
-  if (btnSugestao && modal) {
-    btnSugestao.addEventListener("click", abrirModal);
-  }
+    // Desktop
+    btnSugestao?.addEventListener("click", abrirModal);
 
-  if (btnSugestaoMobile && modal) {
-    btnSugestaoMobile.addEventListener("click", abrirModal);
-  }
+    // Celular
+    btnSugestaoMobile?.addEventListener("click", abrirModal);
 
-  if (fechar && modal) {
-    fechar.addEventListener("click", fecharModal);
-  }
+    // Botões para fechar
+    btnFechar?.addEventListener("click", fecharModal);
+    btnFecharRodape?.addEventListener("click", fecharModal);
 
-  if (modal) {
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        fecharModal();
-      }
+    // Fechar clicando no fundo
+    modal?.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            fecharModal();
+        }
     });
-  }
 
-  if (form) {
-    form.addEventListener("submit", () => {
-        if (botao && texto && spinner){
-            botao.disabled = true;
-            botao.classList.add("enviando");
-            texto.innerText = "Enviando";
-            spinner.style.display = "block";
-        } 
-
-        setTimeout(() => {
-            botao.disabled = false;
-            botao.classList.remove("enviando");
-            texto.innerText = "Enviar";
-            spinner.style.display = "none";
-        }, 3000);
+    // Fechar com ESC
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal?.classList.contains("ativo")) {
+            fecharModal();
+        }
     });
-  }
+
+    // Ir para a seção Contato
+    
+  
+  btnContato?.addEventListener("click", () => {
+      fecharModal();
+
+      window.location.href = "/contato/";
+  });
+
+
 
 });
