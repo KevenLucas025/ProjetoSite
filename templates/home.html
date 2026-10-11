@@ -293,11 +293,10 @@
 
 </section>
 
+
 <!-- PROJETO MAIS RECENTE -->
 <section class="mais-projetos">
-
     <div class="secao-header">
-
         <span class="secao-tag">Portfólio</span>
 
         <h2>Explore outros projetos</h2>
@@ -307,14 +306,18 @@
             JavaScript, automações e diferentes tecnologias.
         </p>
 
-        <button type="button" onclick="redirecionarProjetos()" class="btn-ir-projetos">
-          <span class="setas">
-            <span>▶</span>
-            <span>▶</span>
-            <span>▶</span>
-          </span>
-        </button>
-
+        <a
+            href="/projetos/"
+            class="btn-ir-projetos"
+            id="btnIrProjetos"
+            aria-label="Ver todos os projetos"
+        >
+            <span class="setas">
+                <span>▶</span>
+                <span>▶</span>
+                <span>▶</span>
+            </span>
+        </a>
     </div>
 </section>
 {% endblock %}

@@ -1759,15 +1759,10 @@
       color: black;
   }
   .projeto-case{
-
     margin:120px auto;
-
     padding:60px;
-
     border-radius:28px;
-
     border:1px solid rgba(77,208,225,.15);
-
     background:linear-gradient(
         135deg,
         rgba(77,208,225,.05),
@@ -1775,53 +1770,37 @@
     );
 
     overflow:hidden;
-
   }
   .case-header{
-
     text-align:center;
-
     max-width:850px;
-
     margin:auto auto 70px;
 
   }
 
   .case-label{
-
       color:#4dd0e1;
-
       text-transform:uppercase;
-
       letter-spacing:2px;
-
       font-size:.9rem;
 
   }
 
   .case-header h2{
-
       font-size:3rem;
-
       margin:15px 0;
 
   }
 
   .case-header p{
-
       color:#cbd5e1;
-
       line-height:1.8;
 
   }
   .case-conteudo{
-
     display:grid;
-
     grid-template-columns:1.3fr 1fr;
-
     gap:60px;
-
     align-items:center;
 
   }
@@ -2103,23 +2082,28 @@
       transform:translateY(-4px);
 
   }
-  .btn-ir-projetos{
+  
+.btn-ir-projetos {
+    position: relative;
+    z-index: 10;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-
-    border: 1px solid #4dd0e1;
-    color: #4dd0e1;
+    justify-content: center;
+    pointer-events: auto;
+    touch-action: manipulation;
+    text-decoration: none;
+    cursor: pointer;
     padding: 14px 36px;
     border-radius: 8px;
-    text-decoration: none;
     transition: .25s;
     background: none;
-    cursor: pointer;
     font-size: 16px;
     font-weight: 600;
     margin-top: 50px;
-  }
+    border: 1px solid #4dd0e1;
+    color: #4dd0e1;
+}
+
 
   .btn-ir-projetos:hover{
       background:#4dd0e1;
@@ -2407,6 +2391,17 @@
 }
 
 @media (max-width: 768px){
+
+   .case-header h2{
+      font-size:3rem;
+      margin:15px 1px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      display: flex;
+
+    }
+
 
    .modal-indisponibilidade-conteudo {
         padding: 35px 22px 24px;
@@ -3184,25 +3179,35 @@ document.querySelectorAll(".video-hero").forEach(section => {
         { opacity: 0, y: -40, duration: 2, stagger: 0.1, ease: "power2.in" }
     );
 
-    botao.addEventListener("click", () => {
+    if (botao) {
+      botao.addEventListener("click", () => {
 
-        if (video.paused) {
-            pausadoManualmente = false;
-            video.play();
-            botao.innerHTML = "❚❚";
-        } else {
-            pausadoManualmente = true;
-            video.pause();
-            botao.innerHTML = "▶";
-        }
+          if (video.paused) {
+              pausadoManualmente = false;
+              video.play();
+              botao.innerHTML = "❚❚";
+          } else {
+              pausadoManualmente = true;
+              video.pause();
+              botao.innerHTML = "▶";
+          }
 
-    });
+      });
+  }
 
 });
 
-function redirecionarProjetos(){
-    window.location.href = "/projetos/";
-}
+
+  const botaoProjetos = document.getElementById("btnIrProjetos");
+
+  if (botaoProjetos) {
+      botaoProjetos.addEventListener("click", function () {
+          window.location.href = "/projetos/";
+      });
+  }
+
+
+
 
 </script>
 </body>
