@@ -10,19 +10,8 @@ load_dotenv()
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 
-# ==================================================
-# EMAIL (SENDGRID API)
-# ==================================================
-
-EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
-
-ANYMAIL = {
-    "SENDGRID_API_KEY": os.environ.get("SENDGRID_API_KEY"),
-}
-
-DEFAULT_FROM_EMAIL = "meusitepessoal2027@outlook.com"
-
-SERVER_EMAIL = DEFAULT_FROM_EMAIL
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
 
 
 # ==================================================

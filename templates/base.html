@@ -1759,15 +1759,10 @@
       color: black;
   }
   .projeto-case{
-
     margin:120px auto;
-
     padding:60px;
-
     border-radius:28px;
-
     border:1px solid rgba(77,208,225,.15);
-
     background:linear-gradient(
         135deg,
         rgba(77,208,225,.05),
@@ -1775,53 +1770,37 @@
     );
 
     overflow:hidden;
-
   }
   .case-header{
-
     text-align:center;
-
     max-width:850px;
-
     margin:auto auto 70px;
 
   }
 
   .case-label{
-
       color:#4dd0e1;
-
       text-transform:uppercase;
-
       letter-spacing:2px;
-
       font-size:.9rem;
 
   }
 
   .case-header h2{
-
       font-size:3rem;
-
       margin:15px 0;
 
   }
 
   .case-header p{
-
       color:#cbd5e1;
-
       line-height:1.8;
 
   }
   .case-conteudo{
-
     display:grid;
-
     grid-template-columns:1.3fr 1fr;
-
     gap:60px;
-
     align-items:center;
 
   }
@@ -2103,23 +2082,28 @@
       transform:translateY(-4px);
 
   }
-  .btn-ir-projetos{
+  
+.btn-ir-projetos {
+    position: relative;
+    z-index: 10;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-
-    border: 1px solid #4dd0e1;
-    color: #4dd0e1;
+    justify-content: center;
+    pointer-events: auto;
+    touch-action: manipulation;
+    text-decoration: none;
+    cursor: pointer;
     padding: 14px 36px;
     border-radius: 8px;
-    text-decoration: none;
     transition: .25s;
     background: none;
-    cursor: pointer;
     font-size: 16px;
     font-weight: 600;
     margin-top: 50px;
-  }
+    border: 1px solid #4dd0e1;
+    color: #4dd0e1;
+}
+
 
   .btn-ir-projetos:hover{
       background:#4dd0e1;
@@ -2405,8 +2389,488 @@
 .btn-contato-indisponibilidade:hover {
     background: #86efac;
 }
+.comentarios-pagina {
+    padding: 70px 20px;
+    min-height: 70vh;
+    color: #f1f5f9;
+}
 
-  @media (max-width: 768px){
+.comentarios-container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.comentarios-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.comentarios-tag {
+    color: #22d3ee;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.comentarios-header h1 {
+    margin: 12px 0;
+    font-size: clamp(28px, 5vw, 42px);
+}
+
+.comentarios-header h1 span {
+    color: #22d3ee;
+}
+
+.comentarios-header p {
+    color: #aab5c4;
+    line-height: 1.7;
+}
+
+.comentario-form-card,
+.comentario-item,
+.comentarios-vazio {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(77, 208, 225, 0.18);
+    border-radius: 14px;
+}
+
+.comentario-form-card {
+    padding: 25px;
+    margin-bottom: 45px;
+}
+
+.comentario-form-card h2,
+.comentarios-lista h2 {
+    margin: 0 0 22px;
+    font-size: 21px;
+}
+
+.campo-comentario {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.campo-comentario label {
+    color: #dbeafe;
+    font-size: 14px;
+}
+
+.campo-comentario input,
+.campo-comentario textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: #111827;
+    color: #f1f5f9;
+    font: inherit;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.campo-comentario input:focus,
+.campo-comentario textarea:focus {
+    outline: 2px solid #22d3ee;
+    outline-offset: 1px;
+}
+
+.campo-comentario textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+/* Botões de enviar e cancelar edição */
+.btn-enviar-comentario,
+.btn-cancelar-edicao {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 14px 18px;
+
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+    touch-action: manipulation;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+    box-sizing: border-box;
+}
+
+/* Enviar comentário */
+.btn-enviar-comentario {
+    background: #0891b2;
+    color: #ffffff;
+}
+
+.btn-enviar-comentario:hover {
+    background: #0e7490;
+}
+
+/* Cancelar edição */
+.btn-cancelar-edicao {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    margin-top: 15px;
+}
+
+.btn-cancelar-edicao:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #4dd0e1;
+    color: #4dd0e1;
+    transform: translateY(-2px);
+}
+
+/* Acessibilidade */
+.btn-enviar-comentario:focus-visible,
+.btn-cancelar-edicao:focus-visible {
+    outline: 2px solid #4dd0e1;
+    outline-offset: 3px;
+}
+
+/* Clique */
+.btn-enviar-comentario:active,
+.btn-cancelar-edicao:active {
+    transform: translateY(0);
+}
+
+
+.comentario-sucesso {
+    color: #67e8f9;
+    margin-bottom: 18px;
+}
+
+.comentario-erro {
+    color: #fca5a5;
+    font-size: 13px;
+    margin: 0;
+}
+
+.comentario-privacidade i {
+    flex-shrink: 0;
+    margin-top: 3px;
+    font-size: 1rem;
+}
+
+.comentario-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+    margin-bottom: 14px;
+    position: relative;
+    padding-right: 52px;
+}
+
+.comentario-avatar {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(34, 211, 238, 0.13);
+    color: #22d3ee;
+    font-weight: 700;
+}
+
+.comentario-conteudo {
+    min-width: 0;
+    flex: 1;
+}
+
+.comentario-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    align-items: center;
+}
+
+.comentario-meta time {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.comentario-conteudo p {
+    color: #cbd5e1;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    margin: 12px 0 0;
+}
+
+.comentarios-vazio {
+    padding: 25px;
+    text-align: center;
+    color: #cbd5e1;
+}
+
+.comentarios-vazio span {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.campo-armadilha {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+}
+/* ========================================
+   CAMPOS DE AVALIAÇÃO E TIPO DE COMENTÁRIO
+======================================== */
+
+.campo-comentario select {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: #111827;
+    color: #f1f5f9;
+    font: inherit;
+    font-size: 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 14px center !important;
+    background-size: 16px !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.campo-comentario select:focus {
+    outline: none;
+    border-color: #22d3ee;
+    box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.15);
+}
+
+.campo-comentario select option {
+    background: #111827;
+    color: #f1f5f9;
+}
+/* ========================================
+   AVALIAÇÃO EM ESTRELAS NA LISTAGEM
+======================================== */
+
+.comentario-estrelas {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    color: #fbbf24;
+    font-size: 17px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* ========================================
+   TIPO DO COMENTÁRIO
+======================================== */
+
+.comentario-tipo {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 8px;
+    padding: 4px 10px;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 20px;
+    background: rgba(34, 211, 238, 0.08);
+    color: #67e8f9;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ========================================
+   AVISO DE PRIVACIDADE
+======================================== */
+
+.comentario-privacidade {
+    margin: 0 0 20px;
+    padding: 13px 15px;
+    border-left: 3px solid #22d3ee;
+    border-radius: 4px;
+    background: rgba(34, 211, 238, 0.06);
+    color: #aab5c4;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* ========================================
+   ESTADOS DOS CAMPOS
+======================================== */
+
+.campo-comentario input:hover,
+.campo-comentario textarea:hover,
+.campo-comentario select:hover {
+    border-color: #64748b;
+}
+
+.campo-comentario input:focus,
+.campo-comentario textarea:focus {
+    border-color: #22d3ee;
+    box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.12);
+}
+/* ========================================
+   BOTÃO DE ENVIO
+======================================== */
+
+.btn-enviar-comentario {
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.btn-enviar-comentario:hover {
+    background: #0e7490;
+    box-shadow: 0 5px 18px rgba(8, 145, 178, 0.2);
+}
+
+.btn-enviar-comentario:active {
+    transform: scale(0.99);
+}
+
+.btn-enviar-comentario:focus-visible {
+    outline: 2px solid #67e8f9;
+    outline-offset: 3px;
+}
+.comentario-editado {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.comentario-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+}
+
+/* Botão de editar no canto superior direito */
+.btn-editar-comentario {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    border-radius: 8px;
+
+    background: rgba(34, 211, 238, 0.08);
+    color: #67e8f9;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.btn-editar-comentario:hover {
+    background: rgba(34, 211, 238, 0.18);
+    border-color: #22d3ee;
+    transform: translateY(-1px);
+}
+
+.btn-editar-comentario:focus-visible {
+    outline: 2px solid #22d3ee;
+    outline-offset: 3px;
+}
+
+.btn-cancelar-edicao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-cancelar-edicao:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #4dd0e1;
+    color: #4dd0e1;
+    transform: translateY(-2px);
+}
+
+.btn-cancelar-edicao:focus-visible {
+    outline: 2px solid #4dd0e1;
+    outline-offset: 3px;
+}
+
+.btn-cancelar-edicao:active {
+    transform: translateY(0);
+}
+
+
+@media (max-width: 768px){
+
+  .comentarios-pagina {
+        padding: 45px 16px;
+    }
+
+    .comentario-form-card {
+        padding: 18px;
+    }
+
+    .comentario-item {
+        padding: 15px;
+        gap: 12px;
+    }
+
+
+   .case-header h2{
+      font-size:3rem;
+      margin:15px 1px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      display: flex;
+
+    }
+
 
    .modal-indisponibilidade-conteudo {
         padding: 35px 22px 24px;
@@ -2607,8 +3071,9 @@
       z-index: 2;
       margin: 60px auto 50px;
     }
+    
     nav > a{
-      display: none;
+      display: none !important;
       
     }
     nav{
@@ -2637,6 +3102,33 @@
       border-radius: 5px;
       transition: all 0.3s ease;
   }
+  /* Sugestões e selo alinhados dentro do dropdown mobile */
+  .menu-dropdown a.sugestoes-mobile {
+      display: flex !important;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+
+      width: 100%;
+      box-sizing: border-box;
+      white-space: nowrap;
+  }
+  /* Selo de indisponibilidade no mobile */
+  .menu-dropdown .balao-indisponivel {
+      display: inline-block;
+      flex-shrink: 0;
+
+      background: #7f1d1d;
+      color: #fecaca;
+      border: 1px solid #b91c1c;
+      border-radius: 5px;
+
+      padding: 3px 6px;
+      font-size: 9px;
+      font-weight: 700;
+      line-height: 1.2;
+  }
 
     /* menu escondido */
     .menu-dropdown {
@@ -2645,7 +3137,6 @@
       right: 20px;
       width: 200px;
       text-align: center;
-
       background: #1a1a1a;
       
       display: flex; 
@@ -2666,7 +3157,7 @@
     /* quando ativo */ 
     .menu-dropdown.ativo{ 
       opacity: 1; 
-      max-height: 300px; 
+      max-height: 350px; 
       gap: 10px; 
       padding: 10px; 
       border-width: 1px; 
@@ -2886,6 +3377,7 @@
       SUGESTÕES
       <span class="balao-indisponivel">Indisponível</span>
   </a>
+  <a href="{% url 'comentarios' %}">COMENTÁRIOS</a>
     
   <button class="menu-toggle">
     <span></span>
@@ -2898,10 +3390,16 @@
       <a href="/sobre/">Sobre</a>
       <a href="/projetos/">Projetos</a>
       <a href="/contato/">Contato</a>
-      <a href="#" id="btnSugestaoMobile">Sugestões</a>
+      <a href="#" id="btnSugestaoMobile" class="sugestoes-mobile">
+          <span>Sugestões</span>
+          <span class="balao-indisponivel">Indisponível</span>
+      </a>
+      
+      <a href="{% url 'comentarios' %}">Comentários</a>
     </div>
   </nav>
 </div>
+
 
 
 <div class="container">
@@ -2918,6 +3416,10 @@
 
 <script src="{% static 'js/modal_sugestao.js' %}"></script>
 <script src="{% static 'js/sugestao.js' %}"></script>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+>
 
 <script>
 
@@ -3153,25 +3655,35 @@ document.querySelectorAll(".video-hero").forEach(section => {
         { opacity: 0, y: -40, duration: 2, stagger: 0.1, ease: "power2.in" }
     );
 
-    botao.addEventListener("click", () => {
+    if (botao) {
+      botao.addEventListener("click", () => {
 
-        if (video.paused) {
-            pausadoManualmente = false;
-            video.play();
-            botao.innerHTML = "❚❚";
-        } else {
-            pausadoManualmente = true;
-            video.pause();
-            botao.innerHTML = "▶";
-        }
+          if (video.paused) {
+              pausadoManualmente = false;
+              video.play();
+              botao.innerHTML = "❚❚";
+          } else {
+              pausadoManualmente = true;
+              video.pause();
+              botao.innerHTML = "▶";
+          }
 
-    });
+      });
+  }
 
 });
 
-function redirecionarProjetos(){
-    window.location.href = "/projetos/";
-}
+
+  const botaoProjetos = document.getElementById("btnIrProjetos");
+
+  if (botaoProjetos) {
+      botaoProjetos.addEventListener("click", function () {
+          window.location.href = "/projetos/";
+      });
+  }
+
+
+
 
 </script>
 </body>

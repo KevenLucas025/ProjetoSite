@@ -8,6 +8,15 @@ from django.http import JsonResponse
 from django.conf import settings
 import json
 import traceback
+from django.shortcuts import render, redirect,get_object_or_404
+from .models import Comentario
+from .forms import ComentarioForm
+import logging
+import requests
+
+from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 
 def home(request):
@@ -34,102 +43,95 @@ def contato(request):
     return render(request, "contato.html")
 
 
-@csrf_exempt
-def enviar_sugestao(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            
-            assunto_user = data.get('assunto', 'Sem Assunto')
-            nome_user = data.get('nome', 'Anônimo')
-            email_usuario = data.get('email')
-            mensagem = data.get('mensagem')
-            
-            print("EMAIL:", settings.DEFAULT_FROM_EMAIL)
-            print("PASS:", settings.EMAIL_HOST_PASSWORD)
 
-            # 1. Configuração do Assunto e Destinatários
-            subject = f'📩 Nova Sugestão: {assunto_user}'
-            to = ["kevenmathers@gmail.com"]
-            
-            from_email = settings.DEFAULT_FROM_EMAIL
-            
+def comentarios(request):
+    if request.method == "POST":
+        form = ComentarioForm(request.POST)
 
-            # 2. O corpo do e-mail em HTML com CSS Inline (melhor compatibilidade)
-            html_content = f"""
-                <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f8; padding:20px; font-family:Arial, sans-serif;">
-                <tr>
-                    <td align="center">
-                    
-                    <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:10px; overflow:hidden;">
-                        
-                        <!-- HEADER -->
-                        <tr>
-                        <td style="background:#202124; padding:20px; text-align:center;">
-                            <img src="https://projetosite-z4ap.onrender.com/static/imagem_navegador/logo_site.png" width="120" style="margin-bottom:10px;">
-                            <h2 style="margin:0; color:#ffffff;">Nova Sugestão Recebida</h2>
-                        </td>
-                        </tr>
+        if form.is_valid():
+            # Bloqueia envios automáticos pelo campo-armadilha.
+            if form.cleaned_data.get("website"):
+                return redirect("comentarios")
 
-                        <!-- BODY -->
-                        <tr>
-                        <td style="padding:25px; color:#333;">
-                            
-                            <p style="margin-top:0;">Você recebeu uma nova mensagem do seu portfólio:</p>
+            comentario = form.save()
+            notificar_novo_comentario(comentario)
+            return redirect("comentarios")
 
-                            <table width="100%" cellpadding="10" cellspacing="0" style="margin-top:15px; border:1px solid #eee; border-radius:8px;">
-                            <tr>
-                                <td><strong>👤 Nome:</strong></td>
-                                <td>{nome_user}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>📧 Email:</strong></td>
-                                <td><a href="mailto:{email_usuario}">{email_usuario}</a></td>
-                            </tr>
-                            <tr>
-                                <td><strong>📝 Assunto:</strong></td>
-                                <td>{assunto_user}</td>
-                            </tr>
-                            </table>
+    else:
+        form = ComentarioForm()
 
-                            <!-- MENSAGEM -->
-                            <div style="margin-top:20px;">
-                            <p><strong>💬 Mensagem:</strong></p>
-                            <div style="background:#f9fafb; padding:15px; border-left:4px solid #22d3ee;">
-                                {mensagem}
-                            </div>
-                            </div>
+    # Nunca envia críticas e sugestões para a página pública.
+    comentarios = Comentario.objects.all().order_by("-criado_em")
 
-                        </td>
-                        </tr>
+    return render(
+        request,
+        "comentarios.html",
+        {
+            "form": form,
+            "comentarios": comentarios,
+            "enviado": request.GET.get("enviado") == "1",
+        },
+    )
+    
+def editar_comentario(request, pk):
+    comentario = get_object_or_404(Comentario, pk=pk)
 
-                        <!-- FOOTER -->
-                        <tr>
-                        <td style="background:#f1f1f1; text-align:center; padding:15px; font-size:12px; color:#777;">
-                            Enviado automaticamente pelo seu site 🚀
-                        </td>
-                        </tr>
+    if request.method == "POST":
+        form = ComentarioForm(request.POST, instance=comentario)
 
-                    </table>
+        if form.is_valid():
+            if form.cleaned_data.get("website"):
+                return redirect("comentarios")
 
-                    </td>
-                </tr>
-                </table>
-                """
+            form.save()
+            return redirect("comentarios")
+    else:
+        form = ComentarioForm(instance=comentario)
 
-            # 3. Criar a versão em texto puro para fallback
-            text_content = strip_tags(html_content)
+    return render(
+        request,
+        "editar_comentario.html",
+        {
+            "form": form,
+            "comentario": comentario,
+        },
+    )
+def notificar_novo_comentario(comentario):
+    token = settings.TELEGRAM_BOT_TOKEN
+    chat_id = settings.TELEGRAM_CHAT_ID
 
-            # 4. Montar e enviar o e-mail
-            msg = EmailMultiAlternatives(subject, text_content, from_email, to)
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+    if not token or not chat_id:
+        logger.warning("Telegram não configurado.")
+        return
 
-            return JsonResponse({'status': 'ok'})
+    
+    mensagem = (
+        "🔔 <b>NOVO COMENTÁRIO NO PORTFÓLIO</b>\n"
+        "━━━━━━━━━━━━━━━━━━\n\n"
+        f"👤 <b>Nome:</b> {comentario.nome}\n"
+        f"📌 <b>Tipo:</b> {comentario.get_tipo_display()}\n"
+        f"⭐ <b>Avaliação:</b> {comentario.avaliacao}/5\n\n"
+        "💬 <b>Comentário:</b>\n"
+        f"<blockquote>{comentario.texto}</blockquote>\n\n"
+        f"🕒 <b>Data:</b> {comentario.criado_em:%d/%m/%Y %H:%M}\n"
+        "━━━━━━━━━━━━━━━━━━"
+    )
 
-        except Exception as e:
-            print("ERRO COMPLETO:")
-            traceback.print_exc()
-            return JsonResponse({'erro': str(e), 'detalhe': 'Erro interno ao processar e-mail'}, status=500)
 
-    return JsonResponse({'status': 'erro'})
+    try:
+        resposta = requests.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            data={
+                "chat_id": chat_id,
+                "text": mensagem,
+                "parse_mode": "HTML",
+            },
+            timeout=5,
+        )
+        resposta.raise_for_status()
+
+        if not resposta.json().get("ok"):
+            logger.warning("Telegram não confirmou o envio.")
+
+    except (requests.RequestException, ValueError):
+        logger.exception("Falha ao enviar notificação ao Telegram.")
