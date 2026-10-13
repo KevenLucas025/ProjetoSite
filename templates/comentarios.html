@@ -97,45 +97,42 @@
 
     
 {% for comentario in comentarios %}
-    <article class="comentario-item">
+    
+<article
+    class="comentario-item"
+    id="comentario-{{ comentario.pk }}"
+    data-editar-url="{% url 'editar_comentario' comentario.pk %}"
+>
+    {% if comentario.pk in comentarios_editaveis %}
+        <button
+            type="button"
+            class="btn-editar-comentario"
+            aria-label="Editar comentário de {{ comentario.nome }}"
+            title="Editar comentário"
+            onclick="iniciarEdicaoComentario({{ comentario.pk }})"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="17" height="17" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/>
+            </svg>
+        </button>
+    {% endif %}
 
-        
-            <a
-                href="{% url 'editar_comentario' comentario.pk %}"
-                class="btn-editar-comentario"
-                aria-label="Editar comentário de {{ comentario.nome }}"
-                title="Editar comentário"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="17"
-                    height="17"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                >
-                    <path d="M12 20h9"/>
-                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/>
-                </svg>
-            </a>
-       
+    <div class="comentario-avatar" aria-hidden="true">
+        {{ comentario.nome|first|upper }}
+    </div>
 
-        <div class="comentario-avatar" aria-hidden="true">
-            {{ comentario.nome|first|upper }}
-        </div>
-
-        <div class="comentario-conteudo">
+    <div class="comentario-conteudo">
+        <div class="comentario-visualizacao">
             <div class="comentario-meta">
-                <strong>{{ comentario.nome }}</strong>
+                <strong class="comentario-nome">{{ comentario.nome }}</strong>
 
-                <span
-                    class="comentario-estrelas"
-                    aria-label="{{ comentario.avaliacao }} de 5 estrelas"
-                >
+                <span class="comentario-estrelas"
+                      aria-label="{{ comentario.avaliacao }} de 5 estrelas">
                     {% for estrela in "12345" %}
                         {% if forloop.counter <= comentario.avaliacao %}
                             ★
@@ -150,10 +147,8 @@
                 </time>
 
                 {% if comentario.editado %}
-                    <span
-                        class="comentario-editado"
-                        title="Editado em {{ comentario.editado_em|date:'d/m/Y H:i' }}"
-                    >
+                    <span class="comentario-editado"
+                          title="Editado em {{ comentario.editado_em|date:'d/m/Y H:i' }}">
                         Editado
                     </span>
                 {% endif %}
@@ -163,10 +158,82 @@
                 {{ comentario.get_tipo_display }}
             </span>
 
-            <p>{{ comentario.texto }}</p>
+            <p class="comentario-texto">{{ comentario.texto }}</p>
         </div>
 
-    </article>
+        {% if comentario.pk in comentarios_editaveis %}
+            <form class="form-edicao-comentario"
+                  hidden
+                  method="post"
+                  onsubmit="salvarEdicaoComentario(event, {{ comentario.pk }})">
+                {% csrf_token %}
+
+                <div class="campo-comentario">
+                    <label for="nome-{{ comentario.pk }}">Seu nome</label>
+                    <input id="nome-{{ comentario.pk }}"
+                           name="nome"
+                           type="text"
+                           maxlength="80"
+                           value="{{ comentario.nome }}"
+                           required>
+                </div>
+
+                <div class="campo-comentario">
+                    <label for="avaliacao-{{ comentario.pk }}">Sua avaliação</label>
+                    <select id="avaliacao-{{ comentario.pk }}"
+                            name="avaliacao" required>
+                        {% for valor, rotulo in form.fields.avaliacao.choices %}
+                            <option value="{{ valor }}"
+                                {% if comentario.avaliacao == valor|add:"0" %}selected{% endif %}>
+                                {{ rotulo }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="campo-comentario">
+                    <label for="tipo-{{ comentario.pk }}">Tipo de comentário</label>
+                    <select id="tipo-{{ comentario.pk }}" name="tipo" required>
+                        {% for valor, rotulo in form.fields.tipo.choices %}
+                            <option value="{{ valor }}"
+                                {% if comentario.tipo == valor %}selected{% endif %}>
+                                {{ rotulo }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="campo-comentario">
+                    <label for="texto-{{ comentario.pk }}">Seu comentário</label>
+                    <textarea id="texto-{{ comentario.pk }}"
+                              name="texto"
+                              maxlength="1000"
+                              rows="5"
+                              required>{{ comentario.texto }}</textarea>
+                </div>
+
+                <input type="text" name="website" tabindex="-1"
+                       autocomplete="off" aria-hidden="true"
+                       class="campo-armadilha">
+
+                <p class="erro-edicao-comentario" role="alert" hidden></p>
+
+                <div class="acoes-edicao-comentario">
+                    <button type="submit" class="btn-enviar-comentario">
+                        Salvar alterações
+                    </button>
+
+                    <button type="button"
+                            class="btn-cancelar-edicao"
+                            onclick="cancelarEdicaoComentario({{ comentario.pk }})">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</article>
+
 {% empty %}
     <div class="comentarios-vazio">
         <p>Ainda não há comentários publicados.</p>
@@ -174,7 +241,110 @@
     </div>
 {% endfor %}
 
-
-
+</div>
+</div>
 </section>
+
+
+
+
+<script>
+function iniciarEdicaoComentario(id) {
+    const card = document.getElementById(`comentario-${id}`);
+    if (!card) return;
+
+    const visualizacao = card.querySelector(".comentario-visualizacao");
+    const formulario = card.querySelector(".form-edicao-comentario");
+
+    if (!formulario) return;
+
+    visualizacao.hidden = true;
+    formulario.hidden = false;
+    card.querySelector(".btn-editar-comentario").hidden = true;
+}
+
+function cancelarEdicaoComentario(id) {
+    const card = document.getElementById(`comentario-${id}`);
+    if (!card) return;
+
+    card.querySelector(".form-edicao-comentario").hidden = true;
+    card.querySelector(".comentario-visualizacao").hidden = false;
+    card.querySelector(".btn-editar-comentario").hidden = false;
+
+    const erro = card.querySelector(".erro-edicao-comentario");
+    erro.hidden = true;
+    erro.textContent = "";
+}
+
+async function salvarEdicaoComentario(event, id) {
+    event.preventDefault();
+
+    const formulario = event.currentTarget;
+    const card = document.getElementById(`comentario-${id}`);
+    const botao = formulario.querySelector('button[type="submit"]');
+    const erro = formulario.querySelector(".erro-edicao-comentario");
+
+    erro.hidden = true;
+    erro.textContent = "";
+    botao.disabled = true;
+    botao.textContent = "Salvando...";
+
+    try {
+        const resposta = await fetch(card.dataset.editarUrl, {
+            method: "POST",
+            body: new FormData(formulario),
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            credentials: "same-origin",
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok || !dados.sucesso) {
+            const mensagens = dados.erros
+                ? Object.values(dados.erros)
+                    .flat()
+                    .map(item => item.message)
+                : [dados.erro || "Não foi possível salvar as alterações."];
+
+            throw new Error(mensagens.join(" "));
+        }
+
+        // Atualiza o card sem recarregar a página.
+        card.querySelector(".comentario-nome").textContent = dados.nome;
+        card.querySelector(".comentario-avatar").textContent =
+            dados.nome.charAt(0).toUpperCase();
+        card.querySelector(".comentario-texto").textContent = dados.texto;
+        card.querySelector(".comentario-tipo").textContent = dados.tipo;
+
+        card.querySelector(".comentario-estrelas").textContent =
+            "★".repeat(dados.avaliacao) +
+            "☆".repeat(5 - dados.avaliacao);
+
+        let etiquetaEditado = card.querySelector(".comentario-editado");
+
+        if (!etiquetaEditado) {
+            etiquetaEditado = document.createElement("span");
+            etiquetaEditado.className = "comentario-editado";
+            card.querySelector(".comentario-meta").appendChild(etiquetaEditado);
+        }
+
+        etiquetaEditado.textContent = "Editado";
+
+        if (dados.editado_em) {
+            etiquetaEditado.title = `Editado em ${dados.editado_em}`;
+        }
+
+        cancelarEdicaoComentario(id);
+
+    } catch (e) {
+        erro.textContent = e.message || "Erro ao salvar o comentário.";
+        erro.hidden = false;
+    } finally {
+        botao.disabled = false;
+        botao.textContent = "Salvar alterações";
+    }
+}
+</script>
 {% endblock %}

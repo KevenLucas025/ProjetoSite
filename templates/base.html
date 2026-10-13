@@ -2844,7 +2844,35 @@
     transform: translateY(0);
 }
 
+.form-edicao-comentario[hidden],
+.comentario-visualizacao[hidden] {
+    display: none !important;
+}
 
+.form-edicao-comentario input,
+.form-edicao-comentario select,
+.form-edicao-comentario textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.acoes-edicao-comentario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.erro-edicao-comentario {
+    color: #f87171;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.form-edicao-comentario button:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
 @media (max-width: 768px){
 
   .comentarios-pagina {

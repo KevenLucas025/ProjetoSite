@@ -64,6 +64,12 @@ class Comentario(models.Model):
 
     editado = models.BooleanField(default=False)
     editado_em = models.DateTimeField(null=True, blank=True)
+    
+    token_edicao_hash = models.CharField(
+        max_length=64,
+        blank=True,
+        editable=False,
+    )
 
     criado_em = models.DateTimeField(auto_now_add=True)
 

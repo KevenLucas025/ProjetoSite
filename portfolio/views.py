@@ -13,6 +13,11 @@ from .models import Comentario
 from .forms import ComentarioForm
 import logging
 import requests
+import hashlib
+import hmac
+import secrets
+
+from django.http import HttpResponseForbidden
 
 from django.conf import settings
 
@@ -44,6 +49,7 @@ def contato(request):
 
 
 
+
 def comentarios(request):
     if request.method == "POST":
         form = ComentarioForm(request.POST)
@@ -53,49 +59,132 @@ def comentarios(request):
             if form.cleaned_data.get("website"):
                 return redirect("comentarios")
 
-            comentario = form.save()
+            # Gera uma chave exclusiva para este comentário.
+            token = secrets.token_urlsafe(32)
+
+            comentario = form.save(commit=False)
+            comentario.token_edicao_hash = hashlib.sha256(
+                token.encode("utf-8")
+            ).hexdigest()
+            comentario.save()
+            form.save_m2m()
+
             notificar_novo_comentario(comentario)
-            return redirect("comentarios")
+
+            resposta = redirect("comentarios")
+            resposta.set_cookie(
+                key=f"comentario_edicao_{comentario.pk}",
+                value=token,
+                max_age=60 * 60 * 24 * 365,
+                httponly=True,
+                secure=request.is_secure(),
+                samesite="Lax",
+                path="/",
+            )
+            return resposta
 
     else:
         form = ComentarioForm()
 
-    # Nunca envia críticas e sugestões para a página pública.
-    comentarios = Comentario.objects.all().order_by("-criado_em")
+    # Todos os comentários continuam visíveis publicamente.
+    lista_comentarios = list(
+        Comentario.objects.all().order_by("-criado_em")
+    )
+
+    # Identifica os comentários editáveis neste navegador.
+    comentarios_editaveis = []
+
+    for item in lista_comentarios:
+        token_cookie = request.COOKIES.get(
+            f"comentario_edicao_{item.pk}", ""
+        )
+
+        if not token_cookie or not item.token_edicao_hash:
+            continue
+
+        hash_token = hashlib.sha256(
+            token_cookie.encode("utf-8")
+        ).hexdigest()
+
+        if hmac.compare_digest(hash_token, item.token_edicao_hash):
+            comentarios_editaveis.append(item.pk)
 
     return render(
         request,
         "comentarios.html",
         {
             "form": form,
-            "comentarios": comentarios,
+            "comentarios": lista_comentarios,
+            "comentarios_editaveis": comentarios_editaveis,
             "enviado": request.GET.get("enviado") == "1",
         },
     )
+
     
+
 def editar_comentario(request, pk):
     comentario = get_object_or_404(Comentario, pk=pk)
 
-    if request.method == "POST":
-        form = ComentarioForm(request.POST, instance=comentario)
-
-        if form.is_valid():
-            if form.cleaned_data.get("website"):
-                return redirect("comentarios")
-
-            form.save()
-            return redirect("comentarios")
-    else:
-        form = ComentarioForm(instance=comentario)
-
-    return render(
-        request,
-        "editar_comentario.html",
-        {
-            "form": form,
-            "comentario": comentario,
-        },
+    token_cookie = request.COOKIES.get(
+        f"comentario_edicao_{comentario.pk}", ""
     )
+
+    if not token_cookie or not comentario.token_edicao_hash:
+        return JsonResponse(
+            {"sucesso": False, "erro": "Sem permissão para editar."},
+            status=403,
+        )
+
+    hash_token = hashlib.sha256(
+        token_cookie.encode("utf-8")
+    ).hexdigest()
+
+    if not hmac.compare_digest(
+        hash_token, comentario.token_edicao_hash
+    ):
+        return JsonResponse(
+            {"sucesso": False, "erro": "Token de edição inválido."},
+            status=403,
+        )
+
+    if request.method != "POST":
+        return JsonResponse(
+            {"sucesso": False, "erro": "Método não permitido."},
+            status=405,
+        )
+
+    form = ComentarioForm(request.POST, instance=comentario)
+
+    if not form.is_valid():
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "erros": form.errors.get_json_data(),
+            },
+            status=400,
+        )
+
+    if form.cleaned_data.get("website"):
+        return JsonResponse(
+            {"sucesso": False, "erro": "Envio inválido."},
+            status=400,
+        )
+
+    comentario = form.save()
+
+    return JsonResponse({
+        "sucesso": True,
+        "nome": comentario.nome,
+        "texto": comentario.texto,
+        "avaliacao": comentario.avaliacao,
+        "tipo": comentario.get_tipo_display(),
+        "editado": comentario.editado,
+        "editado_em": (
+            comentario.editado_em.strftime("%d/%m/%Y %H:%M")
+            if comentario.editado_em else ""
+        ),
+    })
+
 def notificar_novo_comentario(comentario):
     token = settings.TELEGRAM_BOT_TOKEN
     chat_id = settings.TELEGRAM_CHAT_ID
