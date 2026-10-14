@@ -16,12 +16,109 @@ import requests
 import hashlib
 import hmac
 import secrets
-
-from django.http import HttpResponseForbidden
-
-from django.conf import settings
+import os
+from pathlib import Path
+from datetime import datetime
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
+
+
+# ==========================================================
+# ARMAZENAMENTO DE COMENTÁRIOS
+# Local: db.sqlite3
+# Render: comentarios.json
+# ==========================================================
+
+def usar_json_comentarios():
+    return (
+        os.environ.get("RENDER", "").lower() == "true"
+        or os.environ.get("COMENTARIOS_JSON", "").lower() == "true"
+    )
+
+
+ARQUIVO_COMENTARIOS = Path(settings.BASE_DIR) / "comentarios.json"
+
+
+def ler_comentarios_json():
+    if not ARQUIVO_COMENTARIOS.exists():
+        return []
+
+    try:
+        with ARQUIVO_COMENTARIOS.open("r", encoding="utf-8") as arquivo:
+            dados = json.load(arquivo)
+
+        if not isinstance(dados, list):
+            raise ValueError("O arquivo de comentários deve conter uma lista.")
+
+        return dados
+
+    except (json.JSONDecodeError, UnicodeDecodeError, ValueError):
+        logger.exception("Erro ao ler comentarios.json.")
+        raise
+
+
+def salvar_comentarios_json(comentarios):
+    temporario = ARQUIVO_COMENTARIOS.with_suffix(".tmp")
+
+    with temporario.open("w", encoding="utf-8") as arquivo:
+        json.dump(
+            comentarios,
+            arquivo,
+            ensure_ascii=False,
+            indent=4,
+        )
+
+    # Substitui o arquivo somente depois de concluir a escrita.
+    temporario.replace(ARQUIVO_COMENTARIOS)
+
+
+class ComentarioJSON:
+    TIPOS = {
+        "elogio": "Elogio",
+        "sugestao": "Sugestão",
+        "critica": "Crítica ou reclamação",
+    }
+
+    def __init__(self, dados):
+        self.pk = dados["id"]
+        self.id = dados["id"]
+        self.nome = dados["nome"]
+        self.texto = dados["texto"]
+        self.avaliacao = int(dados["avaliacao"])
+        self.tipo = dados["tipo"]
+        self.publico = dados.get("publico", True)
+        self.editado = dados.get("editado", False)
+        self.token_edicao_hash = dados.get("token_edicao_hash", "")
+
+        self.criado_em = datetime.fromisoformat(dados["criado_em"])
+
+        editado_em = dados.get("editado_em")
+        self.editado_em = (
+            datetime.fromisoformat(editado_em)
+            if editado_em else None
+        )
+
+    def get_tipo_display(self):
+        return self.TIPOS.get(self.tipo, self.tipo)
+
+    def to_dict(self):
+        return {
+            "id": self.pk,
+            "nome": self.nome,
+            "texto": self.texto,
+            "avaliacao": self.avaliacao,
+            "tipo": self.tipo,
+            "publico": self.publico,
+            "editado": self.editado,
+            "editado_em": (
+                self.editado_em.isoformat()
+                if self.editado_em else None
+            ),
+            "token_edicao_hash": self.token_edicao_hash,
+            "criado_em": self.criado_em.isoformat(),
+        }
+
 
 
 def home(request):
@@ -50,28 +147,58 @@ def contato(request):
 
 
 
+
 def comentarios(request):
     if request.method == "POST":
         form = ComentarioForm(request.POST)
 
         if form.is_valid():
-            # Bloqueia envios automáticos pelo campo-armadilha.
             if form.cleaned_data.get("website"):
                 return redirect("comentarios")
 
-            # Gera uma chave exclusiva para este comentário.
             token = secrets.token_urlsafe(32)
+            agora = timezone.now()
 
-            comentario = form.save(commit=False)
-            comentario.token_edicao_hash = hashlib.sha256(
-                token.encode("utf-8")
-            ).hexdigest()
-            comentario.save()
-            form.save_m2m()
+            if usar_json_comentarios():
+                registros = ler_comentarios_json()
+
+                novo_id = max(
+                    (int(item["id"]) for item in registros),
+                    default=0,
+                ) + 1
+
+                comentario = ComentarioJSON({
+                    "id": novo_id,
+                    "nome": form.cleaned_data["nome"],
+                    "texto": form.cleaned_data["texto"],
+                    "avaliacao": form.cleaned_data["avaliacao"],
+                    "tipo": form.cleaned_data["tipo"],
+                    "publico": True,
+                    "editado": False,
+                    "editado_em": None,
+                    "token_edicao_hash": hashlib.sha256(
+                        token.encode("utf-8")
+                    ).hexdigest(),
+                    "criado_em": agora.isoformat(),
+                })
+
+                registros.append(comentario.to_dict())
+                salvar_comentarios_json(registros)
+
+            else:
+                comentario = form.save(commit=False)
+
+                comentario.token_edicao_hash = hashlib.sha256(
+                    token.encode("utf-8")
+                ).hexdigest()
+
+                comentario.save()
+                form.save_m2m()
 
             notificar_novo_comentario(comentario)
 
             resposta = redirect("comentarios")
+
             resposta.set_cookie(
                 key=f"comentario_edicao_{comentario.pk}",
                 value=token,
@@ -81,17 +208,31 @@ def comentarios(request):
                 samesite="Lax",
                 path="/",
             )
+
             return resposta
 
     else:
         form = ComentarioForm()
 
-    # Todos os comentários continuam visíveis publicamente.
-    lista_comentarios = list(
-        Comentario.objects.all().order_by("-criado_em")
-    )
+    if usar_json_comentarios():
+        registros = ler_comentarios_json()
 
-    # Identifica os comentários editáveis neste navegador.
+        lista_comentarios = [
+            ComentarioJSON(item)
+            for item in registros
+            if item.get("publico", True)
+        ]
+
+        lista_comentarios.sort(
+            key=lambda item: item.criado_em,
+            reverse=True,
+        )
+
+    else:
+        lista_comentarios = list(
+            Comentario.objects.filter(publico=True).order_by("-criado_em")
+        )
+
     comentarios_editaveis = []
 
     for item in lista_comentarios:
@@ -120,10 +261,35 @@ def comentarios(request):
         },
     )
 
+
     
 
+
 def editar_comentario(request, pk):
-    comentario = get_object_or_404(Comentario, pk=pk)
+    usando_json = usar_json_comentarios()
+    registro = None
+
+    if usando_json:
+        registros = ler_comentarios_json()
+
+        registro = next(
+            (
+                item for item in registros
+                if int(item["id"]) == int(pk)
+            ),
+            None,
+        )
+
+        if registro is None:
+            return JsonResponse(
+                {"sucesso": False, "erro": "Comentário não encontrado."},
+                status=404,
+            )
+
+        comentario = ComentarioJSON(registro)
+
+    else:
+        comentario = get_object_or_404(Comentario, pk=pk)
 
     token_cookie = request.COOKIES.get(
         f"comentario_edicao_{comentario.pk}", ""
@@ -153,7 +319,10 @@ def editar_comentario(request, pk):
             status=405,
         )
 
-    form = ComentarioForm(request.POST, instance=comentario)
+    form = ComentarioForm(
+        request.POST,
+        instance=None if usando_json else comentario,
+    )
 
     if not form.is_valid():
         return JsonResponse(
@@ -170,7 +339,30 @@ def editar_comentario(request, pk):
             status=400,
         )
 
-    comentario = form.save()
+    if usando_json:
+        campos = {
+            "nome": form.cleaned_data["nome"],
+            "texto": form.cleaned_data["texto"],
+            "avaliacao": form.cleaned_data["avaliacao"],
+            "tipo": form.cleaned_data["tipo"],
+        }
+
+        houve_alteracao = any(
+            str(registro[campo]) != str(valor)
+            for campo, valor in campos.items()
+        )
+
+        registro.update(campos)
+
+        if houve_alteracao:
+            registro["editado"] = True
+            registro["editado_em"] = timezone.now().isoformat()
+
+        salvar_comentarios_json(registros)
+        comentario = ComentarioJSON(registro)
+
+    else:
+        comentario = form.save()
 
     return JsonResponse({
         "sucesso": True,
@@ -184,6 +376,7 @@ def editar_comentario(request, pk):
             if comentario.editado_em else ""
         ),
     })
+
 
 def notificar_novo_comentario(comentario):
     token = settings.TELEGRAM_BOT_TOKEN
