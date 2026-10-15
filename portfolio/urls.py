@@ -6,5 +6,8 @@ urlpatterns = [
     path("sobre/", views.sobre, name="sobre"),
     path("projetos/", views.projetos, name="projetos"),
     path("contato/", views.contato, name="contato"),
-    path("enviar_sugestao/",views.enviar_sugestao)
+    path("comentarios/", views.comentarios, name="comentarios"),
+    path("comentarios/<int:pk>/editar/",views.editar_comentario,name="editar_comentario",),
+    path("enviar_sugestao/",views.enviar_sugestao,name="enviar_sugestao",),
+
 ]

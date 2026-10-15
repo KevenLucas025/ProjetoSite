@@ -36,16 +36,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return res.json();
       })
-      .then(data => {
-        console.log("Resposta do backend:", data);
+      
+    .then(data => {
+      console.log("Resposta do backend:", data);
 
-        if (data.status === "ok") {
-          mostrarToast();
-          form.reset();
-        } else {
-          throw new Error("Erro retornado pelo servidor");
-        }
-      })
+      if (data.status === "ok") {
+        mostrarToast();
+        form.reset();
+      } else {
+        throw new Error(
+          data.mensagem || "Não foi possível enviar a sugestão."
+        );
+      }
+    })
+
       .catch(err => {
         console.error("Erro completo:", err.message);
         alert("Erro ao enviar sugestão ❌\n" + err.message);
