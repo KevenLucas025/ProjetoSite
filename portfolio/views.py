@@ -23,6 +23,9 @@ from django.utils import timezone
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
+from django.utils.html import escape
+from email.mime.image import MIMEImage
+import mimetypes
 
 logger = logging.getLogger(__name__)
 
@@ -423,6 +426,7 @@ def notificar_novo_comentario(comentario):
         
 
 
+
 def enviar_sugestao(request):
     if request.method != "POST":
         return JsonResponse(
@@ -463,7 +467,7 @@ def enviar_sugestao(request):
                 status=400,
             )
 
-        # Montar o conteúdo do e-mail
+        # Conteúdo em texto puro (alternativa ao HTML)
         corpo = (
             "Nova sugestão recebida pelo portfólio.\n\n"
             f"Assunto: {assunto}\n"
@@ -472,7 +476,169 @@ def enviar_sugestao(request):
             f"Mensagem:\n{mensagem}"
         )
 
-        # Enviar pelo Gmail para o seu Hotmail
+        # Localizar a imagem dentro de static/
+        pasta_static = Path(settings.BASE_DIR) / "static"
+        caminho_imagem = pasta_static / "imagem_navegador" / "logo_site.png"
+
+        if not caminho_imagem.is_file():
+            logger.warning("Imagem do e-mail não encontrada: %s", caminho_imagem)
+            caminho_imagem = None
+            
+        # HTML da imagem: vazio caso o arquivo não seja encontrado
+        imagem_html = ""
+
+        
+        if caminho_imagem:
+            imagem_html = """
+                <img
+                    src="cid:imagem_navegador"
+                    alt="Logo do portfólio"
+                    style="display:block;width:100%;max-width:100%;height:auto;border-radius:12px;margin-bottom:24px;"
+                >
+            """
+
+        # Montar o HTML do e-mail
+        html_corpo = f"""
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Nova sugestão recebida</title>
+        </head>
+
+        <body style="
+            margin: 0;
+            padding: 24px 10px;
+            background-color: #f1f5f9;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #1e293b;
+        ">
+
+            <div style="
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                border-radius: 16px;
+                overflow: hidden;
+                border: 1px solid #e2e8f0;
+            ">
+
+                <div style="
+                    background-color: #4dd0e1;
+                    padding: 28px 24px;
+                    text-align: center;
+                ">
+                    <h1 style="
+                        margin: 0;
+                        color: #CECFD2;
+                        font-size: 24px;
+                    ">
+                        Nova sugestão recebida
+                    </h1>
+
+                    <p style="
+                        margin: 10px 0 0;
+                        color: #CECFD2;
+                        font-size: 14px;
+                    ">
+                        Uma nova mensagem chegou pelo seu portfólio.
+                    </p>
+                </div>
+
+                <div style="padding: 28px 24px;">
+
+                    {imagem_html}
+
+                    <p style="
+                        margin: 0 0 8px;
+                        color: #CECFD2;
+                        font-size: 12px;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                    ">
+                        Assunto
+                    </p>
+
+                    <h2 style="
+                        margin: 0 0 24px;
+                        color: #CECFD2;
+                        font-size: 21px;
+                        overflow-wrap: anywhere;
+                    ">
+                        {escape(assunto)}
+                    </h2>
+
+                    <div style="
+                        padding: 18px;
+                        background-color: #f8fafc;
+                        border: 1px solid #e2e8f0;
+                        border-radius: 10px;
+                        margin-bottom: 24px;
+                    ">
+                        <p style="margin: 0 0 12px; font-size: 14px;">
+                            <strong>Nome:</strong>
+                            {escape(nome)}
+                        </p>
+
+                        <p style="margin: 0; font-size: 14px;">
+                            <strong>E-mail:</strong>
+                            <a
+                                href="mailto:{escape(email_usuario)}"
+                                style="color: #047857; text-decoration: none;"
+                            >
+                                {escape(email_usuario)}
+                            </a>
+                        </p>
+                    </div>
+
+                    <h3 style="
+                        margin: 0 0 12px;
+                        font-size: 16px;
+                        color: #CECFD2;
+                    ">
+                        Mensagem
+                    </h3>
+
+                    <div style="
+                        padding: 18px;
+                        background-color: #ffffff;
+                        border-left: 4px solid #10b981;
+                        border-radius: 4px;
+                        color: #CECFD2;
+                        font-size: 15px;
+                        line-height: 1.7;
+                        overflow-wrap: anywhere;
+                    ">
+                        {escape(mensagem).replace(chr(13), '').replace(chr(10), '<br>')}
+                    </div>
+
+                </div>
+
+                <div style="
+                    padding: 18px 24px;
+                    background-color: #f8fafc;
+                    border-top: 1px solid #e2e8f0;
+                    text-align: center;
+                ">
+                    <p style="
+                        margin: 0;
+                        color: #CECFD2;
+                        font-size: 12px;
+                        line-height: 1.6;
+                    ">
+                        E-mail enviado automaticamente pelo formulário
+                        de sugestões do portfólio.
+                    </p>
+                </div>
+
+            </div>
+
+        </body>
+        </html>
+        """
+
+        # Criar a mensagem
         email_envio = EmailMultiAlternatives(
             subject=f"[Portfólio] {assunto}",
             body=corpo,
@@ -481,6 +647,30 @@ def enviar_sugestao(request):
             reply_to=[email_usuario],
         )
 
+        # Anexar a versão HTML
+        email_envio.attach_alternative(html_corpo, "text/html")
+
+        # Incorporar a imagem no corpo do e-mail
+        if caminho_imagem:
+            mime_type, _ = mimetypes.guess_type(str(caminho_imagem))
+
+            with caminho_imagem.open("rb") as arquivo:
+                imagem = MIMEImage(
+                    arquivo.read(),
+                    _subtype=mime_type.split("/", 1)[1]
+                )
+
+            imagem.add_header("Content-ID", "<imagem_navegador>")
+            imagem.add_header(
+                "Content-Disposition",
+                "inline",
+                filename=caminho_imagem.name
+            )
+
+            email_envio.attach(imagem)
+
+
+        # Enviar pelo Gmail
         email_envio.send(fail_silently=False)
 
         return JsonResponse({"status": "ok"})
@@ -495,9 +685,7 @@ def enviar_sugestao(request):
         )
 
     except Exception:
-        logger.exception(
-            "Erro ao enviar sugestão pelo Gmail."
-        )
+        logger.exception("Erro ao enviar sugestão pelo Gmail.")
 
         return JsonResponse(
             {
@@ -506,6 +694,7 @@ def enviar_sugestao(request):
             },
             status=500,
         )
+
 
 
 
