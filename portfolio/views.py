@@ -27,6 +27,10 @@ from django.utils.html import escape
 from email.mime.image import MIMEImage
 import mimetypes
 from django.views.decorators.csrf import ensure_csrf_cookie
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+import base64
 
 logger = logging.getLogger(__name__)
 
@@ -710,7 +714,7 @@ def enviar_sugestao(request):
             email_envio.attach(imagem)
 
         # Enviar pelo Gmail
-        email_envio.send(fail_silently=False)
+        enviar_pela_gmail_api(email_envio)
 
         return JsonResponse({"status": "ok"})
 
@@ -734,6 +738,52 @@ def enviar_sugestao(request):
             status=500,
         )
 
+
+def enviar_pela_gmail_api(email_envio):
+    escopos = ["https://www.googleapis.com/auth/gmail.send"]
+
+    token_json = os.getenv("GOOGLE_TOKEN_JSON")
+    caminho_token = Path(settings.BASE_DIR) / "token.json"
+
+    if token_json:
+        credenciais = Credentials.from_authorized_user_info(
+            json.loads(token_json),
+            escopos,
+        )
+    elif caminho_token.is_file():
+        credenciais = Credentials.from_authorized_user_file(
+            str(caminho_token),
+            escopos,
+        )
+    else:
+        raise RuntimeError(
+            "Credenciais da Gmail API não encontradas."
+        )
+
+    if not credenciais.valid:
+        if credenciais.expired and credenciais.refresh_token:
+            credenciais.refresh(Request())
+        else:
+            raise RuntimeError(
+                "Não foi possível renovar a autorização do Gmail."
+            )
+
+    servico = build(
+        "gmail",
+        "v1",
+        credentials=credenciais,
+        cache_discovery=False,
+    )
+
+    mensagem_bytes = email_envio.message().as_bytes()
+    mensagem_codificada = base64.urlsafe_b64encode(
+        mensagem_bytes
+    ).decode("utf-8")
+
+    servico.users().messages().send(
+        userId="me",
+        body={"raw": mensagem_codificada},
+    ).execute()
 
 
 
