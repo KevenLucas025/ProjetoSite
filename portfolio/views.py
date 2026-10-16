@@ -26,6 +26,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils.html import escape
 from email.mime.image import MIMEImage
 import mimetypes
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +36,6 @@ logger = logging.getLogger(__name__)
 # Local: db.sqlite3
 # Render: comentarios.json
 # ==========================================================
-
 def usar_json_comentarios():
     return (
         os.environ.get("RENDER", "").lower() == "true"
@@ -46,7 +46,7 @@ def usar_json_comentarios():
 ARQUIVO_COMENTARIOS = Path(settings.BASE_DIR) / "comentarios.json"
 
 
-def ler_comentarios_json():
+def ler_comentarios_json() -> list[dict]:
     if not ARQUIVO_COMENTARIOS.exists():
         return []
 
@@ -55,14 +55,15 @@ def ler_comentarios_json():
             dados = json.load(arquivo)
 
         if not isinstance(dados, list):
-            raise ValueError("O arquivo de comentários deve conter uma lista.")
+            raise ValueError(
+                "O arquivo de comentários deve conter uma lista."
+            )
 
         return dados
 
     except (json.JSONDecodeError, UnicodeDecodeError, ValueError):
         logger.exception("Erro ao ler comentarios.json.")
         raise
-
 
 def salvar_comentarios_json(comentarios):
     temporario = ARQUIVO_COMENTARIOS.with_suffix(".tmp")
@@ -126,7 +127,7 @@ class ComentarioJSON:
         }
 
 
-
+@ensure_csrf_cookie
 def home(request):
     destaques = Projeto.objects.filter(ativo=True, destaque=True)[:6]
     return render(request, "home.html", {"destaques": destaques})
@@ -268,42 +269,53 @@ def comentarios(request):
     )
 
 
-    
-
-
 def editar_comentario(request, pk):
     usando_json = usar_json_comentarios()
+
+    # Inicializa as variáveis utilizadas no modo JSON.
+    registros = []
     registro = None
 
     if usando_json:
         registros = ler_comentarios_json()
 
-        registro = next(
+        registro_encontrado = next(
             (
-                item for item in registros
+                item
+                for item in registros
                 if int(item["id"]) == int(pk)
             ),
             None,
         )
 
-        if registro is None:
+        if registro_encontrado is None:
             return JsonResponse(
-                {"sucesso": False, "erro": "Comentário não encontrado."},
+                {
+                    "sucesso": False,
+                    "erro": "Comentário não encontrado.",
+                },
                 status=404,
             )
 
+        # Após a validação, registro não é mais None.
+        registro = registro_encontrado
         comentario = ComentarioJSON(registro)
 
     else:
         comentario = get_object_or_404(Comentario, pk=pk)
 
+    # Valida o token de edição armazenado no cookie.
     token_cookie = request.COOKIES.get(
-        f"comentario_edicao_{comentario.pk}", ""
+        f"comentario_edicao_{comentario.pk}",
+        "",
     )
 
     if not token_cookie or not comentario.token_edicao_hash:
         return JsonResponse(
-            {"sucesso": False, "erro": "Sem permissão para editar."},
+            {
+                "sucesso": False,
+                "erro": "Sem permissão para editar.",
+            },
             status=403,
         )
 
@@ -312,16 +324,24 @@ def editar_comentario(request, pk):
     ).hexdigest()
 
     if not hmac.compare_digest(
-        hash_token, comentario.token_edicao_hash
+        hash_token,
+        comentario.token_edicao_hash,
     ):
         return JsonResponse(
-            {"sucesso": False, "erro": "Token de edição inválido."},
+            {
+                "sucesso": False,
+                "erro": "Token de edição inválido.",
+            },
             status=403,
         )
 
+    # Aceita somente requisições POST.
     if request.method != "POST":
         return JsonResponse(
-            {"sucesso": False, "erro": "Método não permitido."},
+            {
+                "sucesso": False,
+                "erro": "Método não permitido.",
+            },
             status=405,
         )
 
@@ -339,13 +359,27 @@ def editar_comentario(request, pk):
             status=400,
         )
 
+    # Proteção contra envio automatizado pelo campo honeypot.
     if form.cleaned_data.get("website"):
         return JsonResponse(
-            {"sucesso": False, "erro": "Envio inválido."},
+            {
+                "sucesso": False,
+                "erro": "Envio inválido.",
+            },
             status=400,
         )
 
     if usando_json:
+        # Proteção adicional para garantir que o registro existe.
+        if registro is None:
+            return JsonResponse(
+                {
+                    "sucesso": False,
+                    "erro": "Comentário não encontrado.",
+                },
+                status=404,
+            )
+
         campos = {
             "nome": form.cleaned_data["nome"],
             "texto": form.cleaned_data["texto"],
@@ -370,18 +404,22 @@ def editar_comentario(request, pk):
     else:
         comentario = form.save()
 
-    return JsonResponse({
-        "sucesso": True,
-        "nome": comentario.nome,
-        "texto": comentario.texto,
-        "avaliacao": comentario.avaliacao,
-        "tipo": comentario.get_tipo_display(),
-        "editado": comentario.editado,
-        "editado_em": (
-            comentario.editado_em.strftime("%d/%m/%Y %H:%M")
-            if comentario.editado_em else ""
-        ),
-    })
+    return JsonResponse(
+        {
+            "sucesso": True,
+            "nome": comentario.nome,
+            "texto": comentario.texto,
+            "avaliacao": comentario.avaliacao,
+            "tipo": comentario.get_tipo_display(),
+            "editado": comentario.editado,
+            "editado_em": (
+                comentario.editado_em.strftime("%d/%m/%Y %H:%M")
+                if comentario.editado_em
+                else ""
+            ),
+        }
+    )
+
 
 
 def notificar_novo_comentario(comentario):
@@ -623,7 +661,9 @@ def enviar_sugestao(request):
                 ">
                     <p style="
                         margin: 0;
+                        
                         color: #CECFD2;
+                        
                         font-size: 12px;
                         line-height: 1.6;
                     ">
@@ -668,7 +708,6 @@ def enviar_sugestao(request):
             )
 
             email_envio.attach(imagem)
-
 
         # Enviar pelo Gmail
         email_envio.send(fail_silently=False)
