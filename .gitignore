@@ -6,3 +6,5 @@ venv/
 .env
 db.sqlite3
 media/
+credentials.json
+token.json

@@ -20,6 +20,17 @@ import os
 from pathlib import Path
 from datetime import datetime
 from django.utils import timezone
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import escape
+from email.mime.image import MIMEImage
+import mimetypes
+from django.views.decorators.csrf import ensure_csrf_cookie
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+import base64
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +40,6 @@ logger = logging.getLogger(__name__)
 # Local: db.sqlite3
 # Render: comentarios.json
 # ==========================================================
-
 def usar_json_comentarios():
     return (
         os.environ.get("RENDER", "").lower() == "true"
@@ -40,7 +50,7 @@ def usar_json_comentarios():
 ARQUIVO_COMENTARIOS = Path(settings.BASE_DIR) / "comentarios.json"
 
 
-def ler_comentarios_json():
+def ler_comentarios_json() -> list[dict]:
     if not ARQUIVO_COMENTARIOS.exists():
         return []
 
@@ -49,14 +59,15 @@ def ler_comentarios_json():
             dados = json.load(arquivo)
 
         if not isinstance(dados, list):
-            raise ValueError("O arquivo de comentários deve conter uma lista.")
+            raise ValueError(
+                "O arquivo de comentários deve conter uma lista."
+            )
 
         return dados
 
     except (json.JSONDecodeError, UnicodeDecodeError, ValueError):
         logger.exception("Erro ao ler comentarios.json.")
         raise
-
 
 def salvar_comentarios_json(comentarios):
     temporario = ARQUIVO_COMENTARIOS.with_suffix(".tmp")
@@ -120,7 +131,7 @@ class ComentarioJSON:
         }
 
 
-
+@ensure_csrf_cookie
 def home(request):
     destaques = Projeto.objects.filter(ativo=True, destaque=True)[:6]
     return render(request, "home.html", {"destaques": destaques})
@@ -262,42 +273,53 @@ def comentarios(request):
     )
 
 
-    
-
-
 def editar_comentario(request, pk):
     usando_json = usar_json_comentarios()
+
+    # Inicializa as variáveis utilizadas no modo JSON.
+    registros = []
     registro = None
 
     if usando_json:
         registros = ler_comentarios_json()
 
-        registro = next(
+        registro_encontrado = next(
             (
-                item for item in registros
+                item
+                for item in registros
                 if int(item["id"]) == int(pk)
             ),
             None,
         )
 
-        if registro is None:
+        if registro_encontrado is None:
             return JsonResponse(
-                {"sucesso": False, "erro": "Comentário não encontrado."},
+                {
+                    "sucesso": False,
+                    "erro": "Comentário não encontrado.",
+                },
                 status=404,
             )
 
+        # Após a validação, registro não é mais None.
+        registro = registro_encontrado
         comentario = ComentarioJSON(registro)
 
     else:
         comentario = get_object_or_404(Comentario, pk=pk)
 
+    # Valida o token de edição armazenado no cookie.
     token_cookie = request.COOKIES.get(
-        f"comentario_edicao_{comentario.pk}", ""
+        f"comentario_edicao_{comentario.pk}",
+        "",
     )
 
     if not token_cookie or not comentario.token_edicao_hash:
         return JsonResponse(
-            {"sucesso": False, "erro": "Sem permissão para editar."},
+            {
+                "sucesso": False,
+                "erro": "Sem permissão para editar.",
+            },
             status=403,
         )
 
@@ -306,16 +328,24 @@ def editar_comentario(request, pk):
     ).hexdigest()
 
     if not hmac.compare_digest(
-        hash_token, comentario.token_edicao_hash
+        hash_token,
+        comentario.token_edicao_hash,
     ):
         return JsonResponse(
-            {"sucesso": False, "erro": "Token de edição inválido."},
+            {
+                "sucesso": False,
+                "erro": "Token de edição inválido.",
+            },
             status=403,
         )
 
+    # Aceita somente requisições POST.
     if request.method != "POST":
         return JsonResponse(
-            {"sucesso": False, "erro": "Método não permitido."},
+            {
+                "sucesso": False,
+                "erro": "Método não permitido.",
+            },
             status=405,
         )
 
@@ -333,13 +363,27 @@ def editar_comentario(request, pk):
             status=400,
         )
 
+    # Proteção contra envio automatizado pelo campo honeypot.
     if form.cleaned_data.get("website"):
         return JsonResponse(
-            {"sucesso": False, "erro": "Envio inválido."},
+            {
+                "sucesso": False,
+                "erro": "Envio inválido.",
+            },
             status=400,
         )
 
     if usando_json:
+        # Proteção adicional para garantir que o registro existe.
+        if registro is None:
+            return JsonResponse(
+                {
+                    "sucesso": False,
+                    "erro": "Comentário não encontrado.",
+                },
+                status=404,
+            )
+
         campos = {
             "nome": form.cleaned_data["nome"],
             "texto": form.cleaned_data["texto"],
@@ -364,18 +408,22 @@ def editar_comentario(request, pk):
     else:
         comentario = form.save()
 
-    return JsonResponse({
-        "sucesso": True,
-        "nome": comentario.nome,
-        "texto": comentario.texto,
-        "avaliacao": comentario.avaliacao,
-        "tipo": comentario.get_tipo_display(),
-        "editado": comentario.editado,
-        "editado_em": (
-            comentario.editado_em.strftime("%d/%m/%Y %H:%M")
-            if comentario.editado_em else ""
-        ),
-    })
+    return JsonResponse(
+        {
+            "sucesso": True,
+            "nome": comentario.nome,
+            "texto": comentario.texto,
+            "avaliacao": comentario.avaliacao,
+            "tipo": comentario.get_tipo_display(),
+            "editado": comentario.editado,
+            "editado_em": (
+                comentario.editado_em.strftime("%d/%m/%Y %H:%M")
+                if comentario.editado_em
+                else ""
+            ),
+        }
+    )
+
 
 
 def notificar_novo_comentario(comentario):
@@ -417,3 +465,325 @@ def notificar_novo_comentario(comentario):
 
     except (requests.RequestException, ValueError):
         logger.exception("Falha ao enviar notificação ao Telegram.")
+        
+
+
+
+def enviar_sugestao(request):
+    if request.method != "POST":
+        return JsonResponse(
+            {
+                "status": "erro",
+                "mensagem": "Método não permitido.",
+            },
+            status=405,
+        )
+
+    try:
+        dados = json.loads(request.body)
+
+        assunto = str(dados.get("assunto", "")).strip()
+        nome = str(dados.get("nome", "")).strip()
+        email_usuario = str(dados.get("email", "")).strip()
+        mensagem = str(dados.get("mensagem", "")).strip()
+
+        # Validar campos obrigatórios
+        if not all([assunto, nome, email_usuario, mensagem]):
+            return JsonResponse(
+                {
+                    "status": "erro",
+                    "mensagem": "Preencha todos os campos.",
+                },
+                status=400,
+            )
+
+        # Validar e-mail do visitante
+        try:
+            validate_email(email_usuario)
+        except ValidationError:
+            return JsonResponse(
+                {
+                    "status": "erro",
+                    "mensagem": "Informe um e-mail válido.",
+                },
+                status=400,
+            )
+
+        # Conteúdo em texto puro (alternativa ao HTML)
+        corpo = (
+            "Nova sugestão recebida pelo portfólio.\n\n"
+            f"Assunto: {assunto}\n"
+            f"Nome: {nome}\n"
+            f"E-mail do visitante: {email_usuario}\n\n"
+            f"Mensagem:\n{mensagem}"
+        )
+
+        # Localizar a imagem dentro de static/
+        pasta_static = Path(settings.BASE_DIR) / "static"
+        caminho_imagem = pasta_static / "imagem_navegador" / "logo_site.png"
+
+        if not caminho_imagem.is_file():
+            logger.warning("Imagem do e-mail não encontrada: %s", caminho_imagem)
+            caminho_imagem = None
+            
+        # HTML da imagem: vazio caso o arquivo não seja encontrado
+        imagem_html = ""
+
+        
+        if caminho_imagem:
+            imagem_html = """
+                <img
+                    src="cid:imagem_navegador"
+                    alt="Logo do portfólio"
+                    style="display:block;width:100%;max-width:100%;height:auto;border-radius:12px;margin-bottom:24px;"
+                >
+            """
+
+        # Montar o HTML do e-mail
+        html_corpo = f"""
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Nova sugestão recebida</title>
+        </head>
+
+        <body style="
+            margin: 0;
+            padding: 24px 10px;
+            background-color: #f1f5f9;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #1e293b;
+        ">
+
+            <div style="
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                border-radius: 16px;
+                overflow: hidden;
+                border: 1px solid #e2e8f0;
+            ">
+
+                <div style="
+                    background-color: #4dd0e1;
+                    padding: 28px 24px;
+                    text-align: center;
+                ">
+                    <h1 style="
+                        margin: 0;
+                        color: #CECFD2;
+                        font-size: 24px;
+                    ">
+                        Nova sugestão recebida
+                    </h1>
+
+                    <p style="
+                        margin: 10px 0 0;
+                        color: #CECFD2;
+                        font-size: 14px;
+                    ">
+                        Uma nova mensagem chegou pelo seu portfólio.
+                    </p>
+                </div>
+
+                <div style="padding: 28px 24px;">
+
+                    {imagem_html}
+
+                    <p style="
+                        margin: 0 0 8px;
+                        color: #CECFD2;
+                        font-size: 12px;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                    ">
+                        Assunto
+                    </p>
+
+                    <h2 style="
+                        margin: 0 0 24px;
+                        color: #CECFD2;
+                        font-size: 21px;
+                        overflow-wrap: anywhere;
+                    ">
+                        {escape(assunto)}
+                    </h2>
+
+                    <div style="
+                        padding: 18px;
+                        background-color: #f8fafc;
+                        border: 1px solid #e2e8f0;
+                        border-radius: 10px;
+                        margin-bottom: 24px;
+                    ">
+                        <p style="margin: 0 0 12px; font-size: 14px;">
+                            <strong>Nome:</strong>
+                            {escape(nome)}
+                        </p>
+
+                        <p style="margin: 0; font-size: 14px;">
+                            <strong>E-mail:</strong>
+                            <a
+                                href="mailto:{escape(email_usuario)}"
+                                style="color: #047857; text-decoration: none;"
+                            >
+                                {escape(email_usuario)}
+                            </a>
+                        </p>
+                    </div>
+
+                    <h3 style="
+                        margin: 0 0 12px;
+                        font-size: 16px;
+                        color: #CECFD2;
+                    ">
+                        Mensagem
+                    </h3>
+
+                    <div style="
+                        padding: 18px;
+                        background-color: #ffffff;
+                        border-left: 4px solid #10b981;
+                        border-radius: 4px;
+                        color: #CECFD2;
+                        font-size: 15px;
+                        line-height: 1.7;
+                        overflow-wrap: anywhere;
+                    ">
+                        {escape(mensagem).replace(chr(13), '').replace(chr(10), '<br>')}
+                    </div>
+
+                </div>
+
+                <div style="
+                    padding: 18px 24px;
+                    background-color: #f8fafc;
+                    border-top: 1px solid #e2e8f0;
+                    text-align: center;
+                ">
+                    <p style="
+                        margin: 0;
+                        
+                        color: #CECFD2;
+                        
+                        font-size: 12px;
+                        line-height: 1.6;
+                    ">
+                        E-mail enviado automaticamente pelo formulário
+                        de sugestões do portfólio.
+                    </p>
+                </div>
+
+            </div>
+
+        </body>
+        </html>
+        """
+
+        # Criar a mensagem
+        email_envio = EmailMultiAlternatives(
+            subject=f"[Portfólio] {assunto}",
+            body=corpo,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=["sitepessoal2027@hotmail.com"],
+            reply_to=[email_usuario],
+        )
+
+        # Anexar a versão HTML
+        email_envio.attach_alternative(html_corpo, "text/html")
+
+        # Incorporar a imagem no corpo do e-mail
+        if caminho_imagem:
+            mime_type, _ = mimetypes.guess_type(str(caminho_imagem))
+
+            with caminho_imagem.open("rb") as arquivo:
+                imagem = MIMEImage(
+                    arquivo.read(),
+                    _subtype=mime_type.split("/", 1)[1]
+                )
+
+            imagem.add_header("Content-ID", "<imagem_navegador>")
+            imagem.add_header(
+                "Content-Disposition",
+                "inline",
+                filename=caminho_imagem.name
+            )
+
+            email_envio.attach(imagem)
+
+        # Enviar pelo Gmail
+        enviar_pela_gmail_api(email_envio)
+
+        return JsonResponse({"status": "ok"})
+
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {
+                "status": "erro",
+                "mensagem": "Dados enviados em formato inválido.",
+            },
+            status=400,
+        )
+
+    except Exception:
+        logger.exception("Erro ao enviar sugestão pelo Gmail.")
+
+        return JsonResponse(
+            {
+                "status": "erro",
+                "mensagem": "Não foi possível enviar a sugestão.",
+            },
+            status=500,
+        )
+
+
+def enviar_pela_gmail_api(email_envio):
+    escopos = ["https://www.googleapis.com/auth/gmail.send"]
+
+    token_json = os.getenv("GOOGLE_TOKEN_JSON")
+    caminho_token = Path(settings.BASE_DIR) / "token.json"
+
+    if token_json:
+        credenciais = Credentials.from_authorized_user_info(
+            json.loads(token_json),
+            escopos,
+        )
+    elif caminho_token.is_file():
+        credenciais = Credentials.from_authorized_user_file(
+            str(caminho_token),
+            escopos,
+        )
+    else:
+        raise RuntimeError(
+            "Credenciais da Gmail API não encontradas."
+        )
+
+    if not credenciais.valid:
+        if credenciais.expired and credenciais.refresh_token:
+            credenciais.refresh(Request())
+        else:
+            raise RuntimeError(
+                "Não foi possível renovar a autorização do Gmail."
+            )
+
+    servico = build(
+        "gmail",
+        "v1",
+        credentials=credenciais,
+        cache_discovery=False,
+    )
+
+    mensagem_bytes = email_envio.message().as_bytes()
+    mensagem_codificada = base64.urlsafe_b64encode(
+        mensagem_bytes
+    ).decode("utf-8")
+
+    servico.users().messages().send(
+        userId="me",
+        body={"raw": mensagem_codificada},
+    ).execute()
+
+
+

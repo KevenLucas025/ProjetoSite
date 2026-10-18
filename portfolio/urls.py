@@ -8,4 +8,6 @@ urlpatterns = [
     path("contato/", views.contato, name="contato"),
     path("comentarios/", views.comentarios, name="comentarios"),
     path("comentarios/<int:pk>/editar/",views.editar_comentario,name="editar_comentario",),
+    path("enviar_sugestao/",views.enviar_sugestao,name="enviar_sugestao",),
+
 ]

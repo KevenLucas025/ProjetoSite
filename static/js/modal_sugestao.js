@@ -4,10 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnSugestao = document.getElementById("btnSugestao");
     const btnSugestaoMobile = document.getElementById("btnSugestaoMobile");
 
-    const modal = document.getElementById("modalIndisponibilidade");
-    const btnFechar = document.getElementById("fecharIndisponibilidade");
-    const btnFecharRodape = document.getElementById("btnFecharIndisponibilidade");
-    const btnContato = document.getElementById("btnIrContato");
+    const modal = document.getElementById("modalSugestao");
+    const btnFechar = document.getElementById("fecharSugestao");
 
     function abrirModal(e) {
         e.preventDefault();
@@ -20,46 +18,38 @@ document.addEventListener("DOMContentLoaded", () => {
         btnFechar?.focus();
     }
 
-    function fecharModal() {
+    function fecharModalSugestao() {
         if (!modal) return;
 
         modal.classList.remove("ativo");
         document.body.classList.remove("modal-open");
     }
 
-    // Desktop
+    // Abrir pelo botão desktop
     btnSugestao?.addEventListener("click", abrirModal);
 
-    // Celular
+    // Abrir pelo botão mobile
     btnSugestaoMobile?.addEventListener("click", abrirModal);
 
-    // Botões para fechar
-    btnFechar?.addEventListener("click", fecharModal);
-    btnFecharRodape?.addEventListener("click", fecharModal);
+    // Fechar pelo X
+    btnFechar?.addEventListener("click", fecharModalSugestao);
 
-    // Fechar clicando no fundo
+    // Fechar pelo botão Cancelar
+    document.querySelector("#modalSugestao .btn-cancelar")
+        ?.addEventListener("click", fecharModalSugestao);
+
+    // Fechar clicando fora do conteúdo
     modal?.addEventListener("click", (e) => {
         if (e.target === modal) {
-            fecharModal();
+            fecharModalSugestao();
         }
     });
 
     // Fechar com ESC
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && modal?.classList.contains("ativo")) {
-            fecharModal();
+            fecharModalSugestao();
         }
     });
-
-    // Ir para a seção Contato
-    
-  
-  btnContato?.addEventListener("click", () => {
-      fecharModal();
-
-      window.location.href = "/contato/";
-  });
-
-
 
 });
